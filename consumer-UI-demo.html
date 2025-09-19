@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer UI Prototype - Encouraging Service Industry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .screen {
+            display: none;
+            height: calc(100vh - 64px); /* Subtract nav bar height */
+            overflow-y: auto;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .screen::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .active-nav {
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col items-center">
+
+    <div class="w-full max-w-md bg-white shadow-lg rounded-2xl overflow-hidden relative">
+
+        <div id="splash-screen" class="screen flex flex-col items-center justify-center p-8 text-center" style="display: flex; height: 100vh;">
+            <img src="https://placehold.co/150x150/e0e7ff/4f46e5?text=App+Logo" class="rounded-full mb-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Get Your Life Back</h1>
+            <p class="text-gray-500 mb-8">A platform to help you live a more efficient and joyful life.</p>
+            <button id="start-button" class="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-700 transition-colors">Get Started</button>
+        </div>
+
+        <div id="main-app" class="hidden">
+            <div id="screen-container">
+
+                <div id="home-screen" class="screen p-4 pt-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-800">Good Afternoon, Anna</h2>
+                        <button class="text-gray-500 hover:text-gray-800 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="bg-indigo-50 p-6 rounded-2xl mb-6 shadow-md">
+                        <h3 class="font-semibold text-lg text-indigo-900 mb-2">Your Value Dashboard</h3>
+                        <div class="flex items-center mb-2">
+                            <span class="text-5xl font-bold text-indigo-700">5 hours</span>
+                            <span class="text-xl text-indigo-500 ml-2">saved</span>
+                        </div>
+                        <div class="w-full bg-indigo-200 rounded-full h-2.5 mb-4">
+                            <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 75%;"></div>
+                        </div>
+                        <p class="text-indigo-900 font-medium">This is equivalent to... <span class="text-indigo-600 font-bold">one family dinner + one bedtime story</span></p>
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-gray-800 mb-4">Smart Recommendations</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                            <p class="text-sm text-gray-500">Based on your order history</p>
+                            <h4 class="font-medium text-gray-800">You might need a deep clean</h4>
+                            <div class="mt-2 text-sm text-gray-600">
+                                <ul class="list-disc pl-4">
+                                    <li>Kitchen degreasing</li>
+                                    <li>Bedroom decluttering</li>
+                                </ul>
+                            </div>
+                            <button id="book-from-home" class="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                            <p class="text-sm text-gray-500">You've had a busy week</p>
+                            <h4 class="font-medium text-gray-800">Consider a meal delivery service?</h4>
+                            <div class="mt-2 text-sm text-gray-600">
+                                <ul class="list-disc pl-4">
+                                    <li>Save time on grocery shopping and cooking</li>
+                                    <li>Ensure your family eats healthy meals</li>
+                                </ul>
+                            </div>
+                            <button id="book-from-home-2" class="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
+                        </div>
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-gray-800 mb-4">Popular Services</h3>
+                    <div class="grid grid-cols-4 gap-4 text-center">
+                        <button id="service-button-1" class="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Clean" class="mb-1 rounded-full">
+                            <span class="text-xs text-gray-600">Home Cleaning</span>
+                        </button>
+                        <button id="service-button-2" class="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Repair" class="mb-1 rounded-full">
+                            <span class="text-xs text-gray-600">Appliance Repair</span>
+                        </button>
+                        <button id="service-button-3" class="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Errand" class="mb-1 rounded-full">
+                            <span class="text-xs text-gray-600">Errand Service</span>
+                        </button>
+                        <button id="service-button-4" class="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Garden" class="mb-1 rounded-full">
+                            <span class="text-xs text-gray-600">Gardening</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="provider-list-page" class="screen p-4 pt-6">
+                    <button id="back-to-home-from-providers" class="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back
+                    </button>
+                    <h2 id="provider-list-title" class="text-2xl font-bold text-gray-800 mb-6">Home Cleaning Providers</h2>
+                    <div class="space-y-4" id="provider-list-container">
+                        <button class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center" data-provider-id="jane">
+                            <img src="https://placehold.co/60x60/e0e7ff/4f46e5?text=Jane" class="rounded-full mr-4">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Jane</h3>
+                                <div class="flex items-center text-yellow-500 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span class="ml-1 text-gray-600 font-semibold text-sm">4.8</span>
+                                    <span class="ml-2 text-gray-400 text-xs">(234 Reviews)</span>
+                                </div>
+                                <p class="text-sm text-gray-500">Professional cleaner specializing in deep cleaning and organization.</p>
+                            </div>
+                        </button>
+                        <button class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center" data-provider-id="mike">
+                            <img src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Mike" class="rounded-full mr-4">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Mike</h3>
+                                <div class="flex items-center text-yellow-500 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span class="ml-1 text-gray-600 font-semibold text-sm">4.6</span>
+                                    <span class="ml-2 text-gray-400 text-xs">(112 Reviews)</span>
+                                </div>
+                                <p class="text-sm text-gray-500">Quick and efficient cleaning for apartments and small homes.</p>
+                            </div>
+                        </button>
+                        <button class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center" data-provider-id="sarah">
+                            <img src="https://placehold.co/60x60/e0e7ff/4f46e5?text=Sarah" class="rounded-full mr-4">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Sarah</h3>
+                                <div class="flex items-center text-yellow-500 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span class="ml-1 text-gray-600 font-semibold text-sm">4.9</span>
+                                    <span class="ml-2 text-gray-400 text-xs">(315 Reviews)</span>
+                                </div>
+                                <p class="text-sm text-gray-500">Eco-friendly cleaning with organic and natural products.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div id="story-wall-page" class="screen p-4 pt-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">Community Stories</h2>
+                        <button class="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                            </svg>
+                            Post Your Story
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-100 p-4 rounded-xl mb-4 text-center border-l-4 border-indigo-500">
+                        <p class="text-gray-800 font-medium"><span class="text-indigo-600 font-bold">80%</span> of families in your area use home cleaning services!</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                            <div class="flex items-center mb-3">
+                                <img src="https://placehold.co/40x40/e0e7ff/4f46e5?text=Ava" class="rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Ava</h4>
+                                    <p class="text-xs text-gray-500">First time outsourcing, relaxing weekend!</p>
+                                </div>
+                                <span class="bg-green-100 text-green-800 text-xs font-medium ml-auto px-2 py-1 rounded-full">First-Timer</span>
+                            </div>
+                            <p class="text-gray-600 mb-3">After using the weekly cleaning service, I finally have time to take the kids to the park on weekends! The house is clean and I feel great!</p>
+                            <img src="https://placehold.co/400x200/e0e7ff/4f46e5?text=Clean+House" class="rounded-lg w-full mb-3">
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <button class="flex items-center mr-4 hover:text-gray-800 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                    15
+                                </button>
+                                <button class="flex items-center hover:text-gray-800 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                    7
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                            <div class="flex items-center mb-3">
+                                <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Leo" class="rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Leo</h4>
+                                    <p class="text-xs text-gray-500">100+ hours spent with family</p>
+                                </div>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium ml-auto px-2 py-1 rounded-full">Veteran User</span>
+                            </div>
+                            <p class="text-gray-600 mb-3">Ever since I started outsourcing, I have all the time in the world for my family. My kids' growth is what matters most. Highly recommend this app!</p>
+                            <img src="https://placehold.co/400x200/f1f5f9/4f46e5?text=Family+Time" class="rounded-lg w-full mb-3">
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <button class="flex items-center mr-4 hover:text-gray-800 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                    32
+                                </button>
+                                <button class="flex items-center hover:text-gray-800 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                    11
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="orders-page" class="screen p-4 pt-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">My Orders</h2>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-semibold text-gray-800">Home Cleaning</h3>
+                                <span class="text-sm text-green-600 font-medium">Completed</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-2">Provider: Jane</p>
+                            <p class="text-sm text-gray-500">Date: October 28, 2024</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-semibold text-gray-800">Meal Delivery</h3>
+                                <span class="text-sm text-blue-600 font-medium">In Progress</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-2">Provider: Leo</p>
+                            <p class="text-sm text-gray-500">Date: November 5, 2024</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="vendor-page" class="screen p-4 pt-6">
+                    <!-- Vendor List View -->
+                    <div id="vendors-view" class="view p-4">
+                        <header class="text-center mb-10">
+                            <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Explore Our Vendors</h1>
+                            <p class="text-md text-gray-600 max-w-2xl mx-auto">Discover and connect with quality service providers that best fit your needs.</p>
+                        </header>
+                        
+                        <div class="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <div class="relative w-full sm:w-2/3">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="search-input" placeholder="Search vendors..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                            </div>
+                            <div class="w-full sm:w-1/3 flex gap-2">
+                                <select id="sort-select" class="w-1/2 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow appearance-none cursor-pointer bg-white">
+                                    <option value="name-asc">Sort by Name (Asc)</option>
+                                    <option value="name-desc">Sort by Name (Desc)</option>
+                                    <option value="rating-desc">Sort by Rating (Desc)</option>
+                                    <option value="rating-asc">Sort by Rating (Asc)</option>
+                                </select>
+                                <select id="vendor-location-filter" class="w-1/2 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow appearance-none cursor-pointer bg-white">
+                                    <option value="">All Locations</option>
+                                    <option>Beijing</option>
+                                    <option>Chaoyang</option>
+                                    <option>Haidian</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="vendors-grid" class="grid grid-cols-1 gap-4">
+                            <!-- Vendor cards will be rendered here by JavaScript -->
+                        </div>
+                        
+                        <div id="no-results" class="hidden text-center text-gray-500 mt-10 text-lg">
+                            No matching vendors found.
+                        </div>
+                    </div>
+
+                    <!-- Vendor Details View -->
+                    <div id="details-view" class="view p-4" style="display:none;">
+                        <button id="back-to-vendor-list" class="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-4 transition-colors duration-300">
+                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Back to Vendor List
+                        </button>
+
+                        <div id="details-content" class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <!-- Vendor details will be rendered here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="profile-page" class="screen p-4 pt-6">
+                    <div class="flex items-center justify-center mb-6">
+                        <img src="https://placehold.co/120x120/e0e7ff/4f46e5?text=Anna" class="rounded-full mr-4 border-4 border-indigo-200 shadow-lg">
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-gray-800">Anna</h2>
+                        <p class="text-gray-500 mb-6">Busy Marketing Manager</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-3">My Information</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><span class="font-medium">Email:</span> anna@example.com</li>
+                            <li><span class="font-medium">Location:</span> Beijing, China</li>
+                            <li><span class="font-medium">Status:</span> Verified User</li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-3 bg-red-500 text-white font-semibold rounded-full shadow-lg hover:bg-red-600 transition-colors">Log Out</button>
+                </div>
+
+                <div id="services-page" class="screen p-4 pt-6">
+                    <div id="services-list-view" class="view p-4">
+                        <header class="text-center mb-10">
+                            <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Explore Services</h1>
+                            <p class="text-md text-gray-600 max-w-2xl mx-auto">Browse available service categories and find providers across vendors.</p>
+                        </header>
+                        <div class="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <div class="relative w-full sm:w-2/3">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="services-search-input" placeholder="Search services..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                            </div>
+                            <div class="w-full sm:w-1/3">
+                                <select id="services-sort-select" class="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow appearance-none cursor-pointer bg-white">
+                                    <option value="name-asc">Sort by Name (Asc)</option>
+                                    <option value="name-desc">Sort by Name (Desc)</option>
+                                    <option value="providers-desc">Sort by Providers (Desc)</option>
+                                    <option value="providers-asc">Sort by Providers (Asc)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="services-grid" class="grid grid-cols-1 gap-4">
+                        </div>
+                        <div id="services-no-results" class="hidden text-center text-gray-500 mt-10 text-lg">No matching services found.</div>
+                    </div>
+                    <div id="service-detail-view" class="view p-4" style="display:none;">
+                        <button id="back-to-services-list" class="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-4 transition-colors duration-300">
+                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Back to Services
+                        </button>
+                        <div id="service-detail-content" class="bg-white rounded-2xl shadow-lg overflow-hidden"></div>
+                        <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                            <select id="service-provider-vendor-filter" class="w-full sm:w-1/3 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <option value="">All Vendors</option>
+                            </select>
+                            <select id="service-provider-rating-filter" class="w-full sm:w-1/3 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <option value="">All Ratings</option>
+                                <option value="4.5">4.5+</option>
+                                <option value="4.0">4.0+</option>
+                                <option value="3.5">3.5+</option>
+                            </select>
+                            <select id="service-provider-location-filter" class="w-full sm:w-1/3 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <option value="">All Locations</option>
+                                <option>Beijing</option>
+                                <option>Chaoyang</option>
+                                <option>Haidian</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="service-detail-page" class="screen p-4 pt-6">
+                    <button id="back-to-providers" class="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back to Providers
+                    </button>
+                    <div class="flex items-center mb-4">
+                        <img id="provider-avatar" src="https://placehold.co/80x80/e0e7ff/4f46e5?text=Jane" class="rounded-full mr-4 shadow-md">
+                        <div>
+                            <h2 id="provider-name" class="text-2xl font-bold text-gray-800">Jane (Home Cleaning)</h2>
+                            <div class="flex items-center text-yellow-500 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                <span id="provider-rating" class="ml-1 text-gray-600 font-semibold">4.8</span>
+                                <span id="provider-reviews" class="ml-2 text-gray-400 text-sm">(234 Reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="chat-button" class="w-full py-3 mb-4 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-700 transition-colors">
+                        Chat with Jane
+                    </button>
+
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="bg-indigo-100 text-indigo-800 text-sm font-medium px-3 py-1 rounded-full">Identity Verified</span>
+                        <span class="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">Background Check Passed</span>
+                        <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">5 Years Experience</span>
+                    </div>
+
+                    <p id="provider-description" class="text-gray-600 mb-6">Jane is a professional cleaner, specializing in deep cleaning and organization. She pays attention to detail, ensuring your home is spotless.</p>
+
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-3">Service Details</h3>
+                        <img src="https://placehold.co/400x200/f1f5f9/4f46e5?text=Service+Description" class="rounded-lg w-full mb-3">
+                        <ul class="list-disc pl-6 text-gray-600">
+                            <li>Kitchen degreasing, wiping down appliances</li>
+                            <li>Vacuuming and mopping bedrooms and living room</li>
+                            <li>Bathroom sanitization, organizing toiletries</li>
+                        </ul>
+                    </div>
+                    
+                    <button id="book-button" class="w-full py-4 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-700 transition-colors">Book Now</button>
+                </div>
+                
+                <div id="chat-page" class="screen p-4 pt-6 flex flex-col justify-between">
+                    <div>
+                        <button id="back-to-detail-from-chat" class="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Back
+                        </button>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Chat with Jane</h2>
+                        <div class="h-72 bg-gray-100 p-4 rounded-xl overflow-y-auto mb-4">
+                            <div class="flex justify-end mb-2">
+                                <div class="bg-indigo-500 text-white p-2 rounded-lg max-w-[75%]">Hi Jane, I have a few questions about your cleaning service.</div>
+                            </div>
+                            <div class="flex justify-start mb-2">
+                                <div class="bg-white text-gray-800 p-2 rounded-lg max-w-[75%]">Hello Anna! I'd be happy to help. What would you like to know?</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <input type="text" placeholder="Type a message..." class="flex-grow p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button class="ml-2 p-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="booking-flow-page" class="screen p-4 pt-6">
+                    <button id="back-to-detail" class="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back
+                    </button>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Book Service</h2>
+                    
+                    <div id="step-1" class="mb-6">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-3">Step 1: Choose Time and Address</h3>
+                        <div class="space-y-4">
+                            <input type="date" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="time" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" id="booking-address" placeholder="Enter service address" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <select id="booking-recipient" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="myself">Recipient: Myself</option>
+                                <option value="parent">Recipient: My Parent</option>
+                                <option value="other">Recipient: Someone Else</option>
+                            </select>
+                        </div>
+                        <button id="next-step-1" class="mt-6 w-full py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors">Next Step</button>
+                    </div>
+
+                    <div id="step-2" class="hidden mb-6">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-3">Step 2: Confirm Order Details</h3>
+                        <div class="bg-gray-100 p-4 rounded-xl mb-4">
+                            <p class="font-medium text-gray-800" id="summary-service">Service: —</p>
+                            <p class="text-gray-600" id="summary-time">Time: —</p>
+                            <p class="text-gray-600" id="summary-address">Address: —</p>
+                            <p class="text-gray-600" id="summary-recipient">Recipient: —</p>
+                            <div class="mt-2 pt-2 border-t border-gray-300">
+                                <p class="text-lg font-bold text-indigo-600" id="summary-price">Total Price: —</p>
+                            </div>
+                        </div>
+                        <button id="next-step-2" class="mt-6 w-full py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors">Confirm and Pay</button>
+                    </div>
+                    
+                    <div id="step-3" class="hidden text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-green-500 mx-auto mb-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Booking Successful!</h3>
+                        <p class="text-gray-600 mb-4">Congratulations, you've just earned some free time for yourself.</p>
+                        <button id="finish-booking" class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors">Return to Home</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fixed bottom-0 w-full max-w-md bg-white border-t border-gray-200 shadow-lg flex justify-around items-center h-16">
+                <button id="nav-home" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition-colors active-nav">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span class="text-xs mt-1">Home</span>
+                </button>
+                <button id="nav-story-wall" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2m4-2v2m0 4v2m0 4v2m0 4v2m4-18h-2m-4 18h-2" />
+                    </svg>
+                    <span class="text-xs mt-1">Story Wall</span>
+                </button>
+                <button id="nav-services" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h10" />
+                    </svg>
+                    <span class="text-xs mt-1">Services</span>
+                </button>
+                <button id="nav-orders" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 12h.01" />
+                    </svg>
+                    <span class="text-xs mt-1">My Orders</span>
+                </button>
+                <button id="nav-vendor" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l1.5-3h15L21 7M4 7h16v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7zm4 4h6" />
+                    </svg>
+                    <span class="text-xs mt-1">Vendor</span>
+                </button>
+                <button id="nav-profile" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span class="text-xs mt-1">Profile</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Data for vendors (companies)
+        const vendorsData = {
+            'sparkle_clean': {
+                id: 'sparkle_clean',
+                name: 'Sparkle Clean Co.',
+                rating: 4.8,
+                reviews: 520,
+                description: 'Premium home cleaning company specializing in deep cleans and organization. Trusted by busy families.',
+                services: ['Home Cleaning', 'Deep Cleaning', 'Organization'],
+                coverageAreas: ['Beijing', 'Chaoyang'],
+                certifications: ['Licensed', 'Insured'],
+                logo: 'https://placehold.co/80x80/fee2e2/ef4444?text=SC'
+            },
+            'appliance_pros': {
+                id: 'appliance_pros',
+                name: 'Appliance Pros Ltd.',
+                rating: 4.7,
+                reviews: 190,
+                description: 'Certified technicians for repair and maintenance of common household appliances.',
+                services: ['Appliance Repair', 'Maintenance'],
+                coverageAreas: ['Beijing', 'Haidian'],
+                certifications: ['Certified', 'Warranty Partner'],
+                logo: 'https://placehold.co/80x80/dbeafe/3b82f6?text=AP'
+            }
+        };
+
+        // Data for providers
+        const providers = {
+            'jane': {
+                name: 'Jane',
+                service: 'Home Cleaning',
+                rating: '4.8',
+                reviews: '234',
+                description: 'Jane is a professional cleaner, specializing in deep cleaning and organization. She pays attention to detail, ensuring your home is spotless.',
+                avatar: 'https://placehold.co/80x80/e0e7ff/4f46e5?text=Jane',
+                vendorId: 'sparkle_clean',
+                location: 'Chaoyang, Beijing',
+                price: 200,
+                certifications: ['Background Check'],
+                availability: ['Mon', 'Wed', 'Fri']
+            },
+            'mike': {
+                name: 'Mike',
+                service: 'Home Cleaning',
+                rating: '4.6',
+                reviews: '112',
+                description: 'Mike offers quick and efficient cleaning services for apartments and small homes. He is reliable and flexible to your schedule.',
+                avatar: 'https://placehold.co/80x80/f1f5f9/4f46e5?text=Mike',
+                vendorId: 'sparkle_clean',
+                location: 'Haidian, Beijing',
+                price: 180,
+                certifications: ['Licensed'],
+                availability: ['Tue', 'Thu']
+            },
+            'sarah': {
+                name: 'Sarah',
+                service: 'Home Cleaning',
+                rating: '4.9',
+                reviews: '315',
+                description: 'Sarah specializes in eco-friendly cleaning, using only organic and natural products. Perfect for families with pets or young children.',
+                avatar: 'https://placehold.co/80x80/e0e7ff/4f46e5?text=Sarah',
+                vendorId: 'sparkle_clean',
+                location: 'Chaoyang, Beijing',
+                price: 220,
+                certifications: ['Eco Certified', 'Background Check'],
+                availability: ['Weekend']
+            },
+            'other_service': {
+                name: 'Leo',
+                service: 'Appliance Repair',
+                rating: '4.7',
+                reviews: '89',
+                description: 'Leo is an experienced technician who can fix most common home appliances quickly and affordably. He is certified and trustworthy.',
+                avatar: 'https://placehold.co/80x80/f1f5f9/4f46e5?text=Leo',
+                vendorId: 'appliance_pros',
+                location: 'Beijing',
+                price: 260,
+                certifications: ['Certified Technician'],
+                availability: ['Mon', 'Tue', 'Thu']
+            }
+        };
+
+        const serviceTitles = {
+            'service-button-1': 'Home Cleaning Providers',
+            'service-button-2': 'Appliance Repair Providers',
+            'service-button-3': 'Errand Service Providers',
+            'service-button-4': 'Gardening Providers'
+        };
+
+        // Services dataset (categories)
+        const servicesData = {
+            'home_cleaning': {
+                id: 'home_cleaning',
+                name: 'Home Cleaning',
+                description: 'Standard and deep home cleaning services for apartments and houses.',
+                icon: 'https://placehold.co/40x40/f1f5f9/4f46e5?text=Clean'
+            },
+            'appliance_repair': {
+                id: 'appliance_repair',
+                name: 'Appliance Repair',
+                description: 'Repair and maintenance for common household appliances.',
+                icon: 'https://placehold.co/40x40/f1f5f9/4f46e5?text=Repair'
+            },
+            'errands': {
+                id: 'errands',
+                name: 'Errand Service',
+                description: 'Personal errands, delivery, and courier tasks.',
+                icon: 'https://placehold.co/40x40/f1f5f9/4f46e5?text=Errand'
+            },
+            'gardening': {
+                id: 'gardening',
+                name: 'Gardening',
+                description: 'Garden maintenance, planting, and landscaping tasks.',
+                icon: 'https://placehold.co/40x40/f1f5f9/4f46e5?text=Garden'
+            }
+        };
+
+        const screens = document.querySelectorAll('.screen');
+        const navLinks = document.querySelectorAll('button[id^="nav-"]');
+        const providerListContainer = document.getElementById('provider-list-container');
+        const providerListTitle = document.getElementById('provider-list-title');
+
+        function showScreen(screenId) {
+            screens.forEach(screen => {
+                screen.style.display = 'none';
+            });
+            document.getElementById(screenId).style.display = 'block';
+        }
+
+        function setActiveNav(navId) {
+            navLinks.forEach(link => {
+                link.classList.remove('active-nav');
+            });
+            document.getElementById(navId).classList.add('active-nav');
+        }
+
+        function showProviderList(serviceKey) {
+            providerListTitle.textContent = serviceTitles[serviceKey] || 'Service Providers';
+            providerListContainer.innerHTML = ''; // Clear old providers
+            
+            // This is a simple mock, you'd fetch real data here
+            if (serviceKey === 'service-button-1' || serviceKey === 'book-from-home') {
+                ['jane', 'mike', 'sarah'].forEach(providerId => {
+                    const provider = providers[providerId];
+                    const providerCard = `
+                        <button class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center" data-provider-id="${providerId}">
+                            <img src="${provider.avatar}" class="rounded-full mr-4">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">${provider.name}</h3>
+                                <div class="flex items-center text-yellow-500 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span class="ml-1 text-gray-600 font-semibold text-sm">${provider.rating}</span>
+                                    <span class="ml-2 text-gray-400 text-xs">(${provider.reviews} Reviews)</span>
+                                </div>
+                                <p class="text-sm text-gray-500">${provider.description}</p>
+                            </div>
+                        </button>
+                    `;
+                    providerListContainer.insertAdjacentHTML('beforeend', providerCard);
+                });
+            } else {
+                // Generic mock data for other services
+                const otherProvider = providers['other_service'];
+                const otherProviderCard = `
+                    <button class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center" data-provider-id="other_service">
+                        <img src="${otherProvider.avatar}" class="rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">${otherProvider.name}</h3>
+                            <div class="flex items-center text-yellow-500 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                <span class="ml-1 text-gray-600 font-semibold text-sm">${otherProvider.rating}</span>
+                                <span class="ml-2 text-gray-400 text-xs">(${otherProvider.reviews} Reviews)</span>
+                            </div>
+                            <p class="text-sm text-gray-500">${otherProvider.description}</p>
+                        </div>
+                    </button>
+                `;
+                providerListContainer.insertAdjacentHTML('beforeend', otherProviderCard);
+            }
+            
+            // Attach new click listeners for the newly created buttons
+            document.querySelectorAll('#provider-list-container button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const providerId = e.currentTarget.dataset.providerId;
+                    showServiceDetail(providerId);
+                });
+            });
+
+            showScreen('provider-list-page');
+        }
+
+        let selectedProviderId = null;
+
+        function showServiceDetail(providerId) {
+            const provider = providers[providerId];
+            if (!provider) return;
+
+            document.getElementById('provider-avatar').src = provider.avatar;
+            document.getElementById('provider-name').textContent = `${provider.name} (${provider.service})`;
+            document.getElementById('provider-rating').textContent = provider.rating;
+            document.getElementById('provider-reviews').textContent = `(${provider.reviews} Reviews)`;
+            document.getElementById('provider-description').textContent = provider.description;
+
+            // Update the chat button text
+            document.getElementById('chat-button').textContent = `Chat with ${provider.name}`;
+
+            selectedProviderId = providerId;
+
+            showScreen('service-detail-page');
+        }
+
+        // Handle navigation clicks for the bottom bar
+        document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen('home-screen');
+            setActiveNav('nav-home');
+        });
+        document.getElementById('nav-story-wall').addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen('story-wall-page');
+            setActiveNav('nav-story-wall');
+        });
+        document.getElementById('nav-services').addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen('services-page');
+            setActiveNav('nav-services');
+            initializeServicesView();
+        });
+        document.getElementById('nav-orders').addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen('orders-page');
+            setActiveNav('nav-orders');
+        });
+        document.getElementById('nav-vendor').addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen('vendor-page');
+            setActiveNav('nav-vendor');
+            initializeVendorView();
+        });
+        document.getElementById('nav-profile').addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen('profile-page');
+            setActiveNav('nav-profile');
+        });
+        
+        // Handle splash screen start button
+        document.getElementById('start-button').addEventListener('click', () => {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-app').classList.remove('hidden');
+            showScreen('home-screen');
+            setActiveNav('nav-home');
+        });
+        
+        // New flow: Home -> Provider List -> Service Detail
+        document.getElementById('service-button-1').addEventListener('click', () => showProviderList('service-button-1'));
+        document.getElementById('service-button-2').addEventListener('click', () => showProviderList('service-button-2'));
+        document.getElementById('service-button-3').addEventListener('click', () => showProviderList('service-button-3'));
+        document.getElementById('service-button-4').addEventListener('click', () => showProviderList('service-button-4'));
+        document.getElementById('book-from-home').addEventListener('click', () => showProviderList('service-button-1'));
+        document.getElementById('book-from-home-2').addEventListener('click', () => showProviderList('service-button-2'));
+
+        // Navigation from Provider List to Home
+        document.getElementById('back-to-home-from-providers').addEventListener('click', () => {
+            showScreen('home-screen');
+            setActiveNav('nav-home');
+        });
+        
+        // Navigation from Service Detail to Provider List
+        document.getElementById('back-to-providers').addEventListener('click', () => {
+            showScreen('provider-list-page');
+        });
+        
+        // Navigation to/from Chat Page
+        document.getElementById('chat-button').addEventListener('click', () => {
+            showScreen('chat-page');
+        });
+        document.getElementById('back-to-detail-from-chat').addEventListener('click', () => {
+            showScreen('service-detail-page');
+        });
+
+        // Booking flow remains the same
+        document.getElementById('book-button').addEventListener('click', () => {
+            showScreen('booking-flow-page');
+            document.getElementById('step-1').style.display = 'block';
+            document.getElementById('step-2').style.display = 'none';
+            document.getElementById('step-3').style.display = 'none';
+        });
+        document.getElementById('back-to-detail').addEventListener('click', () => {
+            showScreen('service-detail-page');
+        });
+        document.getElementById('next-step-1').addEventListener('click', () => {
+            const dateEl = document.querySelector('#step-1 input[type="date"]');
+            const timeEl = document.querySelector('#step-1 input[type="time"]');
+            const addressEl = document.getElementById('booking-address');
+            const recipientEl = document.getElementById('booking-recipient');
+            const dateVal = dateEl?.value || '';
+            const timeVal = timeEl?.value || '';
+            const addressVal = addressEl?.value || '';
+            const recipientVal = recipientEl?.options[recipientEl.selectedIndex]?.text || 'Recipient: —';
+
+            const provider = selectedProviderId ? providers[selectedProviderId] : null;
+            const serviceName = provider ? `${provider.service} (${provider.name})` : 'Selected Service';
+            const price = provider?.price ? `¥${provider.price}` : '—';
+
+            document.getElementById('summary-service').textContent = `Service: ${serviceName}`;
+            document.getElementById('summary-time').textContent = `Time: ${dateVal || '—'}${dateVal && timeVal ? ', ' : ''}${timeVal || ''}`;
+            document.getElementById('summary-address').textContent = `Address: ${addressVal || '—'}`;
+            document.getElementById('summary-recipient').textContent = recipientVal;
+            document.getElementById('summary-price').textContent = `Total Price: ${price}`;
+
+            document.getElementById('step-1').style.display = 'none';
+            document.getElementById('step-2').style.display = 'block';
+        });
+        document.getElementById('next-step-2').addEventListener('click', () => {
+            document.getElementById('step-2').style.display = 'none';
+            document.getElementById('step-3').style.display = 'block';
+        });
+        document.getElementById('finish-booking').addEventListener('click', () => {
+            showScreen('home-screen');
+            setActiveNav('nav-home');
+        });
+
+        // Vendor Page Logic
+        const vendorSearchInput = document.getElementById('search-input');
+        const vendorSortSelect = document.getElementById('sort-select');
+        const vendorLocationFilter = document.getElementById('vendor-location-filter');
+        const vendorsGrid = document.getElementById('vendors-grid');
+        const noResultsEl = document.getElementById('no-results');
+        const vendorsView = document.getElementById('vendors-view');
+        const detailsView = document.getElementById('details-view');
+        const detailsContent = document.getElementById('details-content');
+        const backToVendorListBtn = document.getElementById('back-to-vendor-list');
+
+        function getVendorCompanies() {
+            return Object.values(vendorsData).map(v => ({
+                ...v,
+                ratingNum: typeof v.rating === 'number' ? v.rating : parseFloat(v.rating) || 0
+            }));
+        }
+
+        let vendorCompanyCache = getVendorCompanies();
+
+        function renderVendors(list) {
+            vendorsGrid.innerHTML = '';
+            if (!list.length) {
+                noResultsEl.classList.remove('hidden');
+                return;
+            }
+            noResultsEl.classList.add('hidden');
+            list.forEach(v => {
+                const card = document.createElement('button');
+                card.className = 'w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center';
+                card.innerHTML = `
+                    <img src="${v.logo}" class="rounded-full mr-4" width="60" height="60" alt="${v.name}">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">${v.name}</h3>
+                        <p class="text-sm text-gray-500">${(v.services || []).join(', ')}</p>
+                        <div class="flex items-center text-yellow-500 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <span class="ml-1 text-gray-600 font-semibold text-sm">${v.rating}</span>
+                            <span class="ml-2 text-gray-400 text-xs">(${v.reviews} Reviews)</span>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => showVendorCompanyDetails(v.id));
+                vendorsGrid.appendChild(card);
+            });
+        }
+
+        function applyVendorFiltersAndSort() {
+            const query = (vendorSearchInput?.value || '').trim().toLowerCase();
+            const sortVal = vendorSortSelect?.value || 'name-asc';
+            const loc = vendorLocationFilter?.value || '';
+            let list = vendorCompanyCache.filter(v => {
+                if (!query) return true;
+                return (
+                    v.name.toLowerCase().includes(query) ||
+                    (v.services || []).join(', ').toLowerCase().includes(query) ||
+                    (v.description || '').toLowerCase().includes(query)
+                );
+            }).filter(v => {
+                if (!loc) return true;
+                const areas = (v.coverageAreas || []).map(a => a.toLowerCase());
+                return areas.includes(loc.toLowerCase());
+            });
+            list.sort((a, b) => {
+                switch (sortVal) {
+                    case 'name-desc':
+                        return b.name.localeCompare(a.name);
+                    case 'rating-desc':
+                        return b.ratingNum - a.ratingNum;
+                    case 'rating-asc':
+                        return a.ratingNum - b.ratingNum;
+                    case 'name-asc':
+                    default:
+                        return a.name.localeCompare(b.name);
+                }
+            });
+            renderVendors(list);
+        }
+
+        function showVendorCompanyDetails(vendorId) {
+            const company = vendorsData[vendorId];
+            if (!company) return;
+            const employees = Object.entries(providers)
+                .filter(([, p]) => p.vendorId === vendorId)
+                .map(([id, p]) => ({ id, ...p }));
+
+            const employeesHtml = employees.map(emp => `
+                <button class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center" data-provider-id="${emp.id}">
+                    <img src="${emp.avatar}" class="rounded-full mr-4" width="60" height="60" alt="${emp.name}">
+                    <div>
+                        <h4 class="font-semibold text-gray-800">${emp.name}</h4>
+                        <p class="text-sm text-gray-500">${emp.service}</p>
+                        <div class="flex items-center text-yellow-500 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <span class="ml-1 text-gray-600 font-semibold text-sm">${emp.rating}</span>
+                            <span class="ml-2 text-gray-400 text-xs">(${emp.reviews} Reviews)</span>
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+
+            detailsContent.innerHTML = `
+                <div class="p-6 flex items-start">
+                    <img src="${company.logo}" class="rounded-xl mr-4 shadow-md" width="80" height="80" alt="${company.name}">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">${company.name}</h2>
+                        <div class="flex items-center text-yellow-500 mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <span class="ml-1 text-gray-600 font-semibold">${company.rating}</span>
+                            <span class="ml-2 text-gray-400 text-sm">(${company.reviews} Reviews)</span>
+                        </div>
+                        <p class="text-gray-600">${company.description}</p>
+                        <p class="text-gray-500 mt-2 text-sm">Services: ${(company.services || []).join(', ')}</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-50">
+                    <h3 class="font-semibold text-lg text-gray-800 mb-3">Service Providers</h3>
+                    <div id="company-providers" class="space-y-3">
+                        ${employeesHtml || '<p class="text-gray-500">No providers listed yet.</p>'}
+                    </div>
+                </div>
+            `;
+
+            vendorsView.style.display = 'none';
+            detailsView.style.display = 'block';
+
+            // Bind provider buttons to show provider detail page
+            detailsContent.querySelectorAll('[data-provider-id]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const pid = e.currentTarget.getAttribute('data-provider-id');
+                    showServiceDetail(pid);
+                });
+            });
+        }
+
+        function initializeVendorView() {
+            vendorsView.style.display = 'block';
+            detailsView.style.display = 'none';
+            if (vendorSearchInput) vendorSearchInput.value = '';
+            if (vendorSortSelect) vendorSortSelect.value = 'name-asc';
+            vendorCompanyCache = getVendorCompanies();
+            applyVendorFiltersAndSort();
+        }
+
+        vendorSearchInput?.addEventListener('input', applyVendorFiltersAndSort);
+        vendorSortSelect?.addEventListener('change', applyVendorFiltersAndSort);
+        vendorLocationFilter?.addEventListener('change', applyVendorFiltersAndSort);
+        backToVendorListBtn?.addEventListener('click', () => {
+            vendorsView.style.display = 'block';
+            detailsView.style.display = 'none';
+        });
+
+        // Services Page Logic
+        const servicesSearchInput = document.getElementById('services-search-input');
+        const servicesSortSelect = document.getElementById('services-sort-select');
+        const servicesGrid = document.getElementById('services-grid');
+        const servicesNoResults = document.getElementById('services-no-results');
+        const servicesListView = document.getElementById('services-list-view');
+        const serviceDetailView = document.getElementById('service-detail-view');
+        const serviceDetailContent = document.getElementById('service-detail-content');
+        const backToServicesListBtn = document.getElementById('back-to-services-list');
+
+        function getServicesArray() {
+            return Object.values(servicesData).map(svc => ({
+                ...svc,
+                providersCount: Object.values(providers).filter(p => (p.service && p.service.toLowerCase() === svc.name.toLowerCase()) || (p.services || []).includes(svc.id)).length
+            }));
+        }
+
+        let servicesCache = getServicesArray();
+
+        function renderServices(list) {
+            servicesGrid.innerHTML = '';
+            if (!list.length) {
+                servicesNoResults.classList.remove('hidden');
+                return;
+            }
+            servicesNoResults.classList.add('hidden');
+            list.forEach(svc => {
+                const card = document.createElement('button');
+                card.className = 'w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center';
+                card.innerHTML = `
+                    <img src="${svc.icon}" class="rounded-full mr-4" width="40" height="40" alt="${svc.name}">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">${svc.name}</h3>
+                        <p class="text-sm text-gray-500">${svc.description}</p>
+                        <p class="text-xs text-gray-400 mt-1">Providers available: ${svc.providersCount}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => showServiceCategoryDetails(svc.id));
+                servicesGrid.appendChild(card);
+            });
+        }
+
+        function applyServicesFiltersAndSort() {
+            const query = (servicesSearchInput?.value || '').trim().toLowerCase();
+            const sortVal = servicesSortSelect?.value || 'name-asc';
+            let list = servicesCache.filter(s => {
+                if (!query) return true;
+                return s.name.toLowerCase().includes(query) || (s.description || '').toLowerCase().includes(query);
+            });
+            list.sort((a, b) => {
+                switch (sortVal) {
+                    case 'name-desc':
+                        return b.name.localeCompare(a.name);
+                    case 'providers-desc':
+                        return (b.providersCount || 0) - (a.providersCount || 0);
+                    case 'providers-asc':
+                        return (a.providersCount || 0) - (b.providersCount || 0);
+                    case 'name-asc':
+                    default:
+                        return a.name.localeCompare(b.name);
+                }
+            });
+            renderServices(list);
+        }
+
+        function showServiceCategoryDetails(serviceId) {
+            const svc = servicesData[serviceId];
+            if (!svc) return;
+            const providerList = Object.entries(providers)
+                .filter(([, p]) => (p.service && p.service.toLowerCase() === svc.name.toLowerCase()) || (p.services || []).includes(serviceId))
+                .map(([id, p]) => ({ id, ...p }));
+
+            const providerCards = providerList.map(p => `
+                <button class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center" data-provider-id="${p.id}">
+                    <img src="${p.avatar}" class="rounded-full mr-4" width="60" height="60" alt="${p.name}">
+                    <div>
+                        <h4 class="font-semibold text-gray-800">${p.name}</h4>
+                        <p class="text-sm text-gray-500">${p.service}</p>
+                        <div class="flex items-center text-yellow-500 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <span class="ml-1 text-gray-600 font-semibold text-sm">${p.rating}</span>
+                            <span class="ml-2 text-gray-400 text-xs">(${p.reviews} Reviews)</span>
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+
+            serviceDetailContent.innerHTML = `
+                <div class="p-6 flex items-start">
+                    <img src="${svc.icon}" class="rounded-full mr-4 shadow-md" width="60" height="60" alt="${svc.name}">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">${svc.name}</h2>
+                        <p class="text-gray-600">${svc.description}</p>
+                        <p class="text-gray-500 mt-2 text-sm">Providers available: ${providerList.length}</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-50">
+                    <h3 class="font-semibold text-lg text-gray-800 mb-3">Providers</h3>
+                    <div id="service-providers" class="space-y-3">
+                        ${providerCards || '<p class="text-gray-500">No providers yet.</p>'}
+                    </div>
+                </div>
+            `;
+
+            servicesListView.style.display = 'none';
+            serviceDetailView.style.display = 'block';
+
+            serviceDetailContent.querySelectorAll('[data-provider-id]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const pid = e.currentTarget.getAttribute('data-provider-id');
+                    showServiceDetail(pid);
+                });
+            });
+        }
+
+        function initializeServicesView() {
+            servicesListView.style.display = 'block';
+            serviceDetailView.style.display = 'none';
+            if (servicesSearchInput) servicesSearchInput.value = '';
+            if (servicesSortSelect) servicesSortSelect.value = 'name-asc';
+            servicesCache = getServicesArray();
+            applyServicesFiltersAndSort();
+        }
+
+        servicesSearchInput?.addEventListener('input', applyServicesFiltersAndSort);
+        servicesSortSelect?.addEventListener('change', applyServicesFiltersAndSort);
+        backToServicesListBtn?.addEventListener('click', () => {
+            servicesListView.style.display = 'block';
+            serviceDetailView.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
