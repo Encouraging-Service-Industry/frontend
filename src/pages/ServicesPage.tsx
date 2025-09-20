@@ -1,12 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { servicesData, providers, vendorsData } from '../data';
 import type { Provider } from '../data';
 
 type Props = {
   onOpenProvider?: (provider: Provider) => void;
+  preselectedService?: string;
 };
 
-export default function ServicesPage({ onOpenProvider }: Props) {
+export default function ServicesPage({ onOpenProvider, preselectedService }: Props) {
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'name-asc' | 'name-desc' | 'providers-desc' | 'providers-asc'>('name-asc');
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
@@ -36,6 +37,16 @@ export default function ServicesPage({ onOpenProvider }: Props) {
     });
     return sorted;
   }, [query, sort]);
+
+  // Auto-select preselected service
+  useEffect(() => {
+    if (preselectedService) {
+      const service = Object.values(servicesData).find(s => s.id === preselectedService);
+      if (service) {
+        setActiveServiceId(service.id);
+      }
+    }
+  }, [preselectedService]);
 
   const activeService = activeServiceId ? servicesData[activeServiceId] : null;
   const vendorOptions = Object.values(vendorsData);

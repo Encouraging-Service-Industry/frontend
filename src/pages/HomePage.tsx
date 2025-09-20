@@ -56,19 +56,19 @@ export default function HomePage({ onQuickService }: Props) {
 
       <h3 className="font-semibold text-lg text-gray-800 mb-4">Popular Services</h3>
       <div className="grid grid-cols-4 gap-4 text-center">
-        <button onClick={() => onQuickService?.('Home Cleaning Providers')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('home_cleaning')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Clean" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Home Cleaning</span>
         </button>
-        <button onClick={() => onQuickService?.('Appliance Repair Providers')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('appliance_repair')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Repair" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Appliance Repair</span>
         </button>
-        <button onClick={() => onQuickService?.('Errand Service Providers')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('errands')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Errand" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Errand Service</span>
         </button>
-        <button onClick={() => onQuickService?.('Gardening Providers')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('gardening')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Garden" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Gardening</span>
         </button>
