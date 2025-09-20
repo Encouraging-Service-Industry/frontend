@@ -8,8 +8,18 @@ type Props = {
 };
 
 export default function ProviderListPage({ serviceTitle, onBack, onSelectProvider }: Props) {
+  // Map service titles to actual service names
+  const serviceMapping: { [key: string]: string } = {
+    'Home Cleaning Providers': 'Home Cleaning',
+    'Appliance Repair Providers': 'Appliance Repair',
+    'Errand Service Providers': 'Errand Service',
+    'Gardening Providers': 'Gardening'
+  };
+
+  const actualServiceName = serviceMapping[serviceTitle] || serviceTitle;
+  
   const serviceProviders = Object.entries(providers)
-    .filter(([, p]) => p.service === serviceTitle)
+    .filter(([, p]) => p.service === actualServiceName)
     .map(([id, p]) => ({ id, ...p }));
 
   return (
