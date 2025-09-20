@@ -165,3 +165,4 @@ export default function MinePage({ activeOption, onSelectOption, onBack }: Props
     </div>
   );
 }
+

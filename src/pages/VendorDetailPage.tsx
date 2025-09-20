@@ -70,3 +70,4 @@ export default function VendorDetailPage({ vendor, onBack, onOpenProvider }: Pro
     </div>
   );
 }
+
