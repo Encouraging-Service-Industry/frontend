@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { vendorsData, VendorCompany } from '../data';
+import { vendorsData } from '../data';
+import type { VendorCompany } from '../data';
 
 type Props = {
   onOpenCompany?: (vendor: VendorCompany) => void;

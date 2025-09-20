@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { servicesData, providers, vendorsData, ServiceCategory, Provider } from '../data';
+import { servicesData, providers, vendorsData } from '../data';
+import type { Provider } from '../data';
 
 type Props = {
   onOpenProvider?: (provider: Provider) => void;

@@ -13,7 +13,7 @@ export default function ProfilePage() {
         <ul className="space-y-2 text-gray-600">
           <li><span className="font-medium">Email:</span> anna@example.com</li>
           <li><span className="font-medium">Location:</span> Beijing, China</li>
-          <li><span className="font-medium">Status:</span> Verified User</span></li>
+          <li><span className="font-medium">Status:</span> Verified User</li>
         </ul>
       </div>
       <button className="w-full py-3 bg-red-500 text-white font-semibold rounded-full shadow-lg hover:bg-red-600 transition-colors">Log Out</button>
