@@ -1,19 +1,21 @@
 import { useState } from 'react';
 import './App.css';
 import VendorsPage from './pages/VendorsPage';
+import VendorDetailPage from './pages/VendorDetailPage';
 import ServicesPage from './pages/ServicesPage';
 import HomePage from './pages/HomePage';
 import StoryWallPage from './pages/StoryWallPage';
 import MinePage from './pages/MinePage';
 import BottomNav from './components/BottomNav';
-import type { Provider } from './data';
+import type { Provider, VendorCompany } from './data';
 
-type Tab = 'home' | 'story' | 'services' | 'vendor' | 'mine' | 'provider-detail';
+type Tab = 'home' | 'story' | 'services' | 'vendor' | 'mine' | 'provider-detail' | 'vendor-detail';
 type MineOption = 'orders' | 'profile' | 'settings' | 'about';
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('home');
   const [currentProvider, setCurrentProvider] = useState<Provider | null>(null);
+  const [currentVendor, setCurrentVendor] = useState<VendorCompany | null>(null);
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
 
   return (
@@ -30,7 +32,14 @@ export default function App() {
           <ServicesPage onOpenProvider={(p) => { setCurrentProvider(p); setTab('provider-detail'); }} />
         )}
         {tab === 'vendor' && (
-          <VendorsPage onOpenCompany={() => { /* could navigate to company detail route */ }} />
+          <VendorsPage onOpenCompany={(vendor) => { setCurrentVendor(vendor); setTab('vendor-detail'); }} />
+        )}
+        {tab === 'vendor-detail' && currentVendor && (
+          <VendorDetailPage 
+            vendor={currentVendor} 
+            onBack={() => setTab('vendor')}
+            onOpenProvider={(provider) => { setCurrentProvider(provider); setTab('provider-detail'); }}
+          />
         )}
         {tab === 'mine' && (
           <MinePage 
