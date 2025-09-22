@@ -21,8 +21,9 @@ This is the frontend for the Service Industry App, designed to help users effici
 ### Home Screen
 - Personalized greeting (e.g., "Good Afternoon, Anna")
 - Value Dashboard: Shows time saved by outsourcing, with a 'View Details' option to a dedicated page.
-- Smart Recommendations: Suggests services based on user history
-- Quick Access: Popular service icons for fast booking
+- Quick Service & Location Search: A prominent section allowing users to select a service category and location for a quick, pre-filtered search.
+- Smart Recommendations: Suggests services based on user history.
+- Quick Access: Popular service icons for fast booking.
 
 ### Value Dashboard Detail Page
 - Detailed breakdown of time and stress saved.
@@ -30,15 +31,20 @@ This is the frontend for the Service Industry App, designed to help users effici
 - Personalized smart recommendations for outsourcing tasks.
 - Displays user achievements and badges.
 
+### Vendor Detail Page
+- Dedicated page to view detailed information about a service-providing company.
+- Accessible by clicking on a vendor's name from a Provider List or Provider Detail Page.
+- Displays company logo, description, ratings, reviews, coverage areas, certifications, and a list of associated providers.
+
 ### Service Categories
 - Browse service categories (Home Cleaning, Appliance Repair, Errands, Gardening, etc.)
 - Search and sort services by name or provider count
 - Filter providers by vendor, rating, location
 
 ### Provider List & Detail
-- View providers for a selected service
-- Provider cards show avatar, rating, reviews, description
-- Provider detail page includes credentials, badges, experience, and options to chat or book
+- View providers for a selected service. Provider cards now display a concise description snippet.
+- Provider cards show avatar, rating, reviews, and a clickable vendor name to view company details.
+- Provider detail page includes credentials, badges, experience, options to chat or book, and a clickable vendor link to view company details.
 
 ### Booking Flow
 - 3-step booking: Select time/address, confirm details, finish booking
@@ -57,10 +63,6 @@ This is the frontend for the Service Industry App, designed to help users effici
 - Features a "Trending Stories" section to highlight popular content.
 - Badges for milestones (e.g., "First-Timer")
 
-### Vendors
-- Browse vendor companies
-- Vendor detail page lists company info and associated providers
-
 ### Profile
 - User info, contact, version, and "About Us"
 
@@ -77,7 +79,7 @@ This is the frontend for the Service Industry App, designed to help users effici
 - Direct chat interface with providers
 
 ### Navigation
-- Bottom navigation bar for Home, Story Wall, Services, Vendors, Profile
+- Bottom navigation bar for Home, Story Wall, Services, Mine
 
 ## Data Structure
 
@@ -88,10 +90,12 @@ This is the frontend for the Service Industry App, designed to help users effici
 ## How It Works
 
 - **React SPA**: The app uses React for all main flows. State is managed via hooks in `App.tsx`.
+- **Streamlined Service Discovery**: A new 'Quick Service & Location Search' on the Home Screen allows users to rapidly find services and providers based on their initial selections.
 - **Global State Management**: Key application state, including user authentication and `stories` data, is managed centrally in `App.tsx` and passed down as props.
-- **Navigation**: Tab state controls which screen is shown. BottomNav updates the tab.
+- **Navigation**: Tab state controls which screen is shown. BottomNav updates the tab, and contextual links (e.g., to Vendor Detail Page) manage temporary views.
 - **Booking**: Booking flow is step-based, with validation and summary before confirmation.
-- **Filtering**: Service and provider lists can be filtered and sorted, as well as stories on the Story Wall.
+- **Filtering**: Service and provider lists can be filtered and sorted (including by vendor), as well as stories on the Story Wall.
+- **Vendor Discovery**: Vendor details are now accessible by clicking on company names within provider listings on the Services page and Provider Detail page, rather than through a dedicated top-level navigation item.
 - **User Context**: The `loggedInUserName` is maintained in `App.tsx` state and used for automatic naming in story posts and filtering in "My Stories."
 - **Prototyping**: HTML files (`consumer-UI-demo.html`, `tenplateui.html`) provide static UI references and can be used for rapid design iteration.
 
@@ -122,8 +126,8 @@ This is the frontend for the Service Industry App, designed to help users effici
 ## References
 
 - `src/App.tsx` – Main app logic, global state, and navigation
-- `src/pages/` – All UI screens, including `ValueDashboardDetailPage.tsx`, `MyStoriesPage.tsx`, and `ProviderDetailPage.tsx`
-- `src/components/BottomNav.tsx` – Navigation bar
+- `src/pages/` – All UI screens, including `ValueDashboardDetailPage.tsx`, `MyStoriesPage.tsx`, and `ProviderDetailPage.tsx`, and `VendorDetailPage.tsx` (accessed contextually)
+- `src/components/BottomNav.tsx` – Simplified navigation bar
 - `src/data.ts` – Data models and mock data for services, vendors, and providers
 
 ---
