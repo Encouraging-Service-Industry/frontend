@@ -25,7 +25,8 @@ export default function StoryForm({ onSubmit, onClose, loggedInUserName }: Story
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ name: loggedInUserName, title, content, type, serviceCategory: serviceCategory || undefined, image: image || undefined });
+    const storyName = type === 'consumer' ? loggedInUserName : `${loggedInUserName} (Provider)`; // Use loggedInUserName, append (Provider) if type is provider
+    onSubmit({ name: storyName, title, content, type, serviceCategory: serviceCategory || undefined, image: image || undefined });
     onClose();
   };
 

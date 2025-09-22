@@ -43,12 +43,12 @@ export default function StoryWallPage({ loggedInUserName }: Props) {
     // Mock Provider Story
     {
       id: 2,
-      name: "Sparkle Clean Co.",
+      name: "Emily (Sparkle Clean Co.)",
       title: "Our latest deep clean transformation!",
       content:
         "Check out the amazing results from our team's deep clean project today. We love making homes sparkle! #HomeCleaning #DeepClean #SatisfactionGuaranteed",
       type: 'provider',
-      avatar: "https://placehold.co/40x40/fee2e2/ef4444?text=SC",
+      avatar: "https://placehold.co/40x40/dbeafe/3b82f6?text=Emily", // Changed to an individual-like avatar
       serviceCategory: "home_cleaning",
       timestamp: Date.now() - 3600000 * 24 * 1, // 1 day ago
       image: "https://placehold.co/400x200/fee2e2/ef4444?text=Sparkle+Clean+Result",
