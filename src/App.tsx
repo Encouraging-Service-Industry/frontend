@@ -27,6 +27,7 @@ export default function App() {
   const [currentProvider, setCurrentProvider] = useState<Provider | null>(null);
   const [currentVendor, setCurrentVendor] = useState<VendorCompany | null>(null);
   const [currentService, setCurrentService] = useState<string>('');
+  const [preselectedLocation, setPreselectedLocation] = useState<string>(''); // New state for preselected location
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
 
   const [stories, setStories] = useState<Story[]>([
@@ -122,7 +123,7 @@ export default function App() {
               )}
               {tab === 'home' && (
                 <HomePage 
-                  onQuickService={(service) => { setCurrentService(service); setTab('services'); }} 
+                  onQuickService={(serviceId: string, location: string) => { setCurrentService(serviceId); setPreselectedLocation(location); setTab('services'); }} 
                   onOpenNotifications={handleOpenNotifications}
                   onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
                 />
@@ -134,6 +135,7 @@ export default function App() {
                 <ServicesPage 
                   onOpenProvider={(p) => { setCurrentProvider(p); setTab('provider-detail'); }} 
                   preselectedService={currentService}
+                  preselectedLocation={preselectedLocation}
                 />
               )}
               {tab === 'provider-detail' && currentProvider && (

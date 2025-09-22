@@ -1,10 +1,32 @@
+import { useState } from 'react';
+import { servicesData } from '../data'; // Import servicesData
+
 type Props = {
-  onQuickService?: (serviceId: string) => void;
+  onQuickService?: (serviceId: string, location: string) => void; // Update prop signature
   onOpenNotifications?: () => void; // Add onOpenNotifications prop
   onOpenValueDashboardDetail: () => void; // New prop for opening Value Dashboard detail
 };
 
 export default function HomePage({ onQuickService, onOpenNotifications, onOpenValueDashboardDetail }: Props) {
+  const [selectedService, setSelectedService] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
+
+  const handleQuickSearch = () => {
+    if (selectedService && selectedLocation) {
+      onQuickService?.(selectedService, selectedLocation);
+    } else if (selectedService) {
+      onQuickService?.(selectedService, ''); // Search with service only
+    } else if (selectedLocation) {
+      // If only location is selected, how should we handle it? For now, we'll navigate to services with just location.
+      // This would require a modification in App.tsx to handle location-only filtering when going to services page.
+      // For current implementation, onQuickService expects serviceId as first arg, so we pass empty string if no service.
+      onQuickService?.('', selectedLocation);
+    } else {
+      // If neither is selected, maybe navigate to services without filters or show a message
+      // For now, let's just do nothing or maybe onQuickService?.('', '');
+      onQuickService?.('', '');
+    }
+  };
   return (
     <div className="p-4 pt-6">
       <div className="flex justify-between items-center mb-6">
@@ -16,6 +38,39 @@ export default function HomePage({ onQuickService, onOpenNotifications, onOpenVa
         </button>
       </div>
 
+      <div className="bg-white p-6 rounded-2xl mb-6 shadow-md">
+        <h3 className="font-semibold text-lg text-gray-800 mb-3">Find Services Quickly</h3>
+        <div className="space-y-4">
+          <select
+            value={selectedService}
+            onChange={(e) => setSelectedService(e.target.value)}
+            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+          >
+            <option value="">Select a Service</option>
+            {Object.values(servicesData).map((service) => (
+              <option key={service.id} value={service.id}>{service.name}</option>
+            ))}
+          </select>
+
+          <select
+            value={selectedLocation}
+            onChange={(e) => setSelectedLocation(e.target.value)}
+            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+          >
+            <option value="">All Locations</option>
+            <option>Helsinki</option>
+            <option>Espoo</option>
+            <option>Vantaa</option>
+          </select>
+
+          <button
+            onClick={handleQuickSearch}
+            className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-700 transition-colors"
+          >
+            Search Services
+          </button>
+        </div>
+      </div>
       <div className="bg-indigo-50 p-6 rounded-2xl mb-6 shadow-md relative">
         <button 
           onClick={onOpenValueDashboardDetail} 
@@ -50,7 +105,7 @@ export default function HomePage({ onQuickService, onOpenNotifications, onOpenVa
               <li>Bedroom decluttering</li>
             </ul>
           </div>
-          <button onClick={() => onQuickService?.('Home Cleaning Providers')} className="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
+          <button onClick={() => onQuickService?.('home_cleaning', selectedLocation)} className="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
         </div>
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
           <p className="text-sm text-gray-500">You've had a busy week</p>
@@ -61,25 +116,25 @@ export default function HomePage({ onQuickService, onOpenNotifications, onOpenVa
               <li>Ensure your family eats healthy meals</li>
             </ul>
           </div>
-          <button onClick={() => onQuickService?.('Errand Service Providers')} className="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
+          <button onClick={() => onQuickService?.('errands', selectedLocation)} className="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
         </div>
       </div>
 
       <h3 className="font-semibold text-lg text-gray-800 mb-4">Popular Services</h3>
       <div className="grid grid-cols-4 gap-4 text-center">
-        <button onClick={() => onQuickService?.('home_cleaning')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('home_cleaning', selectedLocation)} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Clean" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Home Cleaning</span>
         </button>
-        <button onClick={() => onQuickService?.('appliance_repair')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('appliance_repair', selectedLocation)} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Repair" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Appliance Repair</span>
         </button>
-        <button onClick={() => onQuickService?.('errands')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('errands', selectedLocation)} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Errand" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Errand Service</span>
         </button>
-        <button onClick={() => onQuickService?.('gardening')} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+        <button onClick={() => onQuickService?.('gardening', selectedLocation)} className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
           <img src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Garden" className="mb-1 rounded-full" />
           <span className="text-xs text-gray-600">Gardening</span>
         </button>

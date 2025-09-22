@@ -5,15 +5,16 @@ import type { Provider } from '../data';
 type Props = {
   onOpenProvider?: (provider: Provider) => void;
   preselectedService?: string;
+  preselectedLocation?: string; // New prop for preselected location
 };
 
-export default function ServicesPage({ onOpenProvider, preselectedService }: Props) {
+export default function ServicesPage({ onOpenProvider, preselectedService, preselectedLocation }: Props) {
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'name-asc' | 'name-desc' | 'providers-desc' | 'providers-asc'>('name-asc');
-  const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
+  const [activeServiceId, setActiveServiceId] = useState<string | null>(preselectedService || null);
   const [vendorFilter, setVendorFilter] = useState('');
   const [ratingFilter, setRatingFilter] = useState('');
-  const [locationFilter, setLocationFilter] = useState('');
+  const [locationFilter, setLocationFilter] = useState(preselectedLocation || '');
 
   const services = useMemo(() => {
     const arr = Object.values(servicesData).map(svc => ({
@@ -156,6 +157,7 @@ export default function ServicesPage({ onOpenProvider, preselectedService }: Pro
                 <div>
                   <h4 className="font-semibold text-gray-800">{p.name}</h4>
                   <p className="text-sm text-gray-500">{p.service} • ¥{p.price ?? '-'} • {(p.location || '').split(',')[0] || ''}</p>
+                  {p.description && <p className="text-xs text-gray-600 mt-1 line-clamp-2">{p.description}</p>}
                   <div className="flex items-center text-yellow-500 mt-1">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                     <span className="ml-1 text-gray-600 font-semibold text-sm">{p.rating}</span>
