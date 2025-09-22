@@ -12,10 +12,11 @@ import ChatPage from './pages/ChatPage';
 import BookingFlowPage from './pages/BookingFlowPage';
 import MinePage from './pages/MinePage';
 import LoginPage from './pages/LoginPage'; // Import LoginPage
+import NotificationsPage from './pages/NotificationsPage'; // Import NotificationsPage
 import BottomNav from './components/BottomNav';
 import type { Provider, VendorCompany } from './data';
 
-type Tab = 'splash' | 'home' | 'story' | 'services' | 'service-detail' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login'; // Add 'login' to Tab type
+type Tab = 'splash' | 'home' | 'story' | 'services' | 'service-detail' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login' | 'notifications'; // Add 'notifications' to Tab type
 type MineOption = 'orders' | 'profile' | 'settings' | 'about';
 
 export default function App() {
@@ -31,6 +32,10 @@ export default function App() {
     setTab('login');
   };
 
+  const handleOpenNotifications = () => {
+    setTab('notifications');
+  };
+
   return (
     <div className="bg-gray-50 flex flex-col items-center">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl overflow-hidden relative">
@@ -43,7 +48,7 @@ export default function App() {
                 <SplashScreen onStart={() => setTab('home')} />
               )}
               {tab === 'home' && (
-                <HomePage onQuickService={(service) => { setCurrentService(service); setTab('services'); }} />
+                <HomePage onQuickService={(service) => { setCurrentService(service); setTab('services'); }} onOpenNotifications={handleOpenNotifications} />
               )}
               {tab === 'story' && (
                 <StoryWallPage />
@@ -99,6 +104,9 @@ export default function App() {
                   onBack={() => setMineOption(null)}
                   onLogout={handleLogout} // Pass the handleLogout function
                 />
+              )}
+              {tab === 'notifications' && (
+                <NotificationsPage />
               )}
             </>
           )}
