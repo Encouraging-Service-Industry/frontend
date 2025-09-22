@@ -22,8 +22,9 @@ This is the frontend for the Service Industry App, designed to help users effici
 - Personalized greeting (e.g., "Good Afternoon, Anna")
 - Value Dashboard: Shows time saved by outsourcing, with a 'View Details' option to a dedicated page.
 - Quick Service & Location Search: A prominent section allowing users to select a service category and location for a quick, pre-filtered search.
-- Smart Recommendations: Suggests services based on user history.
+- Smart Recommendations: Dynamically generated, personalized suggestions acting as a 'life coach' based on user activity.
 - Quick Access: Popular service icons for fast booking.
+- Social Proof Banner: Displays engaging messages (e.g., "Join X happy users in [location]") to normalize service usage.
 
 ### Value Dashboard Detail Page
 - Detailed breakdown of time and stress saved.
@@ -69,7 +70,7 @@ This is the frontend for the Service Industry App, designed to help users effici
 ### Mine Page
 - Personal dashboard for the user.
 - Includes options for "My Orders," "My Profile," "Settings," "About Us,"
-- New: "My Stories" option to view all stories posted by the user.
+- New: "My Stories" option to view all stories posted by the user, and "My Achievements" to track progress and rewards.
 
 ### My Stories Page
 - Dedicated section within the Mine page to view all stories posted by the logged-in user.
@@ -77,6 +78,11 @@ This is the frontend for the Service Industry App, designed to help users effici
 
 ### Chat
 - Direct chat interface with providers
+
+### My Achievements Page
+- Dedicated section within the Mine page to track user progress through gamified elements.
+- Displays earned "Identity Badges" (e.g., for completing services, posting stories) with icons and descriptions.
+- Shows progress towards "Lifestyle Levels" (e.g., Bronze, Silver, Gold Tier) with visual indicators.
 
 ### Navigation
 - Bottom navigation bar for Home, Story Wall, Services, Mine
@@ -91,6 +97,9 @@ This is the frontend for the Service Industry App, designed to help users effici
 
 - **React SPA**: The app uses React for all main flows. State is managed via hooks in `App.tsx`.
 - **Streamlined Service Discovery**: A new 'Quick Service & Location Search' on the Home Screen allows users to rapidly find services and providers based on their initial selections.
+- **Gamification & Achievements**: The app incorporates "Identity Badges" and "Lifestyle Levels" to motivate users, track progress, and foster habit formation.
+- **Proactive 'Life Coach' Recommendations**: Dynamic and personalized recommendations on the Home Screen guide users towards beneficial services, acting as a virtual 'life coach'.
+- **Social Proof Integration**: Engaging social proof messages are displayed to normalize service usage and build trust within the community.
 - **Global State Management**: Key application state, including user authentication and `stories` data, is managed centrally in `App.tsx` and passed down as props.
 - **Navigation**: Tab state controls which screen is shown. BottomNav updates the tab, and contextual links (e.g., to Vendor Detail Page) manage temporary views.
 - **Booking**: Booking flow is step-based, with validation and summary before confirmation.
@@ -126,7 +135,7 @@ This is the frontend for the Service Industry App, designed to help users effici
 ## References
 
 - `src/App.tsx` – Main app logic, global state, and navigation
-- `src/pages/` – All UI screens, including `ValueDashboardDetailPage.tsx`, `MyStoriesPage.tsx`, and `ProviderDetailPage.tsx`, and `VendorDetailPage.tsx` (accessed contextually)
+- `src/pages/` – All UI screens, including `ValueDashboardDetailPage.tsx`, `MyStoriesPage.tsx`, `MyAchievementsPage.tsx`, `ProviderDetailPage.tsx`, and `VendorDetailPage.tsx` (accessed contextually)
 - `src/components/BottomNav.tsx` – Simplified navigation bar
 - `src/data.ts` – Data models and mock data for services, vendors, and providers
 
