@@ -11,6 +11,49 @@ export default function HomePage({ onQuickService, onOpenNotifications, onOpenVa
   const [selectedService, setSelectedService] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
 
+  // Mock dynamic recommendations
+  const recommendations = [
+    {
+      id: 'rec-1',
+      category: 'deep_clean',
+      title: 'Time for a kitchen deep clean?',
+      description: 'Based on your recent activity, your kitchen might appreciate a thorough clean. Free up your weekend!',
+      serviceId: 'home_cleaning',
+      buttonText: 'Book Deep Clean',
+      icon: '✨',
+    },
+    {
+      id: 'rec-2',
+      category: 'errands',
+      title: 'Free up your evening!',
+      description: 'Let someone handle your grocery shopping and errands this week. More time for yourself!',
+      serviceId: 'errands',
+      buttonText: 'Book Errands',
+      icon: '🛍️',
+    },
+    {
+      id: 'rec-3',
+      category: 'appliance_check',
+      title: 'Appliance acting up?',
+      description: 'It might be time for a quick check-up for your washing machine. Prevent bigger issues!',
+      serviceId: 'appliance_repair',
+      buttonText: 'Schedule Repair',
+      icon: '🔧',
+    },
+    {
+      id: 'rec-4',
+      category: 'gardening_help',
+      title: 'Your garden needs some love!',
+      description: 'With spring approaching, consider hiring a gardener for those heavy tasks. Enjoy the bloom without the backache.',
+      serviceId: 'gardening',
+      buttonText: 'Find a Gardener',
+      icon: '🌳',
+    },
+  ];
+
+  // Select a random recommendation for display, or more complex logic later
+  const currentRecommendation = recommendations[Math.floor(Math.random() * recommendations.length)];
+
   const handleQuickSearch = () => {
     if (selectedService && selectedLocation) {
       onQuickService?.(selectedService, selectedLocation);
@@ -94,30 +137,24 @@ export default function HomePage({ onQuickService, onOpenNotifications, onOpenVa
         </p>
       </div>
 
+      {/* Social Proof Banner */}
+      <div className="bg-blue-50 p-4 rounded-xl mb-6 shadow-sm border border-blue-200 text-center">
+        <p className="text-blue-800 font-medium text-sm">
+          Join <span className="font-bold">1200+ happy users</span> in Helsinki who outsource tasks! 🎉
+        </p>
+      </div>
+
       <h3 className="font-semibold text-lg text-gray-800 mb-4">Smart Recommendations</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-          <p className="text-sm text-gray-500">Based on your order history</p>
-          <h4 className="font-medium text-gray-800">You might need a deep clean</h4>
-          <div className="mt-2 text-sm text-gray-600">
-            <ul className="list-disc pl-4">
-              <li>Kitchen degreasing</li>
-              <li>Bedroom decluttering</li>
-            </ul>
-          </div>
-          <button onClick={() => onQuickService?.('home_cleaning', selectedLocation)} className="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
-        </div>
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-          <p className="text-sm text-gray-500">You've had a busy week</p>
-          <h4 className="font-medium text-gray-800">Consider a meal delivery service?</h4>
-          <div className="mt-2 text-sm text-gray-600">
-            <ul className="list-disc pl-4">
-              <li>Save time on grocery shopping and cooking</li>
-              <li>Ensure your family eats healthy meals</li>
-            </ul>
-          </div>
-          <button onClick={() => onQuickService?.('errands', selectedLocation)} className="mt-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800">Book Now →</button>
-        </div>
+      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col items-center text-center">
+        <span className="text-4xl mb-3">{currentRecommendation.icon}</span>
+        <h4 className="font-medium text-gray-800 text-lg mb-2">{currentRecommendation.title}</h4>
+        <p className="text-sm text-gray-600 mb-4">{currentRecommendation.description}</p>
+        <button 
+          onClick={() => onQuickService?.(currentRecommendation.serviceId, selectedLocation)}
+          className="mt-auto py-2 px-4 bg-indigo-600 text-white font-semibold rounded-full shadow-md hover:bg-indigo-700 transition-colors"
+        >
+          {currentRecommendation.buttonText} →
+        </button>
       </div>
 
       <h3 className="font-semibold text-lg text-gray-800 mb-4">Popular Services</h3>

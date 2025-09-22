@@ -1,4 +1,4 @@
-export type MineOption = 'orders' | 'profile' | 'settings' | 'about' | 'my-stories';
+export type MineOption = 'orders' | 'profile' | 'settings' | 'about' | 'my-stories' | 'my-achievements'; // Added 'my-achievements'
 
 type Props = {
   activeOption?: MineOption;
@@ -9,6 +9,7 @@ type Props = {
   userStories: any[]; // New: array of stories posted by the user
 };
 import MyStoriesPage from './MyStoriesPage';
+import MyAchievementsPage from './MyAchievementsPage'; // Import MyAchievementsPage
 
 export default function MinePage({ activeOption, onSelectOption, onBack, onLogout, loggedInUserName, userStories }: Props) {
   if (activeOption) {
@@ -110,6 +111,9 @@ export default function MinePage({ activeOption, onSelectOption, onBack, onLogou
         {activeOption === 'my-stories' && (
           <MyStoriesPage onBack={onBack} loggedInUserName={loggedInUserName} userStories={userStories} />
         )}
+        {activeOption === 'my-achievements' && (
+          <MyAchievementsPage onBack={onBack} />
+        )}
       </div>
     );
   }
@@ -158,6 +162,17 @@ export default function MinePage({ activeOption, onSelectOption, onBack, onLogou
           <div>
             <h3 className="font-semibold text-gray-800">My Stories</h3>
             <p className="text-sm text-gray-500">View your posted stories</p>
+          </div>
+        </button>
+        <button onClick={() => onSelectOption?.('my-achievements')} className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center">
+          <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mr-4">
+            <svg className="w-5 h-5 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-800">My Achievements</h3>
+            <p className="text-sm text-gray-500">Track your progress and rewards</p>
           </div>
         </button>
         
