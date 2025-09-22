@@ -1,0 +1,268 @@
+﻿Project Requirement Document
+1. Overview
+This document outlines the functional and technical requirements for a web application designed to encourage individuals to use services more in their daily lives. The application aims to solve a societal problem where people are hesitant to purchase services due to social stigma and a lack of trust, which can lead to increased stress and burnout. The requirements are structured to guide the development of a hybrid platform that makes everyday services easy to access, socially normalized, and trust-driven.
+Vision
+: The long-term vision of this project is to foster a habit of using services among middle-aged individuals, ensuring they have a trusted network of service providers as they age. This will alleviate future burdens on individuals and the broader social care system.
+2. Prioritization Model
+Requirements are classified into priority levels to manage the implementation process effectively.
+Priority
+Level
+Description
+P0
+Must Have / Highest
+Essential for the application's core functionality.
+P1
+Should Have / Medium
+Important features that significantly enhance the user experience.
+P2
+Nice to Have / Low
+Features that add value but are not critical for the initial release.
+P3
+Future Consideration / Optional
+Features planned for later development phases.
+3. User Stories & Requirements
+3.1 Consumer-Facing Features: Trust-Building & Social Normalization
+User Stories
+User Story ID
+User Story Description
+US01
+"As a busy professional, I want to see how my peers use services and get their recommendations, so I can feel confident outsourcing tasks and reduce guilt."
+US02
+"As a young adult, I want to easily book and manage services for my aging parents, so they can live more comfortably without having to learn a new app."
+US03
+"As a busy parent, I want to clearly see the benefits of using services, so I can view it as an investment in my family and well-being, not a sign of laziness."
+US04
+"As a first-time user, I want to feel safe and confident about the service provider, so I can overcome my hesitation about letting a stranger into my home or family life."
+US05
+"As a time-crunched professional, I want the booking process to be as simple and quick as possible, so I don't feel overwhelmed by the task of finding a service."
+US08
+"As a new user, I want to easily create an account and start using the service without a lengthy process."
+US09
+"As an existing user, I want to be able to log in quickly and securely to manage my services and bookings."
+US10
+"If I forget my password, I want a simple process to reset it so I can regain access to my account."
+US11
+"As a user, I want to be able to conveniently search and filter services, to quickly find a provider that meets my needs."
+US12
+"As a user, I want to be able to rate and review completed services, to provide feedback to other users and help improve service quality."
+US13
+"As a user, I want to manage all my orders in one place, including viewing my history and canceling/modifying future orders."
+US14
+"As a user, I want to receive notifications about my order status and important updates, to stay informed about the service progress."
+US15
+"As a user, I want to easily get help and support if I run into issues while using the app."
+US19
+"As a user, I want to receive small rewards and achievements to motivate me to continue using the service and build a habit."
+US20
+"As a user, I want the app to remind me when I might need a service, rather than having to remember myself."
+US21
+"As a user, I want the app to act like a 'life coach' by recommending the tasks I should outsource based on a personalized diagnosis, and showing how much time that would free up."
+US22
+"As a user, I want to gain social recognition by sharing my accomplishments from using services (e.g., hours spent with my children), so I can feel proud."
+Functional Requirements
+Requirement ID
+Requirement
+Priority
+FR01.1
+The platform shall allow users to share their positive service experiences and "accomplishments" on a community "story wall".
+P0
+FR01.2
+The platform shall display aggregated data (e.g., "80% of families in your area use a cleaning service") to provide social proof.
+P1
+FR01.3
+The platform shall allow users to invite friends and family to join and share services via a "family account" or a referral system.
+P2
+FR01.4
+The platform shall include a loyalty or rewards program to encourage repeat use and habit formation, including "first task" rewards, "streak challenges," and 
+"identity badges"
+ and 
+"lifestyle tiers"
+.
+P1
+FR01.5
+The system shall provide an option to "book for someone else," allowing users to book services for family members and set a separate profile for the service recipient.
+P1
+FR02.1
+The system shall display a "value dashboard" that quantifies time saved and stress reduced, and provide immediate reward feedback upon service completion.
+P0
+FR02.2
+The dashboard shall visualize time saved by translating it into relatable activities (e.g., "3 hours saved = one family dinner and a bedtime story").
+P1
+FR02.3
+The system shall generate weekly or monthly summaries of a user's accumulated gains.
+P1
+FR03.1
+The platform shall implement a strict screening and verification process for all service providers.
+P0
+FR03.2
+Each service provider's profile shall include verified credentials, public background check status, and authentic user reviews.
+P0
+FR03.3
+The platform shall offer a clear "satisfaction guarantee" or service insurance policy.
+P1
+FR03.4
+The platform shall include real-time location tracking for on-site services.
+P1
+FR04.1
+The user interface shall be designed to be simple, intuitive, and mobile-first.
+P0
+FR04.2
+The booking process shall be streamlined to a maximum of three steps from service selection to payment, and include a "one-click rebook" feature.
+P1
+FR04.3
+Transparent pricing and a clear breakdown of service costs shall be displayed before booking confirmation.
+P0
+FR06.1
+The platform shall provide an intuitive sign-up interface that supports email/phone number registration with validation.
+P0
+FR06.2
+The platform shall provide a login interface that supports username/email and password, with an integrated password recovery function.
+P0
+FR06.3
+Upon login, the system shall redirect users to different homepages based on their role (consumer or provider).
+P0
+FR07.1
+The platform shall provide a service search function that allows users to search by service category, location, date, and price.
+P0
+FR07.2
+The platform shall provide advanced filtering options, allowing users to filter by provider ratings, certification status, and reviews.
+P1
+FR08.1
+Users shall be able to rate and write a review for a service provider after a service is completed.
+P0
+FR08.2
+Reviews shall be moderated to ensure authenticity and relevance.
+P1
+FR09.1
+Users shall be able to view all their historical and upcoming orders on a "My Orders" page.
+P0
+FR09.2
+Users shall be able to cancel or modify upcoming orders, subject to a refund policy.
+P1
+FR10.1
+The platform shall provide a notification center for users, displaying order status updates, chat messages, and important reminders, and shall be able to provide "habit-based smart reminders" based on user booking patterns.
+P1
+FR11.1
+The platform shall provide a help center or a FAQ section.
+P2
+FR11.2
+The platform shall provide an online live chat feature to address user issues.
+P2
+3.2 Provider-Facing Features: Service Management & Client Communication
+User Stories
+User Story ID
+User Story Description
+US06
+"As a service provider, I want a simple interface to manage my schedule, receive booking requests, and update my profile, so I can run my business efficiently."
+US07
+"As a service provider, I want to have clear communication with both the person booking the service and the service recipient to ensure a smooth service and meet all needs."
+Functional Requirements
+Requirement ID
+Requirement
+Priority
+FR05.1
+The platform shall provide a separate "provider portal" for service providers to manage their orders, schedules, and profiles.
+P0
+FR05.2
+The provider portal shall allow service providers to set their availability, service area, and pricing.
+P1
+FR05.3
+Service providers shall be able to communicate with customers (both the booker and the recipient) through a "direct chat" feature.
+P0
+FR05.4
+The system shall send push notifications to providers for new booking requests or chat messages.
+P1
+FR05.5
+Service providers shall be able to submit a report after completing a service and request confirmation from the customer.
+P1
+3.3 Admin-Facing Features: Platform Operations & Data Monitoring
+User Stories
+User Story ID
+User Story Description
+US16
+"As a site admin, I want to be able to manage and moderate user-submitted content and reviews to ensure the community remains healthy and trustworthy."
+US17
+"As a site admin, I want to be able to view and handle issues or complaints submitted by users, to provide timely customer support."
+US18
+"As a site admin, I want to be able to approve new service providers and verify their credentials to uphold the platform's safety standards."
+Functional Requirements
+Requirement ID
+Requirement
+Priority
+FR12.1
+The platform shall provide an admin backend to manage all user accounts (both consumers and providers).
+P0
+FR12.2
+The platform shall provide content moderation features, allowing admins to approve, reject, or delete story wall posts and user reviews.
+P0
+FR12.3
+The platform shall provide a dashboard displaying key business metrics (e.g., number of registered users, active bookings, etc.).
+P1
+FR12.4
+The platform shall provide a ticketing or support system to track and handle user complaints and help requests.
+P1
+FR12.5
+The platform shall provide tools to verify service provider credentials and background check status.
+P0
+4. Backend & Technology Architecture
+Technology Stack
+Front-end
+: React
+Core Backend
+: Node.js (JavaScript)
+Microservices
+: FastAPI (Python)
+Database
+: PostgreSQL (with PostGIS extension)
+Technical Requirements
+Requirement ID
+Requirement
+Priority
+TR01.1
+Database Design
+: Design and implement a scalable database architecture using 
+PostgreSQL
+ to store all data related to users, service providers, bookings, reviews, and community content. The database shall integrate the 
+PostGIS
+ extension to support geospatial data.
+P0
+TR01.2
+Core API Development
+: Develop a set of RESTful APIs using 
+Node.js
+ to handle all core data communication, including user authentication, booking management, and interfaces with real-time and background services.
+P0
+TR01.3
+Microservice API Development
+: Develop separate microservices using 
+FastAPI
+ for handling high-performance, specific tasks, such as: <br> 鈥?Geospatial services<br> 鈥?Complex data computations (e.g., value dashboard calculations)<br> 鈥?Future machine learning models.
+P1
+TR01.4
+Authentication & Authorization
+: Implement a robust user authentication and authorization system to ensure only authorized users can access sensitive data. It shall support different user roles (e.g., booker vs. service recipient).
+P0
+TR01.5
+Payment Integration
+: Integrate a third-party payment gateway (e.g., Stripe, Braintree) to process all transactions securely.
+P0
+TR01.6
+Geospatial Services
+: Integrate geospatial APIs (e.g., Google Maps API) to support service search, real-time location tracking, and geofencing.
+P1
+TR01.7
+Real-time Communication
+: Implement a WebSocket service to support real-time chat functionality between users and service providers.
+P1
+TR01.8
+Background Services
+: Develop background services to handle data computation (e.g., value dashboard calculations), push notifications, and email sending.
+P1
+TR01.9
+Data Analytics
+: Establish a data pipeline to collect user behavior and transaction data for analysis, reporting, and personalized recommendations.
+P2
+TR01.10
+Machine Learning
+: Consider developing machine learning models in the future for smarter service provider matching, price prediction, and demand analysis.
+P3
