@@ -32,13 +32,16 @@ export default function App() {
             <SplashScreen onStart={() => setTab('home')} />
           )}
           {tab === 'home' && (
-            <HomePage onQuickService={(service) => { setCurrentService(service); setTab('provider-list'); }} />
+            <HomePage onQuickService={(service) => { setCurrentService(service); setTab('services'); }} />
           )}
           {tab === 'story' && (
             <StoryWallPage />
           )}
           {tab === 'services' && (
-            <ServicesPage onOpenProvider={(p) => { setCurrentProvider(p); setTab('service-detail'); }} />
+            <ServicesPage 
+              onOpenProvider={(p) => { setCurrentProvider(p); setTab('service-detail'); }} 
+              preselectedService={currentService}
+            />
           )}
           {tab === 'service-detail' && currentProvider && (
             <ServiceDetailPage 
@@ -86,7 +89,7 @@ export default function App() {
             />
           )}
         </div>
-        <BottomNav active={tab as any} onChange={(t) => { setTab(t as Tab); setMineOption(null); }} />
+        <BottomNav active={tab as any} onChange={(t) => { setTab(t as Tab); setMineOption(null); if (t !== 'services') setCurrentService(''); }} />
       </div>
     </div>
   );
