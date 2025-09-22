@@ -32,12 +32,12 @@ export default function App() {
   const [stories, setStories] = useState<Story[]>([
     {
       id: 1,
-      name: "Ava",
+      name: "Aino",
       title: "First time outsourcing, relaxing weekend!",
       content:
-        "After using the weekly cleaning service, I finally have time to take the kids to the park on weekends! The house is clean and I feel great!",
+        "After using the weekly cleaning service, I finally have time to take the kids to the park on weekends! The house is clean and I feel great!", // Reverted to English
       type: 'consumer',
-      avatar: "https://placehold.co/40x40/e0e7ff/4f46e5?text=Ava",
+      avatar: "https://placehold.co/40x40/e0e7ff/4f46e5?text=Ava", // Keep for now, but good to remember for a more complete change
       serviceCategory: "home_cleaning",
       timestamp: Date.now() - 3600000 * 24 * 3, // 3 days ago
       image: "https://placehold.co/400x200/e0e7ff/4f46e5?text=Clean+House",
@@ -45,12 +45,13 @@ export default function App() {
       likes: 15,
       comments: 3,
     },
+    // Mock Provider Story
     {
       id: 2,
-      name: "Emily (Sparkle Clean Co.)", // Changed name to Emily
+      name: "Elina (Kimalle Puhdistus Oy)", // Finnish provider name
       title: "Our latest deep clean transformation!",
       content:
-        "Check out the amazing results from our team's deep clean project today. We love making homes sparkle! #HomeCleaning #DeepClean #SatisfactionGuaranteed",
+        "Check out the amazing results from our team's deep clean project today. We love making homes sparkle! #HomeCleaning #DeepClean #SatisfactionGuaranteed", // Reverted to English
       type: 'provider',
       avatar: "https://placehold.co/40x40/dbeafe/3b82f6?text=Emily",
       serviceCategory: "home_cleaning",
@@ -59,12 +60,13 @@ export default function App() {
       likes: 25,
       comments: 5,
     },
+    // Mock Provider Story for Jane
     {
       id: 4, // Unique ID
-      name: "Jane (Sparkle Clean Co.)",
+      name: "Johanna (Kimalle Puhdistus Oy)", // Finnish provider name
       title: "Making homes sparkle, one brushstroke at a time!",
       content:
-        "Just finished a fantastic deep clean in Chaoyang. The client was thrilled! It's so rewarding to bring freshness to homes. #CleaningLife #HappyClient #BeijingServices",
+        "Just finished a fantastic deep clean in Helsinki city center. The client was thrilled! It's so rewarding to bring freshness to homes. #CleaningLife #HappyClient #HelsinkiServices", // Reverted to English, location updated
       type: 'provider',
       avatar: "https://placehold.co/40x40/e0e7ff/4f46e5?text=Jane",
       serviceCategory: "home_cleaning",
@@ -72,12 +74,13 @@ export default function App() {
       likes: 18,
       comments: 2,
     },
+    // Original Mark story (now ID 3)
     {
        id: 3,
-       name: "Mark",
+       name: "Mika",
        title: "Appliance fixed, saved a fortune!",
        content:
-         "My washing machine broke down, but Appliance Pros fixed it quickly and professionally. Saved me from buying a new one! Highly recommend!",
+         "My washing machine broke down, but Kodinkone Gurut fixed it quickly and professionally. Saved me from buying a new one! Highly recommend!", // Reverted to English
        type: 'consumer',
        avatar: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Mark",
        serviceCategory: "appliance_repair",

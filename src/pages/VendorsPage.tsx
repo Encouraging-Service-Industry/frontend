@@ -66,9 +66,9 @@ export default function VendorsPage({ onOpenCompany }: Props) {
           </select>
           <select value={location} onChange={e => setLocation(e.target.value)} className="w-1/2 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow appearance-none cursor-pointer bg-white">
             <option value="">All Locations</option>
-            <option>Beijing</option>
-            <option>Chaoyang</option>
-            <option>Haidian</option>
+            <option>Helsinki</option>
+            <option>Espoo</option>
+            <option>Vantaa</option>
           </select>
         </div>
       </div>

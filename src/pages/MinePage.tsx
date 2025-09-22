@@ -56,7 +56,7 @@ export default function MinePage({ activeOption, onSelectOption, onBack, onLogou
               <h3 className="font-semibold text-lg text-gray-800 mb-3">My Information</h3>
               <ul className="space-y-2 text-gray-600">
                 <li><span className="font-medium">Email:</span> anna@example.com</li>
-                <li><span className="font-medium">Location:</span> Beijing, China</li>
+                <li><span className="font-medium">Location:</span> Helsinki, Finland</li>
                 <li><span className="font-medium">Status:</span> Verified User</li>
               </ul>
             </div>

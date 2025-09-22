@@ -141,9 +141,9 @@ export default function ServicesPage({ onOpenProvider, preselectedService }: Pro
             </select>
             <select value={locationFilter} onChange={e => setLocationFilter(e.target.value)} className="w-full sm:w-1/3 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
               <option value="">All Locations</option>
-              <option>Beijing</option>
-              <option>Chaoyang</option>
-              <option>Haidian</option>
+              <option>Helsinki</option>
+              <option>Espoo</option>
+              <option>Vantaa</option>
             </select>
           </div>
           <div className="space-y-3">
