@@ -1,9 +1,10 @@
 type Props = {
   onQuickService?: (serviceId: string) => void;
   onOpenNotifications?: () => void; // Add onOpenNotifications prop
+  onOpenValueDashboardDetail: () => void; // New prop for opening Value Dashboard detail
 };
 
-export default function HomePage({ onQuickService, onOpenNotifications }: Props) {
+export default function HomePage({ onQuickService, onOpenNotifications, onOpenValueDashboardDetail }: Props) {
   return (
     <div className="p-4 pt-6">
       <div className="flex justify-between items-center mb-6">
@@ -15,7 +16,16 @@ export default function HomePage({ onQuickService, onOpenNotifications }: Props)
         </button>
       </div>
 
-      <div className="bg-indigo-50 p-6 rounded-2xl mb-6 shadow-md">
+      <div className="bg-indigo-50 p-6 rounded-2xl mb-6 shadow-md relative">
+        <button 
+          onClick={onOpenValueDashboardDetail} 
+          className="absolute top-4 right-4 text-indigo-700 hover:text-indigo-900 transition-colors"
+          aria-label="View Value Dashboard details"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+        </button>
         <h3 className="font-semibold text-lg text-indigo-900 mb-2">Your Value Dashboard</h3>
         <div className="flex items-center mb-2">
           <span className="text-5xl font-bold text-indigo-700">5 hours</span>
