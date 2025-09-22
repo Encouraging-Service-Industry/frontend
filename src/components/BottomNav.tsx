@@ -1,4 +1,4 @@
-type Tab = 'home' | 'story' | 'services' | 'vendor' | 'mine';
+type Tab = 'home' | 'story' | 'services' | 'mine';
 
 type Props = {
   active: Tab;
@@ -26,12 +26,6 @@ export default function BottomNav({ active, onChange }: Props) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h10" />
         </svg>
         <span className="text-xs mt-1">Services</span>
-      </button>
-      <button onClick={() => onChange('vendor')} className={itemClass('vendor')}>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 7l1.5-3h15L21 7M4 7h16v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7zm4 4h6" />
-        </svg>
-        <span className="text-xs mt-1">Vendor</span>
       </button>
       <button onClick={() => onChange('mine')} className={itemClass('mine')}>
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

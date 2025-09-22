@@ -1,6 +1,8 @@
 import type { Provider } from '../data';
 import { type Story } from './StoryWallPage'; // Import Story type
 import { useState } from 'react';
+import { vendorsData } from '../data'; // Import vendorsData
+import type { VendorCompany } from '../data'; // Import VendorCompany type
 
 type Props = {
   provider: Provider;
@@ -8,9 +10,10 @@ type Props = {
   onChat: () => void;
   onBook: () => void;
   stories: Story[]; // New: array of all stories for displaying provider's posts
+  onOpenVendorDetail: (vendor: VendorCompany) => void; // New prop for opening vendor detail
 };
 
-export default function ProviderDetailPage({ provider, onBack, onChat, onBook, stories }: Props) {
+export default function ProviderDetailPage({ provider, onBack, onChat, onBook, stories, onOpenVendorDetail }: Props) {
   const providerStories = stories.filter(
     (story) => story.name === provider.name || story.name === `${provider.name} (Provider)`
   ).sort((a, b) => b.timestamp - a.timestamp); // Filter and sort provider's own stories
@@ -32,7 +35,15 @@ export default function ProviderDetailPage({ provider, onBack, onChat, onBook, s
       <div className="flex items-center mb-4">
         <img src={provider.avatar} className="rounded-full mr-4 shadow-md" width={80} height={80} alt={provider.name} />
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">{provider.name} ({provider.service})</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-1">{provider.name} ({provider.service})</h2>
+          {provider.vendorId && vendorsData[provider.vendorId] && (
+            <button 
+              onClick={() => onOpenVendorDetail(vendorsData[provider.vendorId])}
+              className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+            >
+              View Company: {vendorsData[provider.vendorId].name}
+            </button>
+          )}
           <div className="flex items-center text-yellow-500 mt-1">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />

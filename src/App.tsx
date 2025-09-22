@@ -6,26 +6,25 @@ import StoryWallPage, { type Story } from './pages/StoryWallPage'; // Import Sto
 import ServicesPage from './pages/ServicesPage';
 import ProviderListPage from './pages/ProviderListPage';
 import ProviderDetailPage from './pages/ProviderDetailPage'; // Updated import for ProviderDetailPage
-import VendorsPage from './pages/VendorsPage';
-import VendorDetailPage from './pages/VendorDetailPage';
 import ChatPage from './pages/ChatPage';
 import BookingFlowPage from './pages/BookingFlowPage';
 import MinePage from './pages/MinePage';
 import LoginPage from './pages/LoginPage'; // Import LoginPage
 import NotificationsPage from './pages/NotificationsPage'; // Import NotificationsPage
 import BottomNav from './components/BottomNav';
-import type { Provider, VendorCompany } from './data';
+import type { Provider, VendorCompany } from './data'; // Re-import VendorCompany
 import ValueDashboardDetailPage from './pages/ValueDashboardDetailPage'; // Import ValueDashboardDetailPage
 import { type MineOption } from './pages/MinePage'; // Import MineOption type
+import VendorDetailPage from './pages/VendorDetailPage'; // Import VendorDetailPage
 
-type Tab = 'splash' | 'home' | 'story' | 'services' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login' | 'notifications' | 'value-dashboard-detail'; // Add 'value-dashboard-detail' to Tab type
+type Tab = 'splash' | 'home' | 'story' | 'services' | 'provider-list' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login' | 'notifications' | 'value-dashboard-detail' | 'vendor-detail-view'; // Added 'vendor-detail-view'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('login'); // Start at login page initially
   const [isAuthenticated, setIsAuthenticated] = useState(false); // New state for authentication
   const [loggedInUserName, setLoggedInUserName] = useState<string | null>(null); // New state for logged-in user's name
   const [currentProvider, setCurrentProvider] = useState<Provider | null>(null);
-  const [currentVendor, setCurrentVendor] = useState<VendorCompany | null>(null);
+  const [currentVendor, setCurrentVendor] = useState<VendorCompany | null>(null); // Re-introduce currentVendor state
   const [currentService, setCurrentService] = useState<string>('');
   const [preselectedLocation, setPreselectedLocation] = useState<string>(''); // New state for preselected location
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
@@ -110,6 +109,11 @@ export default function App() {
     setTab('value-dashboard-detail');
   };
 
+  const handleOpenVendorDetail = (vendor: VendorCompany) => {
+    setCurrentVendor(vendor);
+    setTab('vendor-detail-view');
+  };
+
   return (
     <div className="bg-gray-50 flex flex-col items-center">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl overflow-hidden relative">
@@ -126,6 +130,7 @@ export default function App() {
                   onQuickService={(serviceId: string, location: string) => { setCurrentService(serviceId); setPreselectedLocation(location); setTab('services'); }} 
                   onOpenNotifications={handleOpenNotifications}
                   onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
+                  onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
                 />
               )}
               {tab === 'story' && (
@@ -136,6 +141,7 @@ export default function App() {
                   onOpenProvider={(p) => { setCurrentProvider(p); setTab('provider-detail'); }} 
                   preselectedService={currentService}
                   preselectedLocation={preselectedLocation}
+                  onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
                 />
               )}
               {tab === 'provider-detail' && currentProvider && (
@@ -145,6 +151,7 @@ export default function App() {
                   onChat={() => setTab('chat')}
                   onBook={() => setTab('booking')}
                   stories={stories} // Pass the global stories state
+                  onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
                 />
               )}
               {tab === 'provider-list' && (
@@ -152,16 +159,6 @@ export default function App() {
                   serviceTitle={currentService}
                   onBack={() => setTab('home')}
                   onSelectProvider={(provider) => { setCurrentProvider(provider); setTab('provider-detail'); }}
-                />
-              )}
-              {tab === 'vendor' && (
-                <VendorsPage onOpenCompany={(vendor) => { setCurrentVendor(vendor); setTab('vendor-detail'); }} />
-              )}
-              {tab === 'vendor-detail' && currentVendor && (
-                <VendorDetailPage 
-                  vendor={currentVendor} 
-                  onBack={() => setTab('vendor')}
-                  onOpenProvider={(provider) => { setCurrentProvider(provider); setTab('provider-detail'); }}
                 />
               )}
               {tab === 'chat' && currentProvider && (
@@ -192,6 +189,13 @@ export default function App() {
               )}
               {tab === 'value-dashboard-detail' && (
                 <ValueDashboardDetailPage onBack={() => setTab('home')} />
+              )}
+              {tab === 'vendor-detail-view' && currentVendor && (
+                <VendorDetailPage 
+                  vendor={currentVendor}
+                  onBack={() => setTab('services')} // Go back to services after viewing vendor detail
+                  onOpenProvider={(provider) => { setCurrentProvider(provider); setTab('provider-detail'); }} // Allow drilling down to provider from vendor page
+                />
               )}
             </>
           )}
