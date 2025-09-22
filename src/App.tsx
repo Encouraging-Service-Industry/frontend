@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import SplashScreen from './pages/SplashScreen';
 import HomePage from './pages/HomePage';
-import StoryWallPage from './pages/StoryWallPage';
+import StoryWallPage, { type Story } from './pages/StoryWallPage'; // Import Story type and StoryWallPage
 import ServicesPage from './pages/ServicesPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import ProviderListPage from './pages/ProviderListPage';
@@ -16,9 +16,9 @@ import NotificationsPage from './pages/NotificationsPage'; // Import Notificatio
 import BottomNav from './components/BottomNav';
 import type { Provider, VendorCompany } from './data';
 import ValueDashboardDetailPage from './pages/ValueDashboardDetailPage'; // Import ValueDashboardDetailPage
+import { type MineOption } from './pages/MinePage'; // Import MineOption type
 
 type Tab = 'splash' | 'home' | 'story' | 'services' | 'service-detail' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login' | 'notifications' | 'value-dashboard-detail'; // Add 'value-dashboard-detail' to Tab type
-type MineOption = 'orders' | 'profile' | 'settings' | 'about';
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('login'); // Start at login page initially
@@ -28,6 +28,58 @@ export default function App() {
   const [currentVendor, setCurrentVendor] = useState<VendorCompany | null>(null);
   const [currentService, setCurrentService] = useState<string>('');
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
+
+  const [stories, setStories] = useState<Story[]>([
+    {
+      id: 1,
+      name: "Ava",
+      title: "First time outsourcing, relaxing weekend!",
+      content:
+        "After using the weekly cleaning service, I finally have time to take the kids to the park on weekends! The house is clean and I feel great!",
+      type: 'consumer',
+      avatar: "https://placehold.co/40x40/e0e7ff/4f46e5?text=Ava",
+      serviceCategory: "home_cleaning",
+      timestamp: Date.now() - 3600000 * 24 * 3, // 3 days ago
+      image: "https://placehold.co/400x200/e0e7ff/4f46e5?text=Clean+House",
+      badge: "First-Timer",
+      likes: 15,
+      comments: 3,
+    },
+    // Mock Provider Story
+    {
+      id: 2,
+      name: "Emily (Sparkle Clean Co.)",
+      title: "Our latest deep clean transformation!",
+      content:
+        "Check out the amazing results from our team's deep clean project today. We love making homes sparkle! #HomeCleaning #DeepClean #SatisfactionGuaranteed",
+      type: 'provider',
+      avatar: "https://placehold.co/40x40/dbeafe/3b82f6?text=Emily", // Changed to an individual-like avatar
+      serviceCategory: "home_cleaning",
+      timestamp: Date.now() - 3600000 * 24 * 1, // 1 day ago
+      image: "https://placehold.co/400x200/fee2e2/ef4444?text=Sparkle+Clean+Result",
+      likes: 25,
+      comments: 5,
+    },
+    // Another Mock Consumer Story
+    {
+      id: 3,
+      name: "Mark",
+      title: "Appliance fixed, saved a fortune!",
+      content:
+        "My washing machine broke down, but Appliance Pros fixed it quickly and professionally. Saved me from buying a new one! Highly recommend!",
+      type: 'consumer',
+      avatar: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Mark",
+      serviceCategory: "appliance_repair",
+      timestamp: Date.now() - 3600000 * 24 * 2, // 2 days ago
+      likes: 10,
+      comments: 2,
+    },
+  ]);
+
+  const addStory = (story: Omit<Story, "id" | "timestamp" | "avatar" | "likes" | "comments"> & { type: 'consumer' | 'provider'; serviceCategory?: string; image?: string; badge?: string; }) => {
+    const defaultAvatar = story.type === 'consumer' ? "https://placehold.co/40x40/e0e7ff/4f46e5?text=User" : "https://placehold.co/40x40/dbeafe/3b82f6?text=Provider";
+    setStories([...stories, { id: Date.now(), timestamp: Date.now(), avatar: defaultAvatar, likes: 0, comments: 0, ...story }]);
+  };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -62,7 +114,7 @@ export default function App() {
                 />
               )}
               {tab === 'story' && (
-                <StoryWallPage loggedInUserName={loggedInUserName || "Guest"} />
+                <StoryWallPage loggedInUserName={loggedInUserName || "Guest"} stories={stories} addStory={addStory} />
               )}
               {tab === 'services' && (
                 <ServicesPage 
@@ -109,11 +161,13 @@ export default function App() {
                 />
               )}
               {tab === 'mine' && (
-                <MinePage 
+                <MinePage
                   activeOption={mineOption || undefined}
                   onSelectOption={(option) => setMineOption(option)}
                   onBack={() => setMineOption(null)}
-                  onLogout={handleLogout} // Pass the handleLogout function
+                  onLogout={handleLogout}
+                  loggedInUserName={loggedInUserName || "Guest"}
+                  userStories={stories} // Pass the global stories state
                 />
               )}
               {tab === 'notifications' && (

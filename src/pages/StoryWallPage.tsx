@@ -20,62 +20,12 @@ export type Story = {
 
 type Props = {
   loggedInUserName: string;
+  stories: Story[]; // New: array of all stories
+  addStory: (story: Omit<Story, "id" | "timestamp" | "avatar" | "likes" | "comments"> & { type: 'consumer' | 'provider'; serviceCategory?: string; image?: string; badge?: string; }) => void; // New: function to add a story
 };
 
-export default function StoryWallPage({ loggedInUserName }: Props) {
+export default function StoryWallPage({ loggedInUserName, stories, addStory }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [stories, setStories] = useState<Story[]>([
-    {
-      id: 1,
-      name: "Ava",
-      title: "First time outsourcing, relaxing weekend!",
-      content:
-        "After using the weekly cleaning service, I finally have time to take the kids to the park on weekends! The house is clean and I feel great!",
-      type: 'consumer',
-      avatar: "https://placehold.co/40x40/e0e7ff/4f46e5?text=Ava",
-      serviceCategory: "home_cleaning",
-      timestamp: Date.now() - 3600000 * 24 * 3, // 3 days ago
-      image: "https://placehold.co/400x200/e0e7ff/4f46e5?text=Clean+House",
-      badge: "First-Timer",
-      likes: 15,
-      comments: 3,
-    },
-    // Mock Provider Story
-    {
-      id: 2,
-      name: "Emily (Sparkle Clean Co.)",
-      title: "Our latest deep clean transformation!",
-      content:
-        "Check out the amazing results from our team's deep clean project today. We love making homes sparkle! #HomeCleaning #DeepClean #SatisfactionGuaranteed",
-      type: 'provider',
-      avatar: "https://placehold.co/40x40/dbeafe/3b82f6?text=Emily", // Changed to an individual-like avatar
-      serviceCategory: "home_cleaning",
-      timestamp: Date.now() - 3600000 * 24 * 1, // 1 day ago
-      image: "https://placehold.co/400x200/fee2e2/ef4444?text=Sparkle+Clean+Result",
-      likes: 25,
-      comments: 5,
-    },
-    // Another Mock Consumer Story
-    {
-      id: 3,
-      name: "Mark",
-      title: "Appliance fixed, saved a fortune!",
-      content:
-        "My washing machine broke down, but Appliance Pros fixed it quickly and professionally. Saved me from buying a new one! Highly recommend!",
-      type: 'consumer',
-      avatar: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Mark",
-      serviceCategory: "appliance_repair",
-      timestamp: Date.now() - 3600000 * 24 * 2, // 2 days ago
-      likes: 10,
-      comments: 2,
-    },
-  ]);
-
-  const addStory = (story: Omit<Story, "id" | "timestamp" | "avatar" | "likes" | "comments"> & { type: 'consumer' | 'provider'; serviceCategory?: string; image?: string; badge?: string; }) => {
-    // For new stories, we'll assign a default avatar and timestamp.
-    const defaultAvatar = story.type === 'consumer' ? "https://placehold.co/40x40/e0e7ff/4f46e5?text=User" : "https://placehold.co/40x40/fee2e2/ef4444?text=Vendor";
-    setStories([...stories, { id: Date.now(), timestamp: Date.now(), avatar: defaultAvatar, likes: 0, comments: 0, ...story }]);
-  };
 
   const [filterType, setFilterType] = useState<'all' | 'consumer' | 'provider'>('all');
   const [filterCategory, setFilterCategory] = useState<string>('all');

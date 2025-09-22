@@ -1,13 +1,16 @@
-type MineOption = 'orders' | 'profile' | 'settings' | 'about';
+export type MineOption = 'orders' | 'profile' | 'settings' | 'about' | 'my-stories';
 
 type Props = {
   activeOption?: MineOption;
   onSelectOption?: (option: MineOption) => void;
   onBack?: () => void;
   onLogout: () => void; // Add onLogout prop
+  loggedInUserName: string; // New: logged-in user's name
+  userStories: any[]; // New: array of stories posted by the user
 };
+import MyStoriesPage from './MyStoriesPage';
 
-export default function MinePage({ activeOption, onSelectOption, onBack, onLogout }: Props) {
+export default function MinePage({ activeOption, onSelectOption, onBack, onLogout, loggedInUserName, userStories }: Props) {
   if (activeOption) {
     return (
       <div className="p-4 pt-6">
@@ -104,6 +107,9 @@ export default function MinePage({ activeOption, onSelectOption, onBack, onLogou
             </div>
           </div>
         )}
+        {activeOption === 'my-stories' && (
+          <MyStoriesPage onBack={onBack} loggedInUserName={loggedInUserName} userStories={userStories} />
+        )}
       </div>
     );
   }
@@ -140,6 +146,18 @@ export default function MinePage({ activeOption, onSelectOption, onBack, onLogou
           <div>
             <h3 className="font-semibold text-gray-800">My Profile</h3>
             <p className="text-sm text-gray-500">Manage your personal information</p>
+          </div>
+        </button>
+        
+        <button onClick={() => onSelectOption?.('my-stories')} className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center">
+          <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+            <svg className="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-800">My Stories</h3>
+            <p className="text-sm text-gray-500">View your posted stories</p>
           </div>
         </button>
         
