@@ -7,7 +7,7 @@ type Props = {
   onBook: () => void;
 };
 
-export default function ServiceDetailPage({ provider, onBack, onChat, onBook }: Props) {
+export default function ProviderDetailPage({ provider, onBack, onChat, onBook }: Props) {
   return (
     <div className="p-4 pt-6">
       <button onClick={onBack} className="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center">

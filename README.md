@@ -122,7 +122,7 @@ This is the frontend for the Service Industry App, designed to help users effici
 ## References
 
 - `src/App.tsx` – Main app logic, global state, and navigation
-- `src/pages/` – All UI screens, including `ValueDashboardDetailPage.tsx` and `MyStoriesPage.tsx`
+- `src/pages/` – All UI screens, including `ValueDashboardDetailPage.tsx`, `MyStoriesPage.tsx`, and `ProviderDetailPage.tsx`
 - `src/components/BottomNav.tsx` – Navigation bar
 - `src/data.ts` – Data models and mock data for services, vendors, and providers
 

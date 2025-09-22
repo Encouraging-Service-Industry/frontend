@@ -4,8 +4,8 @@ import SplashScreen from './pages/SplashScreen';
 import HomePage from './pages/HomePage';
 import StoryWallPage, { type Story } from './pages/StoryWallPage'; // Import Story type and StoryWallPage
 import ServicesPage from './pages/ServicesPage';
-import ServiceDetailPage from './pages/ServiceDetailPage';
 import ProviderListPage from './pages/ProviderListPage';
+import ProviderDetailPage from './pages/ProviderDetailPage'; // Updated import for ProviderDetailPage
 import VendorsPage from './pages/VendorsPage';
 import VendorDetailPage from './pages/VendorDetailPage';
 import ChatPage from './pages/ChatPage';
@@ -18,7 +18,7 @@ import type { Provider, VendorCompany } from './data';
 import ValueDashboardDetailPage from './pages/ValueDashboardDetailPage'; // Import ValueDashboardDetailPage
 import { type MineOption } from './pages/MinePage'; // Import MineOption type
 
-type Tab = 'splash' | 'home' | 'story' | 'services' | 'service-detail' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login' | 'notifications' | 'value-dashboard-detail'; // Add 'value-dashboard-detail' to Tab type
+type Tab = 'splash' | 'home' | 'story' | 'services' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login' | 'notifications' | 'value-dashboard-detail'; // Add 'value-dashboard-detail' to Tab type
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('login'); // Start at login page initially
@@ -118,12 +118,12 @@ export default function App() {
               )}
               {tab === 'services' && (
                 <ServicesPage 
-                  onOpenProvider={(p) => { setCurrentProvider(p); setTab('service-detail'); }} 
+                  onOpenProvider={(p) => { setCurrentProvider(p); setTab('provider-detail'); }} 
                   preselectedService={currentService}
                 />
               )}
-              {tab === 'service-detail' && currentProvider && (
-                <ServiceDetailPage 
+              {tab === 'provider-detail' && currentProvider && (
+                <ProviderDetailPage 
                   provider={currentProvider}
                   onBack={() => setTab('services')}
                   onChat={() => setTab('chat')}
@@ -134,7 +134,7 @@ export default function App() {
                 <ProviderListPage 
                   serviceTitle={currentService}
                   onBack={() => setTab('home')}
-                  onSelectProvider={(provider) => { setCurrentProvider(provider); setTab('service-detail'); }}
+                  onSelectProvider={(provider) => { setCurrentProvider(provider); setTab('provider-detail'); }}
                 />
               )}
               {tab === 'vendor' && (
@@ -144,19 +144,19 @@ export default function App() {
                 <VendorDetailPage 
                   vendor={currentVendor} 
                   onBack={() => setTab('vendor')}
-                  onOpenProvider={(provider) => { setCurrentProvider(provider); setTab('service-detail'); }}
+                  onOpenProvider={(provider) => { setCurrentProvider(provider); setTab('provider-detail'); }}
                 />
               )}
               {tab === 'chat' && currentProvider && (
                 <ChatPage 
                   providerName={currentProvider.name}
-                  onBack={() => setTab('service-detail')}
+                  onBack={() => setTab('provider-detail')}
                 />
               )}
               {tab === 'booking' && currentProvider && (
                 <BookingFlowPage 
                   provider={currentProvider}
-                  onBack={() => setTab('service-detail')}
+                  onBack={() => setTab('provider-detail')}
                   onComplete={() => setTab('home')}
                 />
               )}
