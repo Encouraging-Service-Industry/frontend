@@ -11,14 +11,16 @@ import VendorDetailPage from './pages/VendorDetailPage';
 import ChatPage from './pages/ChatPage';
 import BookingFlowPage from './pages/BookingFlowPage';
 import MinePage from './pages/MinePage';
+import LoginPage from './pages/LoginPage'; // Import LoginPage
 import BottomNav from './components/BottomNav';
 import type { Provider, VendorCompany } from './data';
 
-type Tab = 'splash' | 'home' | 'story' | 'services' | 'service-detail' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine';
+type Tab = 'splash' | 'home' | 'story' | 'services' | 'service-detail' | 'provider-list' | 'vendor' | 'vendor-detail' | 'provider-detail' | 'chat' | 'booking' | 'mine' | 'login'; // Add 'login' to Tab type
 type MineOption = 'orders' | 'profile' | 'settings' | 'about';
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>('splash');
+  const [tab, setTab] = useState<Tab>('login'); // Start at login page initially
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // New state for authentication
   const [currentProvider, setCurrentProvider] = useState<Provider | null>(null);
   const [currentVendor, setCurrentVendor] = useState<VendorCompany | null>(null);
   const [currentService, setCurrentService] = useState<string>('');
@@ -28,68 +30,74 @@ export default function App() {
     <div className="bg-gray-50 flex flex-col items-center">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl overflow-hidden relative">
         <div className="flex-1 pb-16">
-          {tab === 'splash' && (
-            <SplashScreen onStart={() => setTab('home')} />
-          )}
-          {tab === 'home' && (
-            <HomePage onQuickService={(service) => { setCurrentService(service); setTab('services'); }} />
-          )}
-          {tab === 'story' && (
-            <StoryWallPage />
-          )}
-          {tab === 'services' && (
-            <ServicesPage 
-              onOpenProvider={(p) => { setCurrentProvider(p); setTab('service-detail'); }} 
-              preselectedService={currentService}
-            />
-          )}
-          {tab === 'service-detail' && currentProvider && (
-            <ServiceDetailPage 
-              provider={currentProvider}
-              onBack={() => setTab('services')}
-              onChat={() => setTab('chat')}
-              onBook={() => setTab('booking')}
-            />
-          )}
-          {tab === 'provider-list' && (
-            <ProviderListPage 
-              serviceTitle={currentService}
-              onBack={() => setTab('home')}
-              onSelectProvider={(provider) => { setCurrentProvider(provider); setTab('service-detail'); }}
-            />
-          )}
-          {tab === 'vendor' && (
-            <VendorsPage onOpenCompany={(vendor) => { setCurrentVendor(vendor); setTab('vendor-detail'); }} />
-          )}
-          {tab === 'vendor-detail' && currentVendor && (
-            <VendorDetailPage 
-              vendor={currentVendor} 
-              onBack={() => setTab('vendor')}
-              onOpenProvider={(provider) => { setCurrentProvider(provider); setTab('service-detail'); }}
-            />
-          )}
-          {tab === 'chat' && currentProvider && (
-            <ChatPage 
-              providerName={currentProvider.name}
-              onBack={() => setTab('service-detail')}
-            />
-          )}
-          {tab === 'booking' && currentProvider && (
-            <BookingFlowPage 
-              provider={currentProvider}
-              onBack={() => setTab('service-detail')}
-              onComplete={() => setTab('home')}
-            />
-          )}
-          {tab === 'mine' && (
-            <MinePage 
-              activeOption={mineOption || undefined}
-              onSelectOption={(option) => setMineOption(option)}
-              onBack={() => setMineOption(null)}
-            />
+          {!isAuthenticated ? (
+            <LoginPage onLoginSuccess={() => { setIsAuthenticated(true); setTab('splash'); }} />
+          ) : (
+            <>
+              {tab === 'splash' && (
+                <SplashScreen onStart={() => setTab('home')} />
+              )}
+              {tab === 'home' && (
+                <HomePage onQuickService={(service) => { setCurrentService(service); setTab('services'); }} />
+              )}
+              {tab === 'story' && (
+                <StoryWallPage />
+              )}
+              {tab === 'services' && (
+                <ServicesPage 
+                  onOpenProvider={(p) => { setCurrentProvider(p); setTab('service-detail'); }} 
+                  preselectedService={currentService}
+                />
+              )}
+              {tab === 'service-detail' && currentProvider && (
+                <ServiceDetailPage 
+                  provider={currentProvider}
+                  onBack={() => setTab('services')}
+                  onChat={() => setTab('chat')}
+                  onBook={() => setTab('booking')}
+                />
+              )}
+              {tab === 'provider-list' && (
+                <ProviderListPage 
+                  serviceTitle={currentService}
+                  onBack={() => setTab('home')}
+                  onSelectProvider={(provider) => { setCurrentProvider(provider); setTab('service-detail'); }}
+                />
+              )}
+              {tab === 'vendor' && (
+                <VendorsPage onOpenCompany={(vendor) => { setCurrentVendor(vendor); setTab('vendor-detail'); }} />
+              )}
+              {tab === 'vendor-detail' && currentVendor && (
+                <VendorDetailPage 
+                  vendor={currentVendor} 
+                  onBack={() => setTab('vendor')}
+                  onOpenProvider={(provider) => { setCurrentProvider(provider); setTab('service-detail'); }}
+                />
+              )}
+              {tab === 'chat' && currentProvider && (
+                <ChatPage 
+                  providerName={currentProvider.name}
+                  onBack={() => setTab('service-detail')}
+                />
+              )}
+              {tab === 'booking' && currentProvider && (
+                <BookingFlowPage 
+                  provider={currentProvider}
+                  onBack={() => setTab('service-detail')}
+                  onComplete={() => setTab('home')}
+                />
+              )}
+              {tab === 'mine' && (
+                <MinePage 
+                  activeOption={mineOption || undefined}
+                  onSelectOption={(option) => setMineOption(option)}
+                  onBack={() => setMineOption(null)}
+                />
+              )}
+            </>
           )}
         </div>
-        <BottomNav active={tab as any} onChange={(t) => { setTab(t as Tab); setMineOption(null); if (t !== 'services') setCurrentService(''); }} />
+        {isAuthenticated && <BottomNav active={tab as any} onChange={(t) => { setTab(t as Tab); setMineOption(null); if (t !== 'services') setCurrentService(''); }} />}
       </div>
     </div>
   );
