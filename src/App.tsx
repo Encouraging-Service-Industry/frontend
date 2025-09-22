@@ -45,36 +45,47 @@ export default function App() {
       likes: 15,
       comments: 3,
     },
-    // Mock Provider Story
     {
       id: 2,
-      name: "Emily (Sparkle Clean Co.)",
+      name: "Emily (Sparkle Clean Co.)", // Changed name to Emily
       title: "Our latest deep clean transformation!",
       content:
         "Check out the amazing results from our team's deep clean project today. We love making homes sparkle! #HomeCleaning #DeepClean #SatisfactionGuaranteed",
       type: 'provider',
-      avatar: "https://placehold.co/40x40/dbeafe/3b82f6?text=Emily", // Changed to an individual-like avatar
+      avatar: "https://placehold.co/40x40/dbeafe/3b82f6?text=Emily",
       serviceCategory: "home_cleaning",
       timestamp: Date.now() - 3600000 * 24 * 1, // 1 day ago
       image: "https://placehold.co/400x200/fee2e2/ef4444?text=Sparkle+Clean+Result",
       likes: 25,
       comments: 5,
     },
-    // Another Mock Consumer Story
     {
-      id: 3,
-      name: "Mark",
-      title: "Appliance fixed, saved a fortune!",
+      id: 4, // Unique ID
+      name: "Jane (Sparkle Clean Co.)",
+      title: "Making homes sparkle, one brushstroke at a time!",
       content:
-        "My washing machine broke down, but Appliance Pros fixed it quickly and professionally. Saved me from buying a new one! Highly recommend!",
-      type: 'consumer',
-      avatar: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Mark",
-      serviceCategory: "appliance_repair",
-      timestamp: Date.now() - 3600000 * 24 * 2, // 2 days ago
-      likes: 10,
+        "Just finished a fantastic deep clean in Chaoyang. The client was thrilled! It's so rewarding to bring freshness to homes. #CleaningLife #HappyClient #BeijingServices",
+      type: 'provider',
+      avatar: "https://placehold.co/40x40/e0e7ff/4f46e5?text=Jane",
+      serviceCategory: "home_cleaning",
+      timestamp: Date.now() - 3600000 * 24 * 0.5, // Half a day ago
+      likes: 18,
       comments: 2,
     },
-  ]);
+    {
+       id: 3,
+       name: "Mark",
+       title: "Appliance fixed, saved a fortune!",
+       content:
+         "My washing machine broke down, but Appliance Pros fixed it quickly and professionally. Saved me from buying a new one! Highly recommend!",
+       type: 'consumer',
+       avatar: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Mark",
+       serviceCategory: "appliance_repair",
+       timestamp: Date.now() - 3600000 * 24 * 2, // 2 days ago
+       likes: 10,
+       comments: 2,
+     },
+   ]);
 
   const addStory = (story: Omit<Story, "id" | "timestamp" | "avatar" | "likes" | "comments"> & { type: 'consumer' | 'provider'; serviceCategory?: string; image?: string; badge?: string; }) => {
     const defaultAvatar = story.type === 'consumer' ? "https://placehold.co/40x40/e0e7ff/4f46e5?text=User" : "https://placehold.co/40x40/dbeafe/3b82f6?text=Provider";
@@ -128,6 +139,7 @@ export default function App() {
                   onBack={() => setTab('services')}
                   onChat={() => setTab('chat')}
                   onBook={() => setTab('booking')}
+                  stories={stories} // Pass the global stories state
                 />
               )}
               {tab === 'provider-list' && (

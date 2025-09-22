@@ -24,6 +24,15 @@ export type Provider = {
   certifications?: string[];
   availability?: string[];
   services?: string[];
+  clientReviews?: Review[]; // New: Array of client reviews
+};
+
+export type Review = {
+  id: string;
+  reviewerName: string;
+  rating: number;
+  comment: string;
+  timestamp: number;
 };
 
 export type ServiceCategory = {
@@ -75,6 +84,10 @@ export const providers: Record<string, Provider> = {
     price: 200,
     certifications: ['Background Check'],
     availability: ['Mon', 'Wed', 'Fri'],
+    clientReviews: [
+      { id: 'r1', reviewerName: 'Anna', rating: 5, comment: 'Jane did an outstanding job! My home has never been cleaner. Highly recommend her deep cleaning service.', timestamp: Date.now() - 3600000 * 24 * 7 },
+      { id: 'r2', reviewerName: 'David', rating: 5, comment: 'Punctual, professional, and very thorough. Jane is a gem!', timestamp: Date.now() - 3600000 * 24 * 14 },
+    ],
   },
   mike: {
     id: 'mike',
@@ -90,6 +103,9 @@ export const providers: Record<string, Provider> = {
     price: 180,
     certifications: ['Licensed'],
     availability: ['Tue', 'Thu'],
+    clientReviews: [
+      { id: 'r3', reviewerName: 'Sarah', rating: 4, comment: 'Mike was good, arrived on time and did a solid job. Will book again.', timestamp: Date.now() - 3600000 * 24 * 10 },
+    ],
   },
   sarah: {
     id: 'sarah',
@@ -120,6 +136,10 @@ export const providers: Record<string, Provider> = {
     price: 260,
     certifications: ['Certified Technician'],
     availability: ['Mon', 'Tue', 'Thu'],
+    clientReviews: [
+      { id: 'r4', reviewerName: 'John', rating: 5, comment: 'Leo fixed my fridge in no time! Very knowledgeable and friendly.', timestamp: Date.now() - 3600000 * 24 * 5 },
+      { id: 'r5', reviewerName: 'Emily', rating: 4, comment: 'Good service, a bit pricey but worth it for the quick repair.', timestamp: Date.now() - 3600000 * 24 * 12 },
+    ],
   },
 };
 
