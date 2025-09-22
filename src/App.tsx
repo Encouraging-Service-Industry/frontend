@@ -97,7 +97,7 @@ export default function App() {
             </>
           )}
         </div>
-        {isAuthenticated && <BottomNav active={tab as any} onChange={(t) => { setTab(t as Tab); setMineOption(null); if (t !== 'services') setCurrentService(''); }} />}
+        {isAuthenticated && tab !== 'splash' && <BottomNav active={tab as any} onChange={(t) => { setTab(t as Tab); setMineOption(null); if (t !== 'services') setCurrentService(''); }} />}
       </div>
     </div>
   );
