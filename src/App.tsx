@@ -26,6 +26,11 @@ export default function App() {
   const [currentService, setCurrentService] = useState<string>('');
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
 
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setTab('login');
+  };
+
   return (
     <div className="bg-gray-50 flex flex-col items-center">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl overflow-hidden relative">
@@ -92,6 +97,7 @@ export default function App() {
                   activeOption={mineOption || undefined}
                   onSelectOption={(option) => setMineOption(option)}
                   onBack={() => setMineOption(null)}
+                  onLogout={handleLogout} // Pass the handleLogout function
                 />
               )}
             </>

@@ -4,9 +4,10 @@ type Props = {
   activeOption?: MineOption;
   onSelectOption?: (option: MineOption) => void;
   onBack?: () => void;
+  onLogout: () => void; // Add onLogout prop
 };
 
-export default function MinePage({ activeOption, onSelectOption, onBack }: Props) {
+export default function MinePage({ activeOption, onSelectOption, onBack, onLogout }: Props) {
   if (activeOption) {
     return (
       <div className="p-4 pt-6">
@@ -74,7 +75,12 @@ export default function MinePage({ activeOption, onSelectOption, onBack }: Props
                 <h3 className="font-semibold text-gray-800 mb-2">Payment Methods</h3>
                 <p className="text-sm text-gray-500">Manage your payment information</p>
               </div>
-              <button className="w-full py-3 bg-red-500 text-white font-semibold rounded-full shadow-lg hover:bg-red-600 transition-colors">Log Out</button>
+              <button 
+                onClick={onLogout} // Call onLogout when clicked
+                className="w-full py-3 bg-red-500 text-white font-semibold rounded-full shadow-lg hover:bg-red-600 transition-colors"
+              >
+                Log Out
+              </button>
             </div>
           </div>
         )}
