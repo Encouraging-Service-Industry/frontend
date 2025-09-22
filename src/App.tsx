@@ -23,6 +23,7 @@ type MineOption = 'orders' | 'profile' | 'settings' | 'about';
 export default function App() {
   const [tab, setTab] = useState<Tab>('login'); // Start at login page initially
   const [isAuthenticated, setIsAuthenticated] = useState(false); // New state for authentication
+  const [loggedInUserName, setLoggedInUserName] = useState<string | null>(null); // New state for logged-in user's name
   const [currentProvider, setCurrentProvider] = useState<Provider | null>(null);
   const [currentVendor, setCurrentVendor] = useState<VendorCompany | null>(null);
   const [currentService, setCurrentService] = useState<string>('');
@@ -31,6 +32,7 @@ export default function App() {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setTab('login');
+    setLoggedInUserName(null);
   };
 
   const handleOpenNotifications = () => {
@@ -46,7 +48,7 @@ export default function App() {
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl overflow-hidden relative">
         <div className="flex-1 pb-16">
           {!isAuthenticated ? (
-            <LoginPage onLoginSuccess={() => { setIsAuthenticated(true); setTab('splash'); }} />
+            <LoginPage onLoginSuccess={() => { setIsAuthenticated(true); setTab('splash'); setLoggedInUserName("Anna"); }} />
           ) : (
             <>
               {tab === 'splash' && (
@@ -60,7 +62,7 @@ export default function App() {
                 />
               )}
               {tab === 'story' && (
-                <StoryWallPage />
+                <StoryWallPage loggedInUserName={loggedInUserName || "Guest"} />
               )}
               {tab === 'services' && (
                 <ServicesPage 

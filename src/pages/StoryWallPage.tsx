@@ -18,7 +18,11 @@ export type Story = {
   comments?: number; // New: for future engagement
 };
 
-export default function StoryWallPage() {
+type Props = {
+  loggedInUserName: string;
+};
+
+export default function StoryWallPage({ loggedInUserName }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [stories, setStories] = useState<Story[]>([
     {
@@ -142,6 +146,7 @@ export default function StoryWallPage() {
         <StoryForm 
           onSubmit={(storyData) => addStory({ ...storyData, type: storyData.type === 'consumer' ? 'consumer' : 'provider' })}
           onClose={() => setIsModalOpen(false)}
+          loggedInUserName={loggedInUserName}
         />
       </PostYourStory>
 

@@ -13,10 +13,10 @@ type StoryFormProps = {
     }
   ) => void;
   onClose: () => void;
+  loggedInUserName: string; // New: logged-in user's name
 };
 
-export default function StoryForm({ onSubmit, onClose }: StoryFormProps) {
-  const [name, setName] = useState("");
+export default function StoryForm({ onSubmit, onClose, loggedInUserName }: StoryFormProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [type, setType] = useState<'consumer' | 'provider'>('consumer'); // Default to consumer
@@ -25,20 +25,12 @@ export default function StoryForm({ onSubmit, onClose }: StoryFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ name, title, content, type, serviceCategory: serviceCategory || undefined, image: image || undefined });
+    onSubmit({ name: loggedInUserName, title, content, type, serviceCategory: serviceCategory || undefined, image: image || undefined });
     onClose();
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="text"
-        placeholder="Your Name"
-        className="w-full border rounded-lg p-2"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
       <select 
         value={type}
         onChange={(e) => setType(e.target.value as 'consumer' | 'provider')}
