@@ -20,9 +20,15 @@ This is the frontend for the Service Industry App, designed to help users effici
 
 ### Home Screen
 - Personalized greeting (e.g., "Good Afternoon, Anna")
-- Value Dashboard: Shows time saved by outsourcing
+- Value Dashboard: Shows time saved by outsourcing, with a 'View Details' option to a dedicated page.
 - Smart Recommendations: Suggests services based on user history
 - Quick Access: Popular service icons for fast booking
+
+### Value Dashboard Detail Page
+- Detailed breakdown of time and stress saved.
+- Weekly/monthly gains and impact by service category.
+- Personalized smart recommendations for outsourcing tasks.
+- Displays user achievements and badges.
 
 ### Service Categories
 - Browse service categories (Home Cleaning, Appliance Repair, Errands, Gardening, etc.)
@@ -44,8 +50,11 @@ This is the frontend for the Service Industry App, designed to help users effici
 - Provider and date info
 
 ### Community Story Wall
-- Social feed of user stories and achievements
-- "Share Your Story" button
+- Social feed of user stories and achievements, including posts from individual service providers.
+- Filter stories by user type (consumer/provider) and service category.
+- Support for images in stories, with engagement icons (likes, comments).
+- "Post Your Story" button, automatically associating the logged-in user's name.
+- Features a "Trending Stories" section to highlight popular content.
 - Badges for milestones (e.g., "First-Timer")
 
 ### Vendors
@@ -54,6 +63,15 @@ This is the frontend for the Service Industry App, designed to help users effici
 
 ### Profile
 - User info, contact, version, and "About Us"
+
+### Mine Page
+- Personal dashboard for the user.
+- Includes options for "My Orders," "My Profile," "Settings," "About Us,"
+- New: "My Stories" option to view all stories posted by the user.
+
+### My Stories Page
+- Dedicated section within the Mine page to view all stories posted by the logged-in user.
+- Displays stories with rich media and engagement details, sorted by latest.
 
 ### Chat
 - Direct chat interface with providers
@@ -65,13 +83,16 @@ This is the frontend for the Service Industry App, designed to help users effici
 
 - Vendors, providers, and service categories are defined in `src/data.ts`.
 - Each provider and vendor includes ratings, reviews, description, certifications, and coverage areas.
+- Story data is now managed globally in `App.tsx` for consistency across Story Wall and My Stories pages.
 
 ## How It Works
 
 - **React SPA**: The app uses React for all main flows. State is managed via hooks in `App.tsx`.
+- **Global State Management**: Key application state, including user authentication and `stories` data, is managed centrally in `App.tsx` and passed down as props.
 - **Navigation**: Tab state controls which screen is shown. BottomNav updates the tab.
 - **Booking**: Booking flow is step-based, with validation and summary before confirmation.
-- **Filtering**: Service and provider lists can be filtered and sorted.
+- **Filtering**: Service and provider lists can be filtered and sorted, as well as stories on the Story Wall.
+- **User Context**: The `loggedInUserName` is maintained in `App.tsx` state and used for automatic naming in story posts and filtering in "My Stories."
 - **Prototyping**: HTML files (`consumer-UI-demo.html`, `tenplateui.html`) provide static UI references and can be used for rapid design iteration.
 
 ## Getting Started
@@ -96,13 +117,14 @@ This is the frontend for the Service Industry App, designed to help users effici
 - Update service categories, vendors, and providers in `src/data.ts`.
 - UI can be themed via Tailwind CSS classes.
 - Add new screens or flows in `src/pages/`.
+- Modify mock stories and user data in `App.tsx` for demo purposes.
 
 ## References
 
-- `src/App.tsx` – Main app logic and navigation
-- `src/pages/` – All UI screens
+- `src/App.tsx` – Main app logic, global state, and navigation
+- `src/pages/` – All UI screens, including `ValueDashboardDetailPage.tsx` and `MyStoriesPage.tsx`
 - `src/components/BottomNav.tsx` – Navigation bar
-- `src/data.ts` – Data models and mock data
+- `src/data.ts` – Data models and mock data for services, vendors, and providers
 
 ---
 
