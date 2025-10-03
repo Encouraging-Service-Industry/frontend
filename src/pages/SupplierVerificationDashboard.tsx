@@ -60,7 +60,7 @@ export default function SupplierVerificationDashboard({
         Track your progress and upload required documents to earn trust badges.
       </p>
 
-      <div className="bg-white rounded-2xl shadow p-5 mb-6 border border-gray-100">
+      <div className="bg-white rounded-2xl shadow p-5 mb-6 border border-gray-100 max-w-sm mx-auto">
         <div className="flex items-center justify-between mb-3">
           <span className="font-medium text-gray-800">Profile Completion</span>
           <span className="text-sm text-gray-600">{completionPercent}%</span>
@@ -73,7 +73,7 @@ export default function SupplierVerificationDashboard({
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 max-w-sm mx-auto">
         <div className="bg-white rounded-xl border p-4 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
@@ -140,7 +140,7 @@ export default function SupplierVerificationDashboard({
         </div>
       </div>
 
-      <div className="bg-indigo-50 rounded-xl border border-indigo-100 p-4 mt-6">
+      <div className="bg-indigo-50 rounded-xl border border-indigo-100 p-4 mt-6 max-w-sm mx-auto">
         <p className="text-sm text-indigo-900 font-medium mb-2">
           Badges Earned
         </p>
@@ -157,7 +157,7 @@ export default function SupplierVerificationDashboard({
         </div>
       </div>
 
-      <div className="bg-amber-50 rounded-xl border border-amber-100 p-4 mt-4">
+      <div className="bg-amber-50 rounded-xl border border-amber-100 p-4 mt-4 max-w-sm mx-auto">
         <p className="text-sm text-amber-900 font-medium">
           Pending Notifications
         </p>
@@ -169,7 +169,7 @@ export default function SupplierVerificationDashboard({
 
       <button
         onClick={onOpenPortfolioSetup}
-        className="w-full mt-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow hover:bg-indigo-700"
+        className="w-full mt-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow hover:bg-indigo-700 max-w-sm mx-auto block"
       >
         Continue
       </button>

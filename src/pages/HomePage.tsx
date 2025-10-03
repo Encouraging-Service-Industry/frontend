@@ -83,41 +83,28 @@ export default function HomePage({
     }
   };
   return (
-    <div className="p-4 pt-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800">
-          Good Afternoon, Anna
-        </h2>
-        <button
-          onClick={onOpenNotifications}
-          className="text-gray-500 hover:text-gray-800 transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 17h5l-1.405-1.405A2.032 2032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-            />
-          </svg>
-        </button>
+    <div className="space-y-8">
+      {/* Hero Section */}
+      <div className="text-center">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          Welcome back, Anna
+        </h1>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          Find the perfect service providers for your needs. Save time, get
+          quality work done.
+        </p>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl mb-6 shadow-md">
-        <h3 className="font-semibold text-lg text-gray-800 mb-3">
+      {/* Search Section */}
+      <div className="card p-8 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           Find Services Quickly
-        </h3>
-        <div className="space-y-4">
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <select
             value={selectedService}
             onChange={(e) => setSelectedService(e.target.value)}
-            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+            className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700"
           >
             <option value="">Select a Service</option>
             {Object.values(servicesData).map((service) => (
@@ -130,7 +117,7 @@ export default function HomePage({
           <select
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
-            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+            className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700"
           >
             <option value="">All Locations</option>
             <option>Helsinki</option>
@@ -140,146 +127,167 @@ export default function HomePage({
 
           <button
             onClick={handleQuickSearch}
-            className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-700 transition-colors"
+            className="btn-primary py-3 text-lg font-semibold"
           >
             Search Services
           </button>
         </div>
       </div>
 
-      <div className="bg-emerald-50 p-5 rounded-2xl mb-6 shadow-sm border border-emerald-200">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="font-semibold text-emerald-900 mb-1">
+      {/* Dashboard Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {/* Value Dashboard */}
+        <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl shadow-lg relative">
+          <button
+            onClick={onOpenValueDashboardDetail}
+            className="absolute top-4 right-4 text-indigo-700 hover:text-indigo-900 transition-colors"
+            aria-label="View Value Dashboard details"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+              />
+            </svg>
+          </button>
+          <h3 className="text-2xl font-bold text-indigo-900 mb-4">
+            Your Value Dashboard
+          </h3>
+          <div className="flex items-center mb-4">
+            <span className="text-6xl font-bold text-indigo-700">5</span>
+            <span className="text-2xl text-indigo-500 ml-3">hours saved</span>
+          </div>
+          <div className="w-full bg-indigo-200 rounded-full h-3 mb-6">
+            <div
+              className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
+              style={{ width: "75%" }}
+            />
+          </div>
+          <p className="text-indigo-900 font-medium text-lg">
+            This is equivalent to...{" "}
+            <span className="text-indigo-600 font-bold">
+              one family dinner + one bedtime story
+            </span>
+          </p>
+        </div>
+
+        {/* Supplier CTA */}
+        <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl shadow-lg">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-emerald-900 mb-4">
               Are you a supplier?
             </h3>
-            <p className="text-sm text-emerald-900">
-              Get verified to earn trust badges and grow bookings.
+            <p className="text-emerald-800 mb-6 text-lg">
+              Get verified to earn trust badges and grow your bookings.
             </p>
+            <button
+              onClick={onOpenSupplierWelcome}
+              className="bg-emerald-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-emerald-700 transition-colors"
+            >
+              Get Verified
+            </button>
           </div>
-          <button
-            onClick={onOpenSupplierWelcome}
-            className="px-3 py-2 bg-emerald-600 text-white rounded-full text-sm font-semibold hover:bg-emerald-700"
-          >
-            Get Verified
-          </button>
         </div>
-      </div>
-      <div className="bg-indigo-50 p-6 rounded-2xl mb-6 shadow-md relative">
-        <button
-          onClick={onOpenValueDashboardDetail}
-          className="absolute top-4 right-4 text-indigo-700 hover:text-indigo-900 transition-colors"
-          aria-label="View Value Dashboard details"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-            />
-          </svg>
-        </button>
-        <h3 className="font-semibold text-lg text-indigo-900 mb-2">
-          Your Value Dashboard
-        </h3>
-        <div className="flex items-center mb-2">
-          <span className="text-5xl font-bold text-indigo-700">5 hours</span>
-          <span className="text-xl text-indigo-500 ml-2">saved</span>
-        </div>
-        <div className="w-full bg-indigo-200 rounded-full h-2.5 mb-4">
-          <div
-            className="bg-indigo-600 h-2.5 rounded-full"
-            style={{ width: "75%" }}
-          />
-        </div>
-        <p className="text-indigo-900 font-medium">
-          This is equivalent to...{" "}
-          <span className="text-indigo-600 font-bold">
-            one family dinner + one bedtime story
-          </span>
-        </p>
       </div>
 
       {/* Social Proof Banner */}
-      <div className="bg-blue-50 p-4 rounded-xl mb-6 shadow-sm border border-blue-200 text-center">
-        <p className="text-blue-800 font-medium text-sm">
-          Join <span className="font-bold">1200+ happy users</span> in Helsinki
-          who outsource tasks! 🎉
+      <div className="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-200 text-center max-w-4xl mx-auto">
+        <p className="text-blue-800 font-medium text-lg">
+          Join <span className="font-bold text-xl">1200+ happy users</span> in
+          Helsinki who outsource tasks! 🎉
         </p>
       </div>
 
-      <h3 className="font-semibold text-lg text-gray-800 mb-4">
-        Smart Recommendations
-      </h3>
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col items-center text-center">
-        <span className="text-4xl mb-3">{currentRecommendation.icon}</span>
-        <h4 className="font-medium text-gray-800 text-lg mb-2">
-          {currentRecommendation.title}
-        </h4>
-        <p className="text-sm text-gray-600 mb-4">
-          {currentRecommendation.description}
-        </p>
-        <button
-          onClick={() =>
-            onQuickService?.(currentRecommendation.serviceId, selectedLocation)
-          }
-          className="mt-auto py-2 px-4 bg-indigo-600 text-white font-semibold rounded-full shadow-md hover:bg-indigo-700 transition-colors"
-        >
-          {currentRecommendation.buttonText} →
-        </button>
+      {/* Smart Recommendation */}
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          Smart Recommendations
+        </h2>
+        <div className="card p-8 text-center">
+          <span className="text-6xl mb-6 block">
+            {currentRecommendation.icon}
+          </span>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            {currentRecommendation.title}
+          </h3>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            {currentRecommendation.description}
+          </p>
+          <button
+            onClick={() =>
+              onQuickService?.(
+                currentRecommendation.serviceId,
+                selectedLocation
+              )
+            }
+            className="btn-primary px-8 py-3 text-lg"
+          >
+            {currentRecommendation.buttonText} →
+          </button>
+        </div>
       </div>
 
-      <h3 className="font-semibold text-lg text-gray-800 mb-4">
-        Popular Services
-      </h3>
-      <div className="grid grid-cols-4 gap-4 text-center">
-        <button
-          onClick={() => onQuickService?.("home_cleaning", selectedLocation)}
-          className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-        >
-          <img
-            src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Clean"
-            className="mb-1 rounded-full"
-          />
-          <span className="text-xs text-gray-600">Home Cleaning</span>
-        </button>
-        <button
-          onClick={() => onQuickService?.("appliance_repair", selectedLocation)}
-          className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-        >
-          <img
-            src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Repair"
-            className="mb-1 rounded-full"
-          />
-          <span className="text-xs text-gray-600">Appliance Repair</span>
-        </button>
-        <button
-          onClick={() => onQuickService?.("errands", selectedLocation)}
-          className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-        >
-          <img
-            src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Errand"
-            className="mb-1 rounded-full"
-          />
-          <span className="text-xs text-gray-600">Errand Service</span>
-        </button>
-        <button
-          onClick={() => onQuickService?.("gardening", selectedLocation)}
-          className="flex flex-col items-center p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-        >
-          <img
-            src="https://placehold.co/40x40/f1f5f9/4f46e5?text=Garden"
-            className="mb-1 rounded-full"
-          />
-          <span className="text-xs text-gray-600">Gardening</span>
-        </button>
+      {/* Popular Services */}
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          Popular Services
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <button
+            onClick={() => onQuickService?.("home_cleaning", selectedLocation)}
+            className="card p-6 text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Clean"
+              className="mb-4 rounded-full mx-auto"
+              alt="Home Cleaning"
+            />
+            <span className="text-gray-700 font-medium">Home Cleaning</span>
+          </button>
+          <button
+            onClick={() =>
+              onQuickService?.("appliance_repair", selectedLocation)
+            }
+            className="card p-6 text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Repair"
+              className="mb-4 rounded-full mx-auto"
+              alt="Appliance Repair"
+            />
+            <span className="text-gray-700 font-medium">Appliance Repair</span>
+          </button>
+          <button
+            onClick={() => onQuickService?.("errands", selectedLocation)}
+            className="card p-6 text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Errand"
+              className="mb-4 rounded-full mx-auto"
+              alt="Errand Service"
+            />
+            <span className="text-gray-700 font-medium">Errand Service</span>
+          </button>
+          <button
+            onClick={() => onQuickService?.("gardening", selectedLocation)}
+            className="card p-6 text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Garden"
+              className="mb-4 rounded-full mx-auto"
+              alt="Gardening"
+            />
+            <span className="text-gray-700 font-medium">Gardening</span>
+          </button>
+        </div>
       </div>
     </div>
   );
