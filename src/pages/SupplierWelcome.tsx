@@ -55,9 +55,9 @@ export default function SupplierWelcome({
         more bookings.
       </p>
 
-      <div className="bg-white rounded-2xl shadow-md p-5 mb-6 border border-gray-100">
+      <div className="bg-white rounded-lg shadow-sm p-3 mb-4 border border-gray-100 max-w-sm mx-auto">
         <h2 className="font-semibold text-gray-800 mb-3">Quick Sign-Up</h2>
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div>
             <input
               placeholder="Email"
@@ -65,7 +65,7 @@ export default function SupplierWelcome({
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => setTouched((v) => ({ ...v, email: true }))}
               aria-invalid={touched.email && !emailValid}
-              className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+              className={`w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 touched.email && !emailValid
                   ? "border-red-400"
                   : "border-gray-300"
@@ -85,7 +85,7 @@ export default function SupplierWelcome({
               onChange={(e) => setPassword(e.target.value)}
               onBlur={() => setTouched((v) => ({ ...v, password: true }))}
               aria-invalid={touched.password && !passwordValid}
-              className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+              className={`w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 touched.password && !passwordValid
                   ? "border-red-400"
                   : "border-gray-300"
@@ -98,7 +98,7 @@ export default function SupplierWelcome({
           <button
             onClick={handleSubmit}
             disabled={!formValid}
-            className={`w-full py-3 font-semibold rounded-xl shadow ${
+            className={`w-full py-2 font-semibold rounded-lg shadow ${
               formValid
                 ? "bg-indigo-600 text-white hover:bg-indigo-700"
                 : "bg-gray-200 text-gray-500 cursor-not-allowed"
@@ -109,39 +109,39 @@ export default function SupplierWelcome({
         </div>
       </div>
 
-      <div className="bg-indigo-50 rounded-2xl p-5 border border-indigo-100">
+      <div className="bg-indigo-50 rounded-lg p-3 border border-indigo-100 max-w-sm mx-auto">
         <h3 className="font-semibold text-indigo-900 mb-3">
           Your Verification Path
         </h3>
-        <ol className="space-y-3">
-          <li className="flex items-start gap-3">
-            <span className="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center">
+        <ol className="space-y-2">
+          <li className="flex items-start gap-2">
+            <span className="w-4 h-4 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center">
               1
             </span>
             <div>
-              <p className="font-medium text-gray-900">Basic Info</p>
+              <p className="font-medium text-gray-900 text-sm">Basic Info</p>
               <p className="text-sm text-gray-600">
                 Tell us about you and your business.
               </p>
             </div>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="w-6 h-6 rounded-full bg-gray-300 text-gray-800 text-xs flex items-center justify-center">
+          <li className="flex items-start gap-2">
+            <span className="w-4 h-4 rounded-full bg-gray-300 text-gray-800 text-xs flex items-center justify-center">
               2
             </span>
             <div>
-              <p className="font-medium text-gray-900">Verification</p>
+              <p className="font-medium text-gray-900 text-sm">Verification</p>
               <p className="text-sm text-gray-600">
                 Upload IDs, licenses, and complete checks.
               </p>
             </div>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="w-6 h-6 rounded-full bg-gray-300 text-gray-800 text-xs flex items-center justify-center">
+          <li className="flex items-start gap-2">
+            <span className="w-4 h-4 rounded-full bg-gray-300 text-gray-800 text-xs flex items-center justify-center">
               3
             </span>
             <div>
-              <p className="font-medium text-gray-900">Approval</p>
+              <p className="font-medium text-gray-900 text-sm">Approval</p>
               <p className="text-sm text-gray-600">
                 Get approved and start showcasing services.
               </p>

@@ -35,8 +35,8 @@ export default function SupplierPortfolioSetup({ onBack }: Props) {
         Showcase your verified badges, best work and qualifications.
       </p>
 
-      <div className="bg-indigo-50 rounded-2xl p-5 border border-indigo-100 mb-5">
-        <p className="text-sm text-indigo-900 font-medium mb-3">
+      <div className="bg-indigo-50 rounded-2xl p-5 border border-indigo-100 mb-5 max-w-sm mx-auto">
+        <p className="text-base text-indigo-900 font-medium mb-3">
           Verified Badges
         </p>
         <div className="flex flex-wrap gap-2">
@@ -52,7 +52,7 @@ export default function SupplierPortfolioSetup({ onBack }: Props) {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100 mb-5">
+      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100 mb-5 max-w-sm mx-auto">
         <h2 className="font-semibold text-gray-900 mb-3">Service media</h2>
         <div className="grid grid-cols-3 gap-3 mb-3">
           <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center text-gray-400">
@@ -70,7 +70,7 @@ export default function SupplierPortfolioSetup({ onBack }: Props) {
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100 mb-5">
+      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100 mb-5 max-w-sm mx-auto">
         <h2 className="font-semibold text-gray-900 mb-3">Certifications</h2>
         <div className="flex flex-wrap gap-2 mb-3">
           <span className="px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-700">
@@ -85,7 +85,7 @@ export default function SupplierPortfolioSetup({ onBack }: Props) {
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100 mb-5">
+      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100 mb-5 max-w-sm mx-auto">
         <h2 className="font-semibold text-gray-900 mb-2">Trust score</h2>
         <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
           <div
@@ -98,7 +98,7 @@ export default function SupplierPortfolioSetup({ onBack }: Props) {
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100">
+      <div className="bg-white rounded-2xl shadow p-5 border border-gray-100 max-w-sm mx-auto">
         <h2 className="font-semibold text-gray-900 mb-3">Reviews</h2>
         <p className="text-sm text-gray-600 mb-3">
           Collect your first reviews by inviting past clients.

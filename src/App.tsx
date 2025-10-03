@@ -11,7 +11,6 @@ import BookingFlowPage from "./pages/BookingFlowPage";
 import MinePage from "./pages/MinePage";
 import LoginPage from "./pages/LoginPage"; // Import LoginPage
 import NotificationsPage from "./pages/NotificationsPage"; // Import NotificationsPage
-import BottomNav from "./components/BottomNav";
 import type { Provider, VendorCompany } from "./data"; // Re-import VendorCompany
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
@@ -171,10 +170,145 @@ export default function App() {
   };
 
   return (
-    <div className="bg-gray-50 flex flex-col items-center">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl overflow-hidden relative">
-        <div className="flex-1 pb-16">
-          {!isAuthenticated ? (
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Navigation Header */}
+      {isAuthenticated && tab !== "splash" && !isSupplierTab && (
+        <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo/Brand */}
+              <div className="flex items-center">
+                <button
+                  onClick={() => setTab("home")}
+                  className="text-2xl font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                >
+                  ServiceHub
+                </button>
+              </div>
+
+              {/* Main Navigation */}
+              <div className="hidden md:flex space-x-8">
+                <button
+                  onClick={() => {
+                    setTab("home");
+                    setMineOption(null);
+                    setCurrentService("");
+                  }}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    tab === "home"
+                      ? "text-indigo-600 bg-indigo-50"
+                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => {
+                    setTab("story");
+                    setMineOption(null);
+                    setCurrentService("");
+                  }}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    tab === "story"
+                      ? "text-indigo-600 bg-indigo-50"
+                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Story Wall
+                </button>
+                <button
+                  onClick={() => {
+                    setTab("services");
+                    setMineOption(null);
+                  }}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    tab === "services"
+                      ? "text-indigo-600 bg-indigo-50"
+                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Services
+                </button>
+                <button
+                  onClick={() => {
+                    setTab("mine");
+                    setMineOption(null);
+                    setCurrentService("");
+                  }}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    tab === "mine"
+                      ? "text-indigo-600 bg-indigo-50"
+                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Profile
+                </button>
+              </div>
+
+              {/* Right side - Notifications & User Menu */}
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={handleOpenNotifications}
+                  className="text-gray-500 hover:text-gray-800 transition-colors relative"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                    />
+                  </svg>
+                  {/* Notification badge */}
+                  <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
+                </button>
+
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-gray-700">
+                    Welcome, {loggedInUserName || "Guest"}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+
+              {/* Mobile menu button */}
+              <div className="md:hidden">
+                <button className="text-gray-600 hover:text-gray-800">
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      )}
+
+      {/* Main Content Area */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {!isAuthenticated ? (
+          <div className="max-w-md mx-auto">
             <LoginPage
               onLoginSuccess={() => {
                 setIsAuthenticated(true);
@@ -182,153 +316,143 @@ export default function App() {
                 setLoggedInUserName("Anna");
               }}
             />
-          ) : (
-            <>
-              {tab === "splash" && (
-                <SplashScreen onStart={() => setTab("home")} />
-              )}
-              {tab === "home" && (
-                <HomePage
-                  onQuickService={(serviceId: string, location: string) => {
-                    setCurrentService(serviceId);
-                    setPreselectedLocation(location);
-                    setTab("services");
-                  }}
-                  onOpenNotifications={handleOpenNotifications}
-                  onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
-                  onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
-                  onOpenSupplierWelcome={() => setTab("supplier-welcome")}
-                />
-              )}
-              {tab === "supplier-welcome" && (
-                <SupplierWelcome
-                  onStartVerification={() => {
-                    setIsSupplierMode(true);
-                    setTab("supplier-dashboard");
-                  }}
-                  onBack={() => setTab("home")}
-                />
-              )}
-              {tab === "supplier-dashboard" && (
-                <SupplierVerificationDashboard
-                  onOpenQualificationReview={() =>
-                    setTab("supplier-qualification")
-                  }
-                  onOpenBackgroundCheck={() => setTab("supplier-background")}
-                  onOpenPortfolioSetup={() => setTab("supplier-portfolio")}
-                  onBack={() => setTab("supplier-welcome")}
-                />
-              )}
-              {tab === "supplier-qualification" && (
-                <SupplierQualificationReview
-                  onBack={() => setTab("supplier-dashboard")}
-                  onContactSupport={() => setTab("supplier-notifications")}
-                />
-              )}
-              {tab === "supplier-background" && (
-                <SupplierBackgroundCheck
-                  onBack={() => setTab("supplier-dashboard")}
-                />
-              )}
-              {tab === "supplier-portfolio" && (
-                <SupplierPortfolioSetup
-                  onBack={() => setTab("supplier-dashboard")}
-                />
-              )}
-              {tab === "supplier-notifications" && (
-                <SupplierNotifications
-                  onBack={() => setTab("supplier-dashboard")}
-                />
-              )}
-              {tab === "story" && (
-                <StoryWallPage
-                  loggedInUserName={loggedInUserName || "Guest"}
-                  stories={stories}
-                  addStory={addStory}
-                />
-              )}
-              {tab === "services" && (
-                <ServicesPage
-                  onOpenProvider={(p) => {
-                    setCurrentProvider(p);
-                    setTab("provider-detail");
-                  }}
-                  preselectedService={currentService}
-                  preselectedLocation={preselectedLocation}
-                  onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
-                />
-              )}
-              {tab === "provider-detail" && currentProvider && (
-                <ProviderDetailPage
-                  provider={currentProvider}
-                  onBack={() => setTab("services")}
-                  onChat={() => setTab("chat")}
-                  onBook={() => setTab("booking")}
-                  stories={stories} // Pass the global stories state
-                  onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
-                />
-              )}
-              {tab === "provider-list" && (
-                <ProviderListPage
-                  serviceTitle={currentService}
-                  onBack={() => setTab("home")}
-                  onSelectProvider={(provider) => {
-                    setCurrentProvider(provider);
-                    setTab("provider-detail");
-                  }}
-                />
-              )}
-              {tab === "chat" && currentProvider && (
-                <ChatPage
-                  providerName={currentProvider.name}
-                  onBack={() => setTab("provider-detail")}
-                />
-              )}
-              {tab === "booking" && currentProvider && (
-                <BookingFlowPage
-                  provider={currentProvider}
-                  onBack={() => setTab("provider-detail")}
-                  onComplete={() => setTab("home")}
-                />
-              )}
-              {tab === "mine" && (
-                <MinePage
-                  activeOption={mineOption || undefined}
-                  onSelectOption={(option) => setMineOption(option)}
-                  onBack={() => setMineOption(null)}
-                  onLogout={handleLogout}
-                  loggedInUserName={loggedInUserName || "Guest"}
-                  userStories={stories} // Pass the global stories state
-                />
-              )}
-              {tab === "notifications" && <NotificationsPage />}
-              {tab === "value-dashboard-detail" && (
-                <ValueDashboardDetailPage onBack={() => setTab("home")} />
-              )}
-              {tab === "vendor-detail-view" && currentVendor && (
-                <VendorDetailPage
-                  vendor={currentVendor}
-                  onBack={() => setTab("services")} // Go back to services after viewing vendor detail
-                  onOpenProvider={(provider) => {
-                    setCurrentProvider(provider);
-                    setTab("provider-detail");
-                  }} // Allow drilling down to provider from vendor page
-                />
-              )}
-            </>
-          )}
-        </div>
-        {isAuthenticated && tab !== "splash" && !isSupplierTab && (
-          <BottomNav
-            active={tab as any}
-            onChange={(t) => {
-              setTab(t as Tab);
-              setMineOption(null);
-              if (t !== "services") setCurrentService("");
-            }}
-          />
+          </div>
+        ) : (
+          <div className="w-full">
+            {tab === "splash" && (
+              <SplashScreen onStart={() => setTab("home")} />
+            )}
+            {tab === "home" && (
+              <HomePage
+                onQuickService={(serviceId: string, location: string) => {
+                  setCurrentService(serviceId);
+                  setPreselectedLocation(location);
+                  setTab("services");
+                }}
+                onOpenNotifications={handleOpenNotifications}
+                onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
+                onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
+                onOpenSupplierWelcome={() => setTab("supplier-welcome")}
+              />
+            )}
+            {tab === "supplier-welcome" && (
+              <SupplierWelcome
+                onStartVerification={() => {
+                  setIsSupplierMode(true);
+                  setTab("supplier-dashboard");
+                }}
+                onBack={() => setTab("home")}
+              />
+            )}
+            {tab === "supplier-dashboard" && (
+              <SupplierVerificationDashboard
+                onOpenQualificationReview={() =>
+                  setTab("supplier-qualification")
+                }
+                onOpenBackgroundCheck={() => setTab("supplier-background")}
+                onOpenPortfolioSetup={() => setTab("supplier-portfolio")}
+                onBack={() => setTab("supplier-welcome")}
+              />
+            )}
+            {tab === "supplier-qualification" && (
+              <SupplierQualificationReview
+                onBack={() => setTab("supplier-dashboard")}
+                onContactSupport={() => setTab("supplier-notifications")}
+              />
+            )}
+            {tab === "supplier-background" && (
+              <SupplierBackgroundCheck
+                onBack={() => setTab("supplier-dashboard")}
+              />
+            )}
+            {tab === "supplier-portfolio" && (
+              <SupplierPortfolioSetup
+                onBack={() => setTab("supplier-dashboard")}
+              />
+            )}
+            {tab === "supplier-notifications" && (
+              <SupplierNotifications
+                onBack={() => setTab("supplier-dashboard")}
+              />
+            )}
+            {tab === "story" && (
+              <StoryWallPage
+                loggedInUserName={loggedInUserName || "Guest"}
+                stories={stories}
+                addStory={addStory}
+              />
+            )}
+            {tab === "services" && (
+              <ServicesPage
+                onOpenProvider={(p) => {
+                  setCurrentProvider(p);
+                  setTab("provider-detail");
+                }}
+                preselectedService={currentService}
+                preselectedLocation={preselectedLocation}
+                onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
+              />
+            )}
+            {tab === "provider-detail" && currentProvider && (
+              <ProviderDetailPage
+                provider={currentProvider}
+                onBack={() => setTab("services")}
+                onChat={() => setTab("chat")}
+                onBook={() => setTab("booking")}
+                stories={stories} // Pass the global stories state
+                onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
+              />
+            )}
+            {tab === "provider-list" && (
+              <ProviderListPage
+                serviceTitle={currentService}
+                onBack={() => setTab("home")}
+                onSelectProvider={(provider) => {
+                  setCurrentProvider(provider);
+                  setTab("provider-detail");
+                }}
+              />
+            )}
+            {tab === "chat" && currentProvider && (
+              <ChatPage
+                providerName={currentProvider.name}
+                onBack={() => setTab("provider-detail")}
+              />
+            )}
+            {tab === "booking" && currentProvider && (
+              <BookingFlowPage
+                provider={currentProvider}
+                onBack={() => setTab("provider-detail")}
+                onComplete={() => setTab("home")}
+              />
+            )}
+            {tab === "mine" && (
+              <MinePage
+                activeOption={mineOption || undefined}
+                onSelectOption={(option) => setMineOption(option)}
+                onBack={() => setMineOption(null)}
+                onLogout={handleLogout}
+                loggedInUserName={loggedInUserName || "Guest"}
+                userStories={stories} // Pass the global stories state
+              />
+            )}
+            {tab === "notifications" && <NotificationsPage />}
+            {tab === "value-dashboard-detail" && (
+              <ValueDashboardDetailPage onBack={() => setTab("home")} />
+            )}
+            {tab === "vendor-detail-view" && currentVendor && (
+              <VendorDetailPage
+                vendor={currentVendor}
+                onBack={() => setTab("services")} // Go back to services after viewing vendor detail
+                onOpenProvider={(provider) => {
+                  setCurrentProvider(provider);
+                  setTab("provider-detail");
+                }} // Allow drilling down to provider from vendor page
+              />
+            )}
+          </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
