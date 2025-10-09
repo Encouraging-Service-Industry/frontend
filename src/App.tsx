@@ -21,6 +21,7 @@ import SupplierQualificationReview from "./pages/SupplierQualificationReview";
 import SupplierBackgroundCheck from "./pages/SupplierBackgroundCheck";
 import SupplierPortfolioSetup from "./pages/SupplierPortfolioSetup";
 import SupplierNotifications from "./pages/SupplierNotifications";
+import LocationTrackingPage from "./pages/LocationTrackingPage";
 
 type Tab =
   | "splash"
@@ -41,7 +42,8 @@ type Tab =
   | "supplier-qualification"
   | "supplier-background"
   | "supplier-portfolio"
-  | "supplier-notifications";
+  | "supplier-notifications"
+  | "location-tracking";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("login"); // Start at login page initially
@@ -55,6 +57,7 @@ export default function App() {
   const [preselectedLocation, setPreselectedLocation] = useState<string>(""); // New state for preselected location
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
   const [isSupplierMode, setIsSupplierMode] = useState(false);
+  const [currentBookingId, setCurrentBookingId] = useState<string>(""); // New state for booking ID
   const isSupplierTab =
     tab === "supplier-welcome" ||
     tab === "supplier-dashboard" ||
@@ -194,7 +197,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
                     tab === "home"
                       ? "text-indigo-600 bg-indigo-50"
                       : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
@@ -208,7 +211,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
                     tab === "story"
                       ? "text-indigo-600 bg-indigo-50"
                       : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
@@ -221,7 +224,7 @@ export default function App() {
                     setTab("services");
                     setMineOption(null);
                   }}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
                     tab === "services"
                       ? "text-indigo-600 bg-indigo-50"
                       : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
@@ -235,7 +238,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
                     tab === "mine"
                       ? "text-indigo-600 bg-indigo-50"
                       : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
@@ -424,6 +427,10 @@ export default function App() {
                 provider={currentProvider}
                 onBack={() => setTab("provider-detail")}
                 onComplete={() => setTab("home")}
+                onStartTracking={() => {
+                  setCurrentBookingId("booking-" + Date.now());
+                  setTab("location-tracking");
+                }}
               />
             )}
             {tab === "mine" && (
@@ -448,6 +455,20 @@ export default function App() {
                   setCurrentProvider(provider);
                   setTab("provider-detail");
                 }} // Allow drilling down to provider from vendor page
+              />
+            )}
+            {tab === "location-tracking" && currentProvider && (
+              <LocationTrackingPage
+                provider={{
+                  name: currentProvider.name,
+                  avatar: currentProvider.avatar,
+                  phone: currentProvider.phone || "+358 40 123 4567",
+                  rating: currentProvider.rating,
+                  service: currentProvider.service || "Service",
+                }}
+                bookingId={currentBookingId}
+                onBack={() => setTab("home")}
+                onComplete={() => setTab("home")}
               />
             )}
           </div>
