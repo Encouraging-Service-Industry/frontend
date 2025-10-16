@@ -6,8 +6,8 @@ export default function SplashScreen({ onStart }: Props) {
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center h-screen">
       <img
-        src="https://placehold.co/150x150/e0e7ff/4f46e5?text=App+Logo"
-        className="rounded-full mb-6"
+        src="/assets/brandlogo.png"
+        className="mb-6 h-32 w-auto"
         alt="App Logo"
       />
       <h1 className="text-3xl font-bold text-gray-800 mb-2">
