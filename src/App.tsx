@@ -176,7 +176,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       {/* Top Navigation Header */}
       {isAuthenticated && tab !== "splash" && !isSupplierTab && (
-        <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <nav className="bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 shadow-sm sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               {/* Logo/Brand */}
@@ -184,8 +184,15 @@ export default function App() {
                 <button
                   onClick={() => setTab("home")}
                   className="text-2xl font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                  aria-label="Home"
                 >
-                  ServiceHub
+                  <span className="inline-flex items-center">
+                    <img
+                      src="/assets/brandlogo.png"
+                      alt="App Logo"
+                      className="h-10 w-auto mt-1 md:mt-2"
+                    />
+                  </span>
                 </button>
               </div>
 
@@ -463,7 +470,7 @@ export default function App() {
                   name: currentProvider.name,
                   avatar: currentProvider.avatar,
                   phone: currentProvider.phone || "+358 40 123 4567",
-                  rating: currentProvider.rating,
+                  rating: Number(currentProvider.rating) || 0,
                   service: currentProvider.service || "Service",
                 }}
                 bookingId={currentBookingId}

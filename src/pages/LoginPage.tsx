@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 type LoginPageProps = {
   onLoginSuccess: () => void;
@@ -6,14 +6,14 @@ type LoginPageProps = {
 
 export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login:', { email, password });
+    console.log("Login:", { email, password });
     // TODO: Integrate with actual authentication service
     onLoginSuccess(); // Call onLoginSuccess after successful login
   };
@@ -21,36 +21,39 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
   const handleSignupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      alert("Passwords do not match!");
       return;
     }
-    console.log('Signup:', { username, email, password });
+    console.log("Signup:", { username, email, password });
     // TODO: Integrate with actual authentication service
     onLoginSuccess(); // Call onLoginSuccess after successful signup
   };
 
   const handleForgotPassword = () => {
-    console.log('Forgot Password for:', email);
-    alert('Password reset link sent to ' + email);
+    console.log("Forgot Password for:", email);
+    alert("Password reset link sent to " + email);
     // TODO: Integrate with actual password recovery service
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 space-y-6">
+      <div className="w-full max-w-md bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 shadow-lg rounded-2xl p-8 space-y-6">
         <h2 className="text-3xl font-bold text-center text-gray-800">
-          {isLogin ? 'Welcome Back!' : 'Join Us!'}
+          {isLogin ? "Welcome Back!" : "Join Us!"}
         </h2>
         <p className="text-center text-gray-600">
           {isLogin
-            ? 'Sign in to continue to your account.'
-            : 'Create an account to get started.'}
+            ? "Sign in to continue to your account."
+            : "Create an account to get started."}
         </p>
 
         {isLogin ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -64,7 +67,10 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
               />
             </div>
             <div>
-              <label htmlFor="password" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -87,7 +93,10 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
         ) : (
           <form onSubmit={handleSignupSubmit} className="space-y-4">
             <div>
-              <label htmlFor="username" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="username"
+                className="text-sm font-medium text-gray-700"
+              >
                 Username
               </label>
               <input
@@ -101,7 +110,10 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
               />
             </div>
             <div>
-              <label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -115,7 +127,10 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
               />
             </div>
             <div>
-              <label htmlFor="password" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -129,7 +144,10 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
               />
             </div>
             <div>
-              <label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirm-password"
+                className="text-sm font-medium text-gray-700"
+              >
                 Confirm Password
               </label>
               <input
@@ -162,7 +180,7 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
                 Forgot your password?
               </a>
               <p className="mt-4 text-sm text-gray-600">
-                Don't have an account?{' '}
+                Don't have an account?{" "}
                 <a
                   href="#"
                   onClick={() => setIsLogin(false)}
@@ -174,7 +192,7 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
             </>
           ) : (
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <a
                 href="#"
                 onClick={() => setIsLogin(true)}
