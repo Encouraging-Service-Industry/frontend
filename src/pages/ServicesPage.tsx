@@ -164,9 +164,9 @@ export default function ServicesPage({
                   <div className="flex items-center mb-4">
                     <img
                       src={svc.icon}
-                      className="rounded-full mr-4"
-                      width={50}
-                      height={50}
+                      className="rounded-full mr-4 w-14 h-14 object-cover"
+                      width={56}
+                      height={56}
                       alt={svc.name}
                     />
                     <div>
@@ -213,7 +213,7 @@ export default function ServicesPage({
               <div className="flex items-start">
                 <img
                   src={activeService.icon}
-                  className="rounded-full mr-6 shadow-md"
+                  className="rounded-full mr-6 shadow-md w-20 h-20 object-cover"
                   width={80}
                   height={80}
                   alt={activeService.name}
@@ -285,7 +285,7 @@ export default function ServicesPage({
                   <div className="flex items-center mb-4">
                     <img
                       src={p.avatar}
-                      className="rounded-full mr-4"
+                      className="rounded-full mr-4 w-15 h-15 object-cover"
                       width={60}
                       height={60}
                       alt={p.name}
