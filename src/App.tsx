@@ -178,7 +178,7 @@ export default function App() {
       {isAuthenticated && tab !== "splash" && !isSupplierTab && (
         <nav className="bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 shadow-sm sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
+            <div className="flex justify-between items-center h-24">
               {/* Logo/Brand */}
               <div className="flex items-center">
                 <button
@@ -280,6 +280,11 @@ export default function App() {
                 </button>
 
                 <div className="flex items-center space-x-2">
+                  <img
+                    src="/assets/Anna.jpg"
+                    alt="Anna avatar"
+                    className="h-8 w-8 rounded-full object-cover"
+                  />
                   <span className="text-sm text-gray-700">
                     Welcome, {loggedInUserName || "Guest"}
                   </span>

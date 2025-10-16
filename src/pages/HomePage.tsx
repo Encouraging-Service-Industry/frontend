@@ -246,8 +246,8 @@ export default function HomePage({
             className="card p-6 text-center hover:shadow-lg transition-shadow"
           >
             <img
-              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Clean"
-              className="mb-4 rounded-full mx-auto"
+              src="/assets/cleaning.jpg"
+              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
               alt="Home Cleaning"
             />
             <span className="text-gray-700 font-medium">Home Cleaning</span>
@@ -259,8 +259,8 @@ export default function HomePage({
             className="card p-6 text-center hover:shadow-lg transition-shadow"
           >
             <img
-              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Repair"
-              className="mb-4 rounded-full mx-auto"
+              src="/assets/repair.jpg"
+              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
               alt="Appliance Repair"
             />
             <span className="text-gray-700 font-medium">Appliance Repair</span>
@@ -270,8 +270,8 @@ export default function HomePage({
             className="card p-6 text-center hover:shadow-lg transition-shadow"
           >
             <img
-              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Errand"
-              className="mb-4 rounded-full mx-auto"
+              src="/assets/errand.jpg"
+              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
               alt="Errand Service"
             />
             <span className="text-gray-700 font-medium">Errand Service</span>
@@ -281,8 +281,8 @@ export default function HomePage({
             className="card p-6 text-center hover:shadow-lg transition-shadow"
           >
             <img
-              src="https://placehold.co/60x60/f1f5f9/4f46e5?text=Garden"
-              className="mb-4 rounded-full mx-auto"
+              src="/assets/gardening.jpg"
+              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
               alt="Gardening"
             />
             <span className="text-gray-700 font-medium">Gardening</span>

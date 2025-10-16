@@ -79,7 +79,7 @@ export const providers: Record<string, Provider> = {
     reviews: "234",
     description:
       "Johanna is a professional cleaner, specializing in deep cleaning and organization. She pays attention to detail, ensuring your home is spotless.", // Reverted to English
-    avatar: "https://placehold.co/80x80/e0e7ff/4f46e5?text=Jane",
+    avatar: "/assets/woman1.jpg",
     vendorId: "sparkle_clean",
     location: "Espoo",
     price: 200,
@@ -111,7 +111,7 @@ export const providers: Record<string, Provider> = {
     reviews: "112",
     description:
       "Mikko offers quick and efficient cleaning services for apartments and small homes. He is reliable and flexible to your schedule.", // Reverted to English
-    avatar: "https://placehold.co/80x80/f1f5f9/4f46e5?text=Mike",
+    avatar: "/assets/man1.jpg",
     vendorId: "sparkle_clean",
     location: "Vantaa",
     price: 180,
@@ -136,7 +136,7 @@ export const providers: Record<string, Provider> = {
     reviews: "315",
     description:
       "Saara specializes in eco-friendly cleaning, using only organic and natural products. Perfect for families with pets or young children.", // Reverted to English
-    avatar: "https://placehold.co/80x80/e0e7ff/4f46e5?text=Sarah",
+    avatar: "/assets/woman2.jpg",
     vendorId: "sparkle_clean",
     location: "Helsinki",
     price: 220,
@@ -151,7 +151,7 @@ export const providers: Record<string, Provider> = {
     reviews: "89",
     description:
       "Leo is an experienced technician who can fix most common home appliances quickly and affordably. He is certified and trustworthy.", // Reverted to English
-    avatar: "https://placehold.co/80x80/f1f5f9/4f46e5?text=Leo",
+    avatar: "/assets/man2.jpg",
     vendorId: "appliance_pros",
     location: "Espoo",
     price: 260,
@@ -184,24 +184,24 @@ export const servicesData: Record<string, ServiceCategory> = {
     name: "Home Cleaning",
     description:
       "Standard and deep home cleaning services for apartments and houses.",
-    icon: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Clean",
+    icon: "/assets/cleaning.jpg",
   },
   appliance_repair: {
     id: "appliance_repair",
     name: "Appliance Repair",
     description: "Repair and maintenance for common household appliances.",
-    icon: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Repair",
+    icon: "/assets/repair.jpg",
   },
   errands: {
     id: "errands",
     name: "Errand Service",
     description: "Personal errands, delivery, and courier tasks.",
-    icon: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Errand",
+    icon: "/assets/errand.jpg",
   },
   gardening: {
     id: "gardening",
     name: "Gardening",
     description: "Garden maintenance, planting, and landscaping tasks.",
-    icon: "https://placehold.co/40x40/f1f5f9/4f46e5?text=Garden",
+    icon: "/assets/gardening.jpg",
   },
 };
