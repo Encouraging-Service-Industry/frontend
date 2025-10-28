@@ -59,6 +59,12 @@ type Tab =
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("login"); // Start at login page initially
+  const [previousTab, setPreviousTab] = useState<Tab | null>(null);
+
+  const handleSetTab = (newTab: Tab) => {
+    setPreviousTab(tab);
+    setTab(newTab);
+  };
   const [isAuthenticated, setIsAuthenticated] = useState(false); // New state for authentication
   const [loggedInUserName, setLoggedInUserName] = useState<string | null>(null); // New state for logged-in user's name
   const [currentProvider, setCurrentProvider] = useState<Provider | null>(null);
@@ -195,7 +201,7 @@ export default function App() {
     setCurrentBookingId(order.id);
     // open the order detail after booking so user can start tracking
     setCurrentOrder(order);
-    setTab("order-detail");
+    handleSetTab("order-detail");
     // create a temporary notification about the new order
     try {
       const notif = {
@@ -214,10 +220,10 @@ export default function App() {
   const handleOpenOrder = (order: Order) => {
     setCurrentOrder(order);
     if (order.id.startsWith("market-")) {
-      setTab("redemption-detail");
+      handleSetTab("redemption-detail");
     } else {
       setCurrentBookingId(order.id);
-      setTab("order-detail");
+      handleSetTab("order-detail");
     }
   };
 
@@ -231,7 +237,7 @@ export default function App() {
       const confirmed = { ...(updated as Order), status: "confirmed" } as Order;
       setCurrentOrder(confirmed);
       setCurrentBookingId(orderId);
-      setTab("order-detail");
+      handleSetTab("order-detail");
 
       // create a single notification for the confirmation
       try {
@@ -249,7 +255,7 @@ export default function App() {
     } else {
       // Fallback: still set tab and booking id
       setCurrentBookingId(orderId);
-      setTab("order-detail");
+      handleSetTab("order-detail");
     }
   };
 
@@ -279,21 +285,21 @@ export default function App() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setTab("login");
+    handleSetTab("login");
     setLoggedInUserName(null);
   };
 
   const handleOpenNotifications = () => {
-    setTab("notifications");
+    handleSetTab("notifications");
   };
 
   const handleOpenValueDashboardDetail = () => {
-    setTab("value-dashboard-detail");
+    handleSetTab("value-dashboard-detail");
   };
 
   const handleOpenVendorDetail = (vendor: VendorCompany) => {
     setCurrentVendor(vendor);
-    setTab("vendor-detail-view");
+    handleSetTab("vendor-detail-view");
   };
 
   // Demo redeem handler for marketplace products
@@ -356,7 +362,7 @@ export default function App() {
               {/* Logo/Brand */}
               <div className="flex items-center">
                 <button
-                  onClick={() => setTab("home")}
+                  onClick={() => handleSetTab("home")}
                   className="text-2xl font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
                   aria-label="Home"
                 >
@@ -374,7 +380,7 @@ export default function App() {
               <div className="hidden md:flex space-x-8">
                 <button
                   onClick={() => {
-                    setTab("home");
+                    handleSetTab("home");
                     setMineOption(null);
                     setCurrentService("");
                   }}
@@ -388,7 +394,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => {
-                    setTab("value-dashboard-detail");
+                    handleSetTab("value-dashboard-detail");
                     setMineOption(null);
                     setCurrentService("");
                   }}
@@ -402,7 +408,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => {
-                    setTab("story");
+                    handleSetTab("story");
                     setMineOption(null);
                     setCurrentService("");
                   }}
@@ -416,7 +422,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => {
-                    setTab("services");
+                    handleSetTab("services");
                     setMineOption(null);
                   }}
                   className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
@@ -429,7 +435,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => {
-                    setTab("mine");
+                    handleSetTab("mine");
                     setMineOption(null);
                     setCurrentService("");
                   }}
@@ -470,7 +476,7 @@ export default function App() {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => {
-                      setTab("mine");
+                      handleSetTab("mine");
                       setMineOption(null);
                     }}
                     aria-label="Open My Profile"
@@ -523,7 +529,7 @@ export default function App() {
             <LoginPage
               onLoginSuccess={() => {
                 setIsAuthenticated(true);
-                setTab("splash");
+                handleSetTab("splash");
                 setLoggedInUserName("Anna");
               }}
             />
@@ -531,58 +537,58 @@ export default function App() {
         ) : (
           <div className="w-full">
             {tab === "splash" && (
-              <SplashScreen onStart={() => setTab("home")} />
+              <SplashScreen onStart={() => handleSetTab("home")} />
             )}
             {tab === "home" && (
               <HomePage
                 onQuickService={(serviceId: string, location: string) => {
                   setCurrentService(serviceId);
                   setPreselectedLocation(location);
-                  setTab("services");
+                  handleSetTab("services");
                 }}
                 onOpenNotifications={handleOpenNotifications}
                 onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
                 onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
-                onOpenSupplierWelcome={() => setTab("supplier-welcome")}
+                onOpenSupplierWelcome={() => handleSetTab("supplier-welcome")}
               />
             )}
             {tab === "supplier-welcome" && (
               <SupplierWelcome
                 onStartVerification={() => {
-                  setTab("supplier-dashboard");
+                  handleSetTab("supplier-dashboard");
                 }}
-                onBack={() => setTab("home")}
+                onBack={() => handleSetTab("home")}
               />
             )}
             {tab === "supplier-dashboard" && (
               <SupplierVerificationDashboard
                 onOpenQualificationReview={() =>
-                  setTab("supplier-qualification")
+                  handleSetTab("supplier-qualification")
                 }
-                onOpenBackgroundCheck={() => setTab("supplier-background")}
-                onOpenPortfolioSetup={() => setTab("supplier-portfolio")}
-                onBack={() => setTab("supplier-welcome")}
+                onOpenBackgroundCheck={() => handleSetTab("supplier-background")}
+                onOpenPortfolioSetup={() => handleSetTab("supplier-portfolio")}
+                onBack={() => handleSetTab("supplier-welcome")}
               />
             )}
             {tab === "supplier-qualification" && (
               <SupplierQualificationReview
-                onBack={() => setTab("supplier-dashboard")}
-                onContactSupport={() => setTab("supplier-notifications")}
+                onBack={() => handleSetTab("supplier-dashboard")}
+                onContactSupport={() => handleSetTab("supplier-notifications")}
               />
             )}
             {tab === "supplier-background" && (
               <SupplierBackgroundCheck
-                onBack={() => setTab("supplier-dashboard")}
+                onBack={() => handleSetTab("supplier-dashboard")}
               />
             )}
             {tab === "supplier-portfolio" && (
               <SupplierPortfolioSetup
-                onBack={() => setTab("supplier-dashboard")}
+                onBack={() => handleSetTab("supplier-dashboard")}
               />
             )}
             {tab === "supplier-notifications" && (
               <SupplierNotifications
-                onBack={() => setTab("supplier-dashboard")}
+                onBack={() => handleSetTab("supplier-dashboard")}
               />
             )}
             {tab === "story" && (
@@ -596,7 +602,7 @@ export default function App() {
               <ServicesPage
                 onOpenProvider={(p) => {
                   setCurrentProvider(p);
-                  setTab("provider-detail");
+                  handleSetTab("provider-detail");
                 }}
                 preselectedService={currentService}
                 preselectedLocation={preselectedLocation}
@@ -606,9 +612,9 @@ export default function App() {
             {tab === "provider-detail" && currentProvider && (
               <ProviderDetailPage
                 provider={currentProvider}
-                onBack={() => setTab("services")}
-                onChat={() => setTab("chat")}
-                onBook={() => setTab("booking")}
+                onBack={() => handleSetTab("services")}
+                onChat={() => handleSetTab("chat")}
+                onBook={() => handleSetTab("booking")}
                 stories={stories} // Pass the global stories state
                 onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
               />
@@ -616,28 +622,28 @@ export default function App() {
             {tab === "provider-list" && (
               <ProviderListPage
                 serviceTitle={currentService}
-                onBack={() => setTab("home")}
+                onBack={() => handleSetTab("home")}
                 onSelectProvider={(provider) => {
                   setCurrentProvider(provider);
-                  setTab("provider-detail");
+                  handleSetTab("provider-detail");
                 }}
               />
             )}
             {tab === "chat" && currentProvider && (
               <ChatPage
                 providerName={currentProvider.name}
-                onBack={() => setTab("provider-detail")}
+                onBack={() => handleSetTab("provider-detail")}
               />
             )}
             {tab === "booking" && currentProvider && (
               <BookingFlowPage
                 provider={currentProvider}
-                onBack={() => setTab("provider-detail")}
-                onComplete={() => setTab("home")}
+                onBack={() => handleSetTab("provider-detail")}
+                onComplete={() => handleSetTab("home")}
                 onBookingComplete={handleBookingComplete}
                 onStartTracking={() => {
                   setCurrentBookingId("booking-" + Date.now());
-                  setTab("location-tracking");
+                  handleSetTab("location-tracking");
                 }}
               />
             )}
@@ -647,10 +653,10 @@ export default function App() {
                 onSelectOption={(option) => {
                   // Handle global tab navigation options
                   if (option === "notifications") {
-                    setTab("notifications");
+                    handleSetTab("notifications");
                     setMineOption(null);
                   } else if (option === "value-dashboard") {
-                    setTab("value-dashboard-detail");
+                    handleSetTab("value-dashboard-detail");
                     setMineOption(null);
                   } else {
                     setMineOption(option);
@@ -668,7 +674,7 @@ export default function App() {
               <OrderDetailPage
                 order={currentOrder}
                 onBack={() => {
-                  setTab("mine");
+                  handleSetTab("mine");
                   setMineOption("orders");
                 }}
                 onStartTracking={(id: string) => {
@@ -680,7 +686,7 @@ export default function App() {
                     }
                   }
                   setCurrentBookingId(id);
-                  setTab("location-tracking");
+                  handleSetTab("location-tracking");
                 }}
                 onSimulateConfirm={handleSimulateConfirm}
               />
@@ -689,7 +695,7 @@ export default function App() {
               <RedemptionDetailPage
                 order={currentOrder}
                 onBack={() => {
-                  setTab("mine");
+                  handleSetTab("mine");
                   setMineOption("orders");
                 }}
               />
@@ -708,11 +714,11 @@ export default function App() {
               />
             )}
             {tab === "value-dashboard-detail" && (
-              <ValueDashboardDetailPage onBack={() => setTab("home")} onOpenMarketplace={() => setTab("timecoin-marketplace")} />
+              <ValueDashboardDetailPage onBack={() => handleSetTab(previousTab || 'home')} onOpenMarketplace={() => handleSetTab("timecoin-marketplace")} />
             )}
             {tab === "timecoin-marketplace" && (
               <TimeCoinMarketplace
-                onBack={() => setTab("value-dashboard-detail")}
+                onBack={() => handleSetTab("value-dashboard-detail")}
                 availableCoins={userCoins}
                 onRedeem={(productId, price, name) => handleRedeem(productId, price, name)}
                 orders={orders}
@@ -721,10 +727,10 @@ export default function App() {
             {tab === "vendor-detail-view" && currentVendor && (
               <VendorDetailPage
                 vendor={currentVendor}
-                onBack={() => setTab("services")} // Go back to services after viewing vendor detail
+                onBack={() => handleSetTab("services")} // Go back to services after viewing vendor detail
                 onOpenProvider={(provider) => {
                   setCurrentProvider(provider);
-                  setTab("provider-detail");
+                  handleSetTab("provider-detail");
                 }} // Allow drilling down to provider from vendor page
               />
             )}
@@ -738,8 +744,8 @@ export default function App() {
                   service: currentProvider.service || "Service",
                 }}
                 bookingId={currentBookingId}
-                onBack={() => setTab("home")}
-                onComplete={() => setTab("home")}
+                onBack={() => handleSetTab("home")}
+                onComplete={() => handleSetTab("home")}
               />
             )}
           </div>
