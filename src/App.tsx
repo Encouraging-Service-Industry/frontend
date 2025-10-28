@@ -564,9 +564,12 @@ export default function App() {
               <MinePage
                 activeOption={mineOption || undefined}
                 onSelectOption={(option) => {
-                  // if user selects notifications from Mine, open global notifications tab
+                  // Handle global tab navigation options
                   if (option === "notifications") {
                     setTab("notifications");
+                    setMineOption(null);
+                  } else if (option === "value-dashboard") {
+                    setTab("value-dashboard-detail");
                     setMineOption(null);
                   } else {
                     setMineOption(option);

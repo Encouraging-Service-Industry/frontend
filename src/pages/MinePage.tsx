@@ -7,7 +7,8 @@ export type MineOption =
   | "settings"
   | "about"
   | "my-stories"
-  | "my-achievements"; // Added 'my-achievements'
+  | "my-achievements"
+  | "value-dashboard"; // Added 'value-dashboard'
 
 type Props = {
   activeOption?: MineOption;
@@ -210,31 +211,6 @@ export default function MinePage({
         </button>
 
         <button
-          onClick={() => onSelectOption?.("notifications")}
-          className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
-        >
-          <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4">
-            <svg
-              className="w-5 h-5 text-red-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-              />
-            </svg>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-800">Notifications</h3>
-            <p className="text-sm text-gray-500">View your notifications</p>
-          </div>
-        </button>
-
-        <button
           onClick={() => onSelectOption?.("profile")}
           className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
         >
@@ -256,6 +232,33 @@ export default function MinePage({
           <div>
             <h3 className="font-semibold text-gray-800">My Info</h3>
             <p className="text-sm text-gray-500">View and manage your personal information</p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => onSelectOption?.("value-dashboard")}
+          className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
+        >
+          <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+            <svg
+              className="w-5 h-5 text-indigo-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-800">Value Dashboard</h3>
+            <p className="text-sm text-gray-500">
+              Track your time and cost savings
+            </p>
           </div>
         </button>
 
@@ -283,6 +286,7 @@ export default function MinePage({
             <p className="text-sm text-gray-500">View your posted stories</p>
           </div>
         </button>
+
         <button
           onClick={() => onSelectOption?.("my-achievements")}
           className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
@@ -307,6 +311,31 @@ export default function MinePage({
             <p className="text-sm text-gray-500">
               Track your progress and rewards
             </p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => onSelectOption?.("notifications")}
+          className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
+        >
+          <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4">
+            <svg
+              className="w-5 h-5 text-red-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-800">Notifications</h3>
+            <p className="text-sm text-gray-500">View your notifications</p>
           </div>
         </button>
 
