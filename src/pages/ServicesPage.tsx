@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { servicesData, providers, vendorsData } from "../data";
 import type { Provider, VendorCompany } from "../data"; // Import VendorCompany
+import ServiceCategoryCard from "../components/ServiceCategoryCard";
 
 type Props = {
   onOpenProvider?: (provider: Provider) => void;
@@ -156,30 +157,15 @@ export default function ServicesPage({
                 </div>
               )}
               {services.map((svc) => (
-                <button
+                <ServiceCategoryCard
                   key={svc.id}
-                  onClick={() => setActiveServiceId(svc.id)}
-                  className="card p-6 text-left hover:shadow-lg transition-shadow group"
-                >
-                  <div className="flex items-center mb-4">
-                    <img
-                      src={svc.icon}
-                      className="rounded-full mr-4 w-14 h-14 object-cover"
-                      width={56}
-                      height={56}
-                      alt={svc.name}
-                    />
-                    <div>
-                      <h3 className="font-bold text-gray-800 text-lg group-hover:text-indigo-600 transition-colors">
-                        {svc.name}
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        {(svc as any).providersCount} providers
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-600">{svc.description}</p>
-                </button>
+                  id={svc.id}
+                  name={svc.name}
+                  description={svc.description}
+                  icon={svc.icon}
+                  providersCount={(svc as any).providersCount}
+                  onClick={setActiveServiceId}
+                />
               ))}
             </div>
           </div>
