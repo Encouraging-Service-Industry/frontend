@@ -13,6 +13,7 @@ import LoginPage from "./pages/LoginPage"; // Import LoginPage
 import NotificationsPage from "./pages/NotificationsPage"; // Import NotificationsPage
 import type { Provider, VendorCompany, Order, Notification } from "./data"; // Re-import VendorCompany, Order, Notification
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
+import TimeCoinMarketplace from "./pages/TimeCoinMarketplace";
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
 import VendorDetailPage from "./pages/VendorDetailPage"; // Import VendorDetailPage
 import SupplierWelcome from "./pages/SupplierWelcome";
@@ -37,6 +38,7 @@ type Tab =
   | "login"
   | "notifications"
   | "value-dashboard-detail"
+  | "timecoin-marketplace"
   | "vendor-detail-view"
   | "order-detail"
   | "supplier-welcome"
@@ -165,6 +167,9 @@ export default function App() {
     }
   });
 
+  // Demo user coin balance (locally managed for marketplace demo)
+  const [userCoins, setUserCoins] = useState<number>(350);
+
   // Temporary frontend notifications store (persisted)
   const [notifications, setNotifications] = useState<Notification[]>(() => {
     try {
@@ -277,6 +282,56 @@ export default function App() {
   const handleOpenVendorDetail = (vendor: VendorCompany) => {
     setCurrentVendor(vendor);
     setTab("vendor-detail-view");
+  };
+
+  // Demo redeem handler for marketplace products
+  const handleRedeem = (_productId: string, price: number, productName: string) => {
+    if (userCoins < price) {
+      // create a small notification about insufficient funds
+      try {
+        const notif = {
+          id: "notif-" + Date.now(),
+          type: "general" as const,
+          message: `Not enough Time Coins to redeem ${productName}.`,
+          read: false,
+          createdAt: Date.now(),
+        };
+        setNotifications((prev) => [notif, ...prev]);
+      } catch (e) {
+        // ignore
+      }
+      return;
+    }
+
+    // Create a demo order representing the redeemed product
+    const order: Order = {
+      id: `market-${Date.now()}`,
+      providerName: "TimeCoin Marketplace",
+      service: productName,
+      date: new Date().toISOString(),
+      timeSlot: "n/a",
+      address: "",
+      recipient: loggedInUserName || "Guest",
+      price,
+      status: "pending",
+      createdAt: Date.now(),
+    };
+
+    setOrders((prev) => [order, ...prev]);
+    setUserCoins((c) => c - price);
+
+    try {
+      const notif = {
+        id: "notif-" + Date.now(),
+        type: "order" as const,
+        message: `Redeemed ${productName} for ${price} Time Coins. Order created.`,
+        read: false,
+        createdAt: Date.now(),
+      };
+      setNotifications((prev) => [notif, ...prev]);
+    } catch (e) {
+      // ignore
+    }
   };
 
   return (
@@ -611,7 +666,15 @@ export default function App() {
               />
             )}
             {tab === "value-dashboard-detail" && (
-              <ValueDashboardDetailPage onBack={() => setTab("home")} />
+              <ValueDashboardDetailPage onBack={() => setTab("home")} onOpenMarketplace={() => setTab("timecoin-marketplace")} />
+            )}
+            {tab === "timecoin-marketplace" && (
+              <TimeCoinMarketplace
+                onBack={() => setTab("value-dashboard-detail")}
+                availableCoins={userCoins}
+                onRedeem={(productId, price, name) => handleRedeem(productId, price, name)}
+                orders={orders}
+              />
             )}
             {tab === "vendor-detail-view" && currentVendor && (
               <VendorDetailPage

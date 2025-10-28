@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'; // kept for JSX/runtime compatibility
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { calculateInvestmentPortfolio, generateRecommendations, computeTier } from '../hooks/useInvestmentCalculator';
@@ -7,11 +7,12 @@ import { IconHealth, IconRelationship, IconSelf, IconCoin, IconInfo } from '../c
 
 type Props = {
   onBack: () => void;
+  onOpenMarketplace?: () => void;
 };
 
 // Icon components were extracted to ../components/InvestmentIcons
 
-export default function ValueDashboardDetailPage({ onBack }: Props) {
+export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: Props) {
   // count-up and in-view hooks are delegated to hooks/useCountUp
   // Demo service history (front-end simulation). Each item includes a date so we can compute "this week".
   const serviceHistory = [
@@ -115,6 +116,24 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
             <div className="text-lg text-gray-600">Estimated Future Value</div>
             <div className="text-3xl font-bold text-indigo-600">${countedFuture.toLocaleString()}</div>
             <div className="text-xs text-gray-400 mt-1">1 Time Coin = $5 base × portfolio multiplier</div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Time Coin Marketplace CTA - placed after Smart Investment Advisor */}
+      <motion.section variants={cardVariants} className="bg-white p-6 rounded-2xl mb-6 shadow-sm border border-gray-100">
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-800">Time Coin Rewards</h3>
+            <p className="text-sm text-gray-600">Redeem your Time Coins for real-world benefits</p>
+          </div>
+          <div className="flex items-center">
+            <button
+              onClick={() => onOpenMarketplace && onOpenMarketplace()}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              Explore Marketplace →
+            </button>
           </div>
         </div>
       </motion.section>
