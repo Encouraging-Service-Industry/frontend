@@ -1,78 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react'; // kept for JSX/runtime compatibility
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { calculateInvestmentPortfolio, generateRecommendations, computeTier } from '../hooks/useInvestmentCalculator';
+import { useCountUp, useInView } from '../hooks/useCountUp';
+import { IconHealth, IconRelationship, IconSelf, IconCoin } from '../components/InvestmentIcons';
 
 type Props = {
   onBack: () => void;
 };
 
-// Small SVG icon components (kept inline to avoid extra deps)
-function IconHealth(props: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={props.className}>
-      <path d="M20.8 8.6c0 4.9-8.8 11.1-8.8 11.1S3.2 13.5 3.2 8.6a4 4 0 0 1 6.4-3.1l.8.7.8-.7a4 4 0 0 1 6.4 3.1z" />
-    </svg>
-  );
-}
-function IconRelationship(props: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={props.className}>
-      <path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zM8 11c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zM2 21c0-2.8 3.6-5 8-5s8 2.2 8 5" />
-    </svg>
-  );
-}
-function IconSelf(props: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={props.className}>
-      <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-    </svg>
-  );
-}
-function IconCoin(props: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={props.className}>
-      <circle cx="12" cy="12" r="8" />
-      <path d="M10 9h4v6h-4z" />
-    </svg>
-  );
-}
+// Icon components were extracted to ../components/InvestmentIcons
 
 export default function ValueDashboardDetailPage({ onBack }: Props) {
-  // --- Helper: count-up hook ---
-  function useCountUp(target: number, duration = 800, start = false) {
-    const [value, setValue] = useState(0);
-    useEffect(() => {
-      if (!start) return;
-      let startTime: number | null = null;
-      const step = (ts: number) => {
-        if (!startTime) startTime = ts;
-        const progress = Math.min((ts - startTime) / duration, 1);
-        // springy ease-out
-        const eased = 1 - Math.pow(1 - progress, 3);
-        setValue(Math.round(target * eased * 100) / 100);
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      const raf = requestAnimationFrame(step);
-      return () => cancelAnimationFrame(raf);
-    }, [target, duration, start]);
-    return value;
-  }
-
-  // useInView simple hook
-  function useInView(ref: React.RefObject<HTMLElement | null>, options?: IntersectionObserverInit) {
-    const [inView, setInView] = useState(false);
-    useEffect(() => {
-      if (!ref.current) return;
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setInView(true);
-        });
-      }, options || { threshold: 0.15 });
-      obs.observe(ref.current);
-      return () => obs.disconnect();
-    }, [ref, options]);
-    return inView;
-  }
+  // count-up and in-view hooks are delegated to hooks/useCountUp
   // Demo service history (front-end simulation). Each item includes a date so we can compute "this week".
   const serviceHistory = [
     { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
@@ -82,121 +22,20 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
     { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
   ];
 
-  // Investment configuration
-  const BASE_VALUE_PER_COIN = 50; // $50 per Time Coin
-  const MULTIPLIERS = {
-    health: 1.2,
-    relationship: 1.5,
-    self: 2.0,
-  };
-
-  // Category allocation rules (fractions sum to 1)
-  const CATEGORY_ALLOCATION: Record<string, { health: number; relationship: number; self: number }> = {
-    homeCleaning: { health: 0.5, relationship: 0.5, self: 0 },
-    errandService: { health: 0, relationship: 0.3, self: 0.7 },
-    applianceRepair: { health: 0.6, relationship: 0.0, self: 0.4 },
-    gardening: { health: 0.7, relationship: 0.3, self: 0 },
-    learning: { health: 0, relationship: 0, self: 1.0 },
-    default: { health: 0.33, relationship: 0.33, self: 0.34 },
-  };
-
-  type PortfolioResult = {
-    totalTimeCoins: number;
-    healthCoins: number;
-    relationshipCoins: number;
-    selfCoins: number;
-    estimatedFutureValue: number; // in $
-    allocationValue: { portfolio: string; coins: number; value: number; multiplier: number }[];
-    pensionCredits: number;
-  };
-
-  // Core calculation function
-  function calculateInvestmentPortfolio(history: typeof serviceHistory): PortfolioResult {
-    // New unit: 1 hour = 10 Time Coins. We'll keep dollar computations based on hours
-    // so that final dollar values remain unchanged, while displayed coin counts scale up.
-    let healthHours = 0;
-    let relationshipHours = 0;
-    let selfHours = 0;
-
-    const totalHours = history.reduce((sum, h) => sum + (h.duration || 0), 0);
-
-    for (const item of history) {
-      const alloc = CATEGORY_ALLOCATION[item.category] || CATEGORY_ALLOCATION['default'];
-      const duration = item.duration || 0; // in hours
-      healthHours += duration * alloc.health;
-      relationshipHours += duration * alloc.relationship;
-      selfHours += duration * alloc.self;
-    }
-
-    // Scaled coins for display (1 hour = 10 Time Coins)
-    const healthCoins = healthHours * 10;
-    const relationshipCoins = relationshipHours * 10;
-    const selfCoins = selfHours * 10;
-    const totalTimeCoins = Math.round(totalHours * 10 * 100) / 100;
-
-    // Compute dollar values using hours so totals remain identical to previous logic
-    const healthValue = healthHours * MULTIPLIERS.health * BASE_VALUE_PER_COIN;
-    const relationshipValue = relationshipHours * MULTIPLIERS.relationship * BASE_VALUE_PER_COIN;
-    const selfValue = selfHours * MULTIPLIERS.self * BASE_VALUE_PER_COIN;
-
-    const estimatedFutureValue = Math.round((healthValue + relationshipValue + selfValue) * 100) / 100;
-
-    const allocationValue = [
-      { portfolio: 'Health Investment', coins: Math.round(healthCoins * 100) / 100, value: Math.round(healthValue * 100) / 100, multiplier: MULTIPLIERS.health },
-      { portfolio: 'Relationship Investment', coins: Math.round(relationshipCoins * 100) / 100, value: Math.round(relationshipValue * 100) / 100, multiplier: MULTIPLIERS.relationship },
-      { portfolio: 'Self Investment', coins: Math.round(selfCoins * 100) / 100, value: Math.round(selfValue * 100) / 100, multiplier: MULTIPLIERS.self },
-    ];
-
-    // Pension credits: now 100 Time Coins = 1 credit (since coins are scaled)
-    const pensionCredits = Math.floor(totalTimeCoins * 0.01);
-
-    return { totalTimeCoins, healthCoins, relationshipCoins, selfCoins, estimatedFutureValue, allocationValue, pensionCredits };
-  }
-
-  const portfolio = calculateInvestmentPortfolio(serviceHistory);
+  const portfolio = calculateInvestmentPortfolio(serviceHistory as any);
 
   // This week's data: last 7 days
   const oneWeekAgo = Date.now() - 7 * 24 * 3600 * 1000;
   const thisWeekHistory = serviceHistory.filter((h) => new Date(h.date).getTime() >= oneWeekAgo);
   const thisWeekPortfolio = calculateInvestmentPortfolio(thisWeekHistory);
 
-  // Smart recommendations based on most used categories
-  function generateRecommendations(history: typeof serviceHistory) {
-    const counts: Record<string, number> = {};
-    for (const h of history) counts[h.category] = (counts[h.category] || 0) + (h.duration || 0);
-    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    const top = sorted[0];
-    const advice: string[] = [];
-    if (!top) return ["No data yet — start investing time with services to get personalized advice."];
-    const [topCat] = top;
-    if (topCat === 'homeCleaning' || topCat === 'gardening') {
-      advice.push("You're investing heavily in household efficiency. Consider allocating some Time Coins to 'Self Investment' (courses, coaching) to grow future income.");
-    }
-    if (topCat === 'errandService') {
-      advice.push("Strong tilt to efficiency; diversify into 'Relationship Investment' — schedule a family activity that's 'time well spent'.");
-    }
-    if (topCat === 'learning') {
-      advice.push("Great focus on Self Investment — consider deeper specializations to compound returns.");
-    }
-    if (advice.length === 0) advice.push("We see varied investments — keep diversifying to balance Health, Relationship, and Self portfolios.");
-    return advice;
-  }
-
-  const recommendations = generateRecommendations(serviceHistory);
+  const recommendations = generateRecommendations(serviceHistory as any);
 
   // Achievements and tiering
   const achievements = [
     { name: 'First Investor', description: 'Completed your first Time Coin investment.' },
     { name: 'Time Tycoon', description: 'Saved 200+ Time Coins across services.' },
   ];
-
-  function computeTier(totalCoins: number) {
-    // thresholds scaled by 10 because coins are scaled (1 hour = 10 coins)
-    if (totalCoins >= 500) return { tier: 'Gold Investor', color: 'text-yellow-500' };
-    if (totalCoins >= 200) return { tier: 'Silver Investor', color: 'text-gray-400' };
-    return { tier: 'Bronze Investor', color: 'text-amber-700' };
-  }
-
   const tier = computeTier(portfolio.totalTimeCoins);
 
   // animation variants
@@ -216,7 +55,6 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
   // count-up values that start when component enters view
   const countedCoins = useCountUp(portfolio.totalTimeCoins, 900, inView);
   const countedFuture = useCountUp(portfolio.estimatedFutureValue, 1100, inView);
-
   return (
     <motion.div ref={rootRef} className="p-4 pt-6" initial="hidden" animate={inView ? 'visible' : 'hidden'} variants={containerVariants}>
       <style>{`
@@ -255,7 +93,7 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
           <div className="mt-4 md:mt-0 text-right">
             <div className="text-lg text-gray-600">Estimated Future Value</div>
             <div className="text-3xl font-bold text-indigo-600">${countedFuture.toLocaleString()}</div>
-            <div className="text-xs text-gray-400 mt-1">1 Time Coin = ${BASE_VALUE_PER_COIN} base × portfolio multiplier</div>
+            <div className="text-xs text-gray-400 mt-1">1 Time Coin = $5 base × portfolio multiplier</div>
           </div>
         </div>
       </motion.section>
