@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Order } from "../data";
 
 export type MineOption =
@@ -22,6 +23,73 @@ type Props = {
 };
 import MyStoriesPage from "./MyStoriesPage";
 import MyAchievementsPage from "./MyAchievementsPage"; // Import MyAchievementsPage
+
+function OrderListView({ orders, onOpenOrder }: { orders?: Order[], onOpenOrder?: (order: Order) => void }) {
+  const [orderTab, setOrderTab] = useState<'services' | 'redemptions'>('services');
+
+  const filteredOrders = orders?.filter(o => {
+    if (orderTab === 'services') {
+      return o.id.startsWith('order-');
+    }
+    if (orderTab === 'redemptions') {
+      return o.id.startsWith('market-');
+    }
+    return false;
+  });
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">My Orders</h2>
+      <div className="flex border-b border-gray-200 mb-4">
+        <button
+          onClick={() => setOrderTab('services')}
+          className={`px-4 py-2 text-sm font-medium ${orderTab === 'services' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}>
+          Service Orders
+        </button>
+        <button
+          onClick={() => setOrderTab('redemptions')}
+          className={`px-4 py-2 text-sm font-medium ${orderTab === 'redemptions' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}>
+          Marketplace Redemptions
+        </button>
+      </div>
+      <div className="space-y-4">
+        {filteredOrders && filteredOrders.length > 0 ? (
+          filteredOrders.map((o: Order) => {
+            const isRedemption = o.id.startsWith('market-');
+            return (
+              <button key={o.id} onClick={() => onOpenOrder?.(o)} className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                {isRedemption ? (
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="font-semibold text-gray-800">{o.service}</h3>
+                      <span className="text-sm font-medium text-indigo-600">{o.price} TimeCoins</span>
+                    </div>
+                    <p className="text-sm text-gray-500">Redeemed on: {new Date(o.createdAt).toLocaleDateString()}</p>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="font-semibold text-gray-800">{o.service}</h3>
+                      <span className={`text-sm font-medium ${o.status === 'completed' ? 'text-green-600' : o.status === 'confirmed' ? 'text-blue-600' : 'text-gray-600'}`}>
+                        {o.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-2">Provider: {o.providerName}</p>
+                    <p className="text-sm text-gray-500">Date: {o.date} · {o.timeSlot}</p>
+                  </div>
+                )}
+              </button>
+            )
+          })
+        ) : (
+          <p className="text-gray-500 text-center">
+            {orderTab === 'services' ? 'No service orders yet. Book a service to see it here.' : 'No marketplace redemptions yet.'}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function MinePage({
   activeOption,
@@ -56,27 +124,7 @@ export default function MinePage({
           Back
         </button>
         {activeOption === "orders" && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">My Orders</h2>
-            <div className="space-y-4">
-              {orders && orders.length > 0 ? (
-                orders.map((o: Order) => (
-                  <button key={o.id} onClick={() => onOpenOrder?.(o)} className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="font-semibold text-gray-800">{o.service}</h3>
-                      <span className={`text-sm font-medium ${o.status === 'completed' ? 'text-green-600' : o.status === 'confirmed' ? 'text-blue-600' : 'text-gray-600'}`}>
-                        {o.status}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-500 mb-2">Provider: {o.providerName}</p>
-                    <p className="text-sm text-gray-500">Date: {o.date} · {o.timeSlot}</p>
-                  </button>
-                ))
-              ) : (
-                <p className="text-gray-500 text-center">No orders yet. Book a service to see it here.</p>
-              )}
-            </div>
-          </div>
+          <OrderListView orders={orders} onOpenOrder={onOpenOrder} />
         )}
         {activeOption === "profile" && (
           <div>

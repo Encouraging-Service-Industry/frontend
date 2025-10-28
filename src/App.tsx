@@ -30,6 +30,7 @@ import SupplierPortfolioSetup from "./pages/SupplierPortfolioSetup";
 import SupplierNotifications from "./pages/SupplierNotifications";
 import LocationTrackingPage from "./pages/LocationTrackingPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
+import RedemptionDetailPage from "./pages/RedemptionDetailPage";
 
 type Tab =
   | "splash"
@@ -47,6 +48,7 @@ type Tab =
   | "timecoin-marketplace"
   | "vendor-detail-view"
   | "order-detail"
+  | "redemption-detail"
   | "supplier-welcome"
   | "supplier-dashboard"
   | "supplier-qualification"
@@ -211,8 +213,12 @@ export default function App() {
 
   const handleOpenOrder = (order: Order) => {
     setCurrentOrder(order);
-    setCurrentBookingId(order.id);
-    setTab("order-detail");
+    if (order.id.startsWith("market-")) {
+      setTab("redemption-detail");
+    } else {
+      setCurrentBookingId(order.id);
+      setTab("order-detail");
+    }
   };
 
   const handleSimulateConfirm = (orderId: string) => {
@@ -663,6 +669,15 @@ export default function App() {
                   setTab("location-tracking");
                 }}
                 onSimulateConfirm={handleSimulateConfirm}
+              />
+            )}
+            {tab === "redemption-detail" && currentOrder && (
+              <RedemptionDetailPage
+                order={currentOrder}
+                onBack={() => {
+                  setTab("mine");
+                  setMineOption("orders");
+                }}
               />
             )}
             {tab === "notifications" && (
