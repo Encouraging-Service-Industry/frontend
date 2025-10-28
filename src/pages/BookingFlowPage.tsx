@@ -17,13 +17,15 @@ export default function BookingFlowPage({
   const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState({
     date: "",
-    time: "",
+    // switched from exact time input to a selectable time slot
+    timeSlot: "",
     address: "",
     recipient: "myself",
   });
 
   const handleNextStep1 = () => {
-    if (bookingData.date && bookingData.time && bookingData.address) {
+    // require a date, a selected time slot, and an address
+    if (bookingData.date && bookingData.timeSlot && bookingData.address) {
       setStep(2);
     }
   };
@@ -34,6 +36,14 @@ export default function BookingFlowPage({
 
   const handleFinish = () => {
     onComplete();
+  };
+
+  const slotLabels: Record<string, string> = {
+    morning: "Morning (08:00 - 10:00)",
+    midday: "Midday (11:00 - 13:00)",
+    afternoon: "Afternoon (14:00 - 16:00)",
+    evening: "Evening (17:00 - 19:00)",
+    "": "No time selected",
   };
 
   return (
@@ -74,14 +84,20 @@ export default function BookingFlowPage({
               }
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <input
-              type="time"
-              value={bookingData.time}
+            {/* Replaced exact time input with predefined time slots */}
+            <select
+              value={bookingData.timeSlot}
               onChange={(e) =>
-                setBookingData({ ...bookingData, time: e.target.value })
+                setBookingData({ ...bookingData, timeSlot: e.target.value })
               }
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+            >
+              <option value="">Select a time slot</option>
+              <option value="morning">Morning (08:00 - 10:00)</option>
+              <option value="midday">Midday (11:00 - 13:00)</option>
+              <option value="afternoon">Afternoon (14:00 - 16:00)</option>
+              <option value="evening">Evening (17:00 - 19:00)</option>
+            </select>
             <input
               type="text"
               placeholder="Enter service address"
@@ -122,7 +138,7 @@ export default function BookingFlowPage({
               Service: {provider.service} with {provider.name}
             </p>
             <p className="text-gray-600">
-              Time: {bookingData.date} at {bookingData.time}
+              Time: {bookingData.date} · {slotLabels[bookingData.timeSlot]}
             </p>
             <p className="text-gray-600">Address: {bookingData.address}</p>
             <p className="text-gray-600">Recipient: {bookingData.recipient}</p>
