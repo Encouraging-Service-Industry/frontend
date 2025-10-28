@@ -97,7 +97,7 @@ export default function HomePage({
       </div>
 
       {/* Search Section */}
-      <div className="card p-8 max-w-4xl mx-auto">
+      <div className="card p-8 mx-auto">
         <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           Find Services Quickly
         </h2>
@@ -135,10 +135,9 @@ export default function HomePage({
         </div>
       </div>
 
-      {/* Dashboard Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Value Dashboard */}
-        <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl shadow-lg relative">
+        <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl shadow-lg relative text-center">
           <button
             onClick={onOpenValueDashboardDetail}
             className="absolute top-4 right-4 text-indigo-700 hover:text-indigo-900 transition-colors"
@@ -159,7 +158,7 @@ export default function HomePage({
               />
             </svg>
           </button>
-            <h3 className="text-2xl font-bold text-indigo-900 mb-4">Your Investment Portfolio</h3>
+            <h3 className="text-2xl font-bold text-indigo-900 mb-4">My Investment</h3>
 
             {/* Compact preview: left = coins, right = future value + CTA */}
             {(() => {
@@ -172,28 +171,22 @@ export default function HomePage({
               ];
               const preview = calculateInvestmentPortfolio(demoHistory);
               return (
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-white rounded-lg shadow-sm">
-                      <svg className="w-8 h-8 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                        <circle cx="12" cy="12" r="8" />
-                        <path d="M10 9h4v6h-4z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="text-5xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
+                <div>
+                  <div className="flex flex-col md:flex-row items-center justify-around gap-4">
+                    <div className="text-center">
+                      <div className="text-4xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
                       <div className="text-sm text-indigo-500">Time Coins</div>
                     </div>
-                  </div>
 
-                  <div className="text-right md:text-right">
-                    <div className="text-sm text-gray-600">Estimated Future Value</div>
-                    <div className="text-2xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
-                    <div className="mt-3 flex items-center justify-end gap-3">
-                      <button onClick={onOpenValueDashboardDetail} className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
-                        View Portfolio
-                      </button>
+                    <div className="text-center">
+                      <div className="text-sm text-gray-600">Estimated Future Value</div>
+                      <div className="text-2xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
                     </div>
+                  </div>
+                  <div className="mt-6 text-center">
+                      <button onClick={onOpenValueDashboardDetail} className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                          View Investment
+                      </button>
                   </div>
                 </div>
               );
@@ -220,7 +213,7 @@ export default function HomePage({
       </div>
 
       {/* Social Proof Banner */}
-      <div className="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-200 text-center max-w-4xl mx-auto">
+      <div className="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-200 text-center lg:col-span-2">
         <p className="text-blue-800 font-medium text-lg">
           Join <span className="font-bold text-xl">1200+ happy users</span> in
           Helsinki who outsource tasks! 🎉
@@ -228,7 +221,7 @@ export default function HomePage({
       </div>
 
       {/* Smart Recommendation */}
-      <div className="max-w-4xl mx-auto">
+      <div className="lg:col-span-2">
         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
           Smart Recommendations
         </h2>
@@ -257,7 +250,7 @@ export default function HomePage({
       </div>
 
       {/* Popular Services */}
-      <div className="max-w-6xl mx-auto">
+      <div className="lg:col-span-2">
         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
           Popular Services
         </h2>

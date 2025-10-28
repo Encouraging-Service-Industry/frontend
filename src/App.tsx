@@ -388,6 +388,20 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => {
+                    setTab("value-dashboard-detail");
+                    setMineOption(null);
+                    setCurrentService("");
+                  }}
+                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
+                    tab === "value-dashboard-detail"
+                      ? "text-indigo-600 bg-indigo-50"
+                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                  }`}
+                >
+                  My Investment
+                </button>
+                <button
+                  onClick={() => {
                     setTab("story");
                     setMineOption(null);
                     setCurrentService("");

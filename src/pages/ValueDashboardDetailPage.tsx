@@ -83,7 +83,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
         Back to Home
       </button>
       <div className="flex items-center justify-center gap-3 mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-800">Your Life Investment Portfolio</h1>
+        <h1 className="text-3xl font-extrabold text-gray-800">My Investment</h1>
         <button
           aria-label="About Life Investment calculations"
           onClick={() => setShowInfo(true)}
