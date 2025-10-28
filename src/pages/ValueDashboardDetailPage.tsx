@@ -82,15 +82,18 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
         </svg>
         Back to Home
       </button>
-      <div className="flex items-center justify-center gap-3 mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-800">My Investment</h1>
-        <button
-          aria-label="About Life Investment calculations"
-          onClick={() => setShowInfo(true)}
-          className="ml-2 p-2 rounded-full hover:bg-gray-100 transition-transform transform hover:scale-105"
-        >
-          <IconInfo className="w-5 h-5 text-gray-600" />
-        </button>
+      <div className="text-center mb-6">
+        <div className="flex items-center justify-center gap-3">
+            <h1 className="text-3xl font-extrabold text-gray-800">My Investment</h1>
+            <button
+            aria-label="About Life Investment calculations"
+            onClick={() => setShowInfo(true)}
+            className="p-2 rounded-full hover:bg-gray-100 transition-transform transform hover:scale-105"
+            >
+            <IconInfo className="w-5 h-5 text-gray-600" />
+            </button>
+        </div>
+        <p className="text-lg text-gray-600 mt-2">Track the future value of your saved time.</p>
       </div>
 
       {/* Overview card (prominent) */}
