@@ -36,6 +36,20 @@ export type Review = {
   timestamp: number;
 };
 
+export type Order = {
+  id: string;
+  providerId?: string;
+  providerName: string;
+  service: string;
+  date: string; // ISO date string or user-friendly
+  timeSlot: string; // e.g. 'morning', 'afternoon'
+  address: string;
+  recipient: string;
+  price: number;
+  status: "pending" | "confirmed" | "completed" | "cancelled";
+  createdAt: number;
+};
+
 export type ServiceCategory = {
   id: string;
   name: string;

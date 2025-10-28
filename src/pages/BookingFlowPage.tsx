@@ -1,10 +1,12 @@
 import { useState } from "react";
-import type { Provider } from "../data";
+import type { Provider, Order } from "../data";
 
 type Props = {
   provider: Provider;
   onBack: () => void;
   onComplete: () => void;
+  // called when a booking is successfully created (temporary frontend store)
+  onBookingComplete?: (order: Order) => void;
   onStartTracking?: () => void;
 };
 
@@ -12,6 +14,7 @@ export default function BookingFlowPage({
   provider,
   onBack,
   onComplete,
+  onBookingComplete,
   onStartTracking,
 }: Props) {
   const [step, setStep] = useState(1);
@@ -31,6 +34,22 @@ export default function BookingFlowPage({
   };
 
   const handleConfirmBooking = () => {
+    // create a temporary order object and emit it to parent
+    const order = {
+      id: "order-" + Date.now(),
+      providerId: provider.id,
+      providerName: provider.name,
+      service: provider.service || "Service",
+      date: bookingData.date,
+      timeSlot: bookingData.timeSlot,
+      address: bookingData.address,
+      recipient: bookingData.recipient,
+      price: provider.price || 50,
+      // start as pending until supplier confirms (demo flow)
+      status: "pending" as const,
+      createdAt: Date.now(),
+    };
+    onBookingComplete?.(order);
     setStep(3);
   };
 

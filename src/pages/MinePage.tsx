@@ -1,3 +1,5 @@
+import type { Order } from "../data";
+
 export type MineOption =
   | "orders"
   | "profile"
@@ -13,6 +15,8 @@ type Props = {
   onLogout: () => void; // Add onLogout prop
   loggedInUserName: string; // New: logged-in user's name
   userStories: any[]; // New: array of stories posted by the user
+  orders?: Order[]; // Temporary frontend orders
+  onOpenOrder?: (order: Order) => void;
 };
 import MyStoriesPage from "./MyStoriesPage";
 import MyAchievementsPage from "./MyAchievementsPage"; // Import MyAchievementsPage
@@ -24,6 +28,8 @@ export default function MinePage({
   onLogout,
   loggedInUserName,
   userStories,
+  orders,
+  onOpenOrder,
 }: Props) {
   if (activeOption) {
     return (
@@ -51,26 +57,22 @@ export default function MinePage({
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-6">My Orders</h2>
             <div className="space-y-4">
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-gray-800">Home Cleaning</h3>
-                  <span className="text-sm text-green-600 font-medium">
-                    Completed
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 mb-2">Provider: Jane</p>
-                <p className="text-sm text-gray-500">Date: October 28, 2024</p>
-              </div>
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-gray-800">Meal Delivery</h3>
-                  <span className="text-sm text-blue-600 font-medium">
-                    In Progress
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 mb-2">Provider: Leo</p>
-                <p className="text-sm text-gray-500">Date: November 5, 2024</p>
-              </div>
+              {orders && orders.length > 0 ? (
+                orders.map((o: Order) => (
+                  <button key={o.id} onClick={() => onOpenOrder?.(o)} className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="font-semibold text-gray-800">{o.service}</h3>
+                      <span className={`text-sm font-medium ${o.status === 'completed' ? 'text-green-600' : o.status === 'confirmed' ? 'text-blue-600' : 'text-gray-600'}`}>
+                        {o.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-2">Provider: {o.providerName}</p>
+                    <p className="text-sm text-gray-500">Date: {o.date} · {o.timeSlot}</p>
+                  </button>
+                ))
+              ) : (
+                <p className="text-gray-500 text-center">No orders yet. Book a service to see it here.</p>
+              )}
             </div>
           </div>
         )}
@@ -168,13 +170,13 @@ export default function MinePage({
         )}
         {activeOption === "my-stories" && (
           <MyStoriesPage
-            onBack={onBack}
+            onBack={onBack!}
             loggedInUserName={loggedInUserName}
             userStories={userStories}
           />
         )}
         {activeOption === "my-achievements" && (
-          <MyAchievementsPage onBack={onBack} />
+          <MyAchievementsPage onBack={onBack!} />
         )}
       </div>
     );

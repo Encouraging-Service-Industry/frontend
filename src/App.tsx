@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import SplashScreen from "./pages/SplashScreen";
 import HomePage from "./pages/HomePage";
@@ -11,7 +11,7 @@ import BookingFlowPage from "./pages/BookingFlowPage";
 import MinePage from "./pages/MinePage";
 import LoginPage from "./pages/LoginPage"; // Import LoginPage
 import NotificationsPage from "./pages/NotificationsPage"; // Import NotificationsPage
-import type { Provider, VendorCompany } from "./data"; // Re-import VendorCompany
+import type { Provider, VendorCompany, Order } from "./data"; // Re-import VendorCompany and Order
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
 import VendorDetailPage from "./pages/VendorDetailPage"; // Import VendorDetailPage
@@ -22,6 +22,7 @@ import SupplierBackgroundCheck from "./pages/SupplierBackgroundCheck";
 import SupplierPortfolioSetup from "./pages/SupplierPortfolioSetup";
 import SupplierNotifications from "./pages/SupplierNotifications";
 import LocationTrackingPage from "./pages/LocationTrackingPage";
+import OrderDetailPage from "./pages/OrderDetailPage";
 
 type Tab =
   | "splash"
@@ -37,6 +38,7 @@ type Tab =
   | "notifications"
   | "value-dashboard-detail"
   | "vendor-detail-view"
+  | "order-detail"
   | "supplier-welcome"
   | "supplier-dashboard"
   | "supplier-qualification"
@@ -56,8 +58,8 @@ export default function App() {
   const [currentService, setCurrentService] = useState<string>("");
   const [preselectedLocation, setPreselectedLocation] = useState<string>(""); // New state for preselected location
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
-  const [isSupplierMode, setIsSupplierMode] = useState(false);
   const [currentBookingId, setCurrentBookingId] = useState<string>(""); // New state for booking ID
+  const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const isSupplierTab =
     tab === "supplier-welcome" ||
     tab === "supplier-dashboard" ||
@@ -152,6 +154,69 @@ export default function App() {
       },
     ]);
   };
+
+  // Temporary frontend orders store (persisted to localStorage)
+  const [orders, setOrders] = useState<Order[]>(() => {
+    try {
+      const raw = localStorage.getItem("demo_orders_v1");
+      return raw ? (JSON.parse(raw) as Order[]) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const handleBookingComplete = (order: Order) => {
+    // prepend to orders list
+    setOrders((prev) => [order, ...prev]);
+    // set current booking id for tracking if needed
+    setCurrentBookingId(order.id);
+    // open the order detail after booking so user can start tracking
+    setCurrentOrder(order);
+    setTab("order-detail");
+  };
+
+  const handleOpenOrder = (order: Order) => {
+    setCurrentOrder(order);
+    setCurrentBookingId(order.id);
+    setTab("order-detail");
+  };
+
+  const handleSimulateConfirm = (orderId: string) => {
+    setOrders((prev) => {
+      const next = prev.map((o) =>
+        o.id === orderId ? ({ ...(o as Order), status: "confirmed" } as Order) : o
+      );
+      const updated = next.find((o) => o.id === orderId) as Order | undefined;
+      setCurrentOrder(updated ?? null);
+      setCurrentBookingId(orderId);
+      // keep user on order-detail so they can start tracking
+      setTab("order-detail");
+      return next;
+    });
+  };
+
+  // persist orders and currentOrder id to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("demo_orders_v1", JSON.stringify(orders));
+      localStorage.setItem("demo_currentOrderId_v1", currentOrder?.id ?? "");
+    } catch (e) {
+      // ignore storage errors in demo
+    }
+  }, [orders, currentOrder]);
+
+  // restore currentOrder from persisted id after orders load/change
+  useEffect(() => {
+    try {
+      const id = localStorage.getItem("demo_currentOrderId_v1");
+      if (id) {
+        const found = orders.find((o) => o.id === id);
+        if (found) setCurrentOrder(found);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [orders]);
 
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -353,7 +418,6 @@ export default function App() {
             {tab === "supplier-welcome" && (
               <SupplierWelcome
                 onStartVerification={() => {
-                  setIsSupplierMode(true);
                   setTab("supplier-dashboard");
                 }}
                 onBack={() => setTab("home")}
@@ -439,6 +503,7 @@ export default function App() {
                 provider={currentProvider}
                 onBack={() => setTab("provider-detail")}
                 onComplete={() => setTab("home")}
+                onBookingComplete={handleBookingComplete}
                 onStartTracking={() => {
                   setCurrentBookingId("booking-" + Date.now());
                   setTab("location-tracking");
@@ -453,6 +518,22 @@ export default function App() {
                 onLogout={handleLogout}
                 loggedInUserName={loggedInUserName || "Guest"}
                 userStories={stories} // Pass the global stories state
+                orders={orders}
+                onOpenOrder={handleOpenOrder}
+              />
+            )}
+            {tab === "order-detail" && currentOrder && (
+              <OrderDetailPage
+                order={currentOrder}
+                onBack={() => {
+                  setTab("mine");
+                  setMineOption("orders");
+                }}
+                onStartTracking={(id: string) => {
+                  setCurrentBookingId(id);
+                  setTab("location-tracking");
+                }}
+                onSimulateConfirm={handleSimulateConfirm}
               />
             )}
             {tab === "notifications" && <NotificationsPage />}
