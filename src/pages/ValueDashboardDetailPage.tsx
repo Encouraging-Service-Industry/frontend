@@ -1,9 +1,9 @@
-import React, { useRef } from 'react'; // kept for JSX/runtime compatibility
+import React, { useRef, useState, useEffect } from 'react'; // kept for JSX/runtime compatibility
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { calculateInvestmentPortfolio, generateRecommendations, computeTier } from '../hooks/useInvestmentCalculator';
 import { useCountUp, useInView } from '../hooks/useCountUp';
-import { IconHealth, IconRelationship, IconSelf, IconCoin } from '../components/InvestmentIcons';
+import { IconHealth, IconRelationship, IconSelf, IconCoin, IconInfo } from '../components/InvestmentIcons';
 
 type Props = {
   onBack: () => void;
@@ -52,6 +52,18 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const inView = useInView(rootRef);
 
+  // Info modal state
+  const [showInfo, setShowInfo] = useState(false);
+
+  // close modal on Escape
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setShowInfo(false);
+    }
+    if (showInfo) window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showInfo]);
+
   // count-up values that start when component enters view
   const countedCoins = useCountUp(portfolio.totalTimeCoins, 900, inView);
   const countedFuture = useCountUp(portfolio.estimatedFutureValue, 1100, inView);
@@ -69,7 +81,16 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
         </svg>
         Back to Home
       </button>
-      <h1 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">Your Life Investment Portfolio</h1>
+      <div className="flex items-center justify-center gap-3 mb-6">
+        <h1 className="text-3xl font-extrabold text-gray-800">Your Life Investment Portfolio</h1>
+        <button
+          aria-label="About Life Investment calculations"
+          onClick={() => setShowInfo(true)}
+          className="ml-2 p-2 rounded-full hover:bg-gray-100 transition-transform transform hover:scale-105"
+        >
+          <IconInfo className="w-5 h-5 text-gray-600" />
+        </button>
+      </div>
 
       {/* Overview card (prominent) */}
       <motion.section variants={cardVariants} className="bg-white p-6 rounded-2xl mb-6 shadow-xl border border-gray-100">
@@ -97,6 +118,104 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
           </div>
         </div>
       </motion.section>
+
+        {/* Info Modal */}
+        {showInfo && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/40" onClick={() => setShowInfo(false)} />
+            <motion.div role="dialog" aria-modal="true" initial={{ y: 20, opacity: 0, scale: 0.98 }} animate={{ y: 0, opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="relative z-10 max-w-3xl w-full bg-white rounded-2xl p-6 shadow-2xl border border-gray-100">
+              <div className="flex items-start justify-between gap-4">
+                <h2 className="text-xl font-semibold">📊 Your Life Investment Portfolio - Calculation Logic</h2>
+                <button aria-label="Close" onClick={() => setShowInfo(false)} className="text-gray-500 hover:text-gray-700">✕</button>
+              </div>
+              <div className="mt-4 prose prose-sm text-sm text-gray-700 max-h-[60vh] overflow-auto">
+                <h3>Core Concept</h3>
+                <p>We reframe every service you purchase as an investment in your future. Our Time Bank system converts saved time into growable assets.</p>
+
+                <h4>1. Time Coin Basic System</h4>
+                <ul>
+                  <li><strong>Standard Conversion</strong>: 1 hour = 10 Time Coins</li>
+                  <li>All service hours accumulate into your total time assets</li>
+                  <li><em>Why 10×?</em> To show investment growth more granularly</li>
+                </ul>
+
+                <h4>2. Smart Asset Allocation</h4>
+                <div className="mt-2 overflow-auto">
+                  <table className="min-w-full text-sm text-left border-collapse">
+                    <thead>
+                      <tr className="text-xs text-gray-500">
+                        <th className="px-3 py-2">Service Type</th>
+                        <th className="px-3 py-2">Health</th>
+                        <th className="px-3 py-2">Relationship</th>
+                        <th className="px-3 py-2">Self</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      <tr>
+                        <td className="px-3 py-2 font-medium text-gray-700">Home Cleaning</td>
+                        <td className="px-3 py-2">50%</td>
+                        <td className="px-3 py-2">50%</td>
+                        <td className="px-3 py-2">0%</td>
+                      </tr>
+                      <tr>
+                        <td className="px-3 py-2 font-medium text-gray-700">Errand Service</td>
+                        <td className="px-3 py-2">0%</td>
+                        <td className="px-3 py-2">30%</td>
+                        <td className="px-3 py-2">70%</td>
+                      </tr>
+                      <tr>
+                        <td className="px-3 py-2 font-medium text-gray-700">Appliance Repair</td>
+                        <td className="px-3 py-2">60%</td>
+                        <td className="px-3 py-2">0%</td>
+                        <td className="px-3 py-2">40%</td>
+                      </tr>
+                      <tr>
+                        <td className="px-3 py-2 font-medium text-gray-700">Gardening</td>
+                        <td className="px-3 py-2">70%</td>
+                        <td className="px-3 py-2">30%</td>
+                        <td className="px-3 py-2">0%</td>
+                      </tr>
+                      <tr>
+                        <td className="px-3 py-2 font-medium text-gray-700">Learning Courses</td>
+                        <td className="px-3 py-2">0%</td>
+                        <td className="px-3 py-2">0%</td>
+                        <td className="px-3 py-2">100%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4>3. Future Value Multipliers</h4>
+                <ul>
+                  <li><strong>Health</strong> ×1.2 — reduces future health costs</li>
+                  <li><strong>Relationship</strong> ×1.5 — emotional returns</li>
+                  <li><strong>Self</strong> ×2.0 — learning & income growth</li>
+                </ul>
+
+                <h4>4. Value Calculation Formula</h4>
+                <pre className="bg-gray-50 p-2 rounded">Future Value = (Health Coins × 1.2 + Relationship Coins × 1.5 + Self Coins × 2.0) × $5</pre>
+
+                <h4>5. Pension Reserve Plan</h4>
+                <ul>
+                  <li>Every 100 Time Coins = 1 Pension Credit</li>
+                  <li>Pension credits can be redeemed for premium care services later</li>
+                </ul>
+
+                <h4>Example</h4>
+                <p>4-hour deep cleaning → 40 Time Coins (4×10). Allocation: Health 20 + Relationship 20. Future Value: (20×1.2 + 20×1.5) × $5 = $270</p>
+
+                <h4>Current Analysis (demo)</h4>
+                <ul>
+                  <li>Total Time Assets: 350 Time Coins (35 hours)</li>
+                  <li>Estimated Future Value: $2,785.5</li>
+                  <li>Pension Credits: 3 credits (350 Time Coins)</li>
+                </ul>
+
+                <p className="mt-2 text-xs text-gray-400">All calculations are for guidance and may vary by usage. Time is your most valuable asset — invest it wisely.</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
 
       {/* Allocation + Chart card */}
       <motion.section variants={cardVariants} className="bg-white p-6 rounded-2xl mb-6 shadow-sm border border-gray-100">
