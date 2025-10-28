@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { servicesData, type VendorCompany } from "../data"; // Import servicesData
+import { calculateInvestmentPortfolio, type ServiceRecord } from "../hooks/useInvestmentCalculator";
 
 type Props = {
   onQuickService?: (serviceId: string, location: string) => void; // Update prop signature
@@ -158,25 +159,45 @@ export default function HomePage({
               />
             </svg>
           </button>
-          <h3 className="text-2xl font-bold text-indigo-900 mb-4">
-            Your Value Dashboard
-          </h3>
-          <div className="flex items-center mb-4">
-            <span className="text-6xl font-bold text-indigo-700">5</span>
-            <span className="text-2xl text-indigo-500 ml-3">hours saved</span>
-          </div>
-          <div className="w-full bg-indigo-200 rounded-full h-3 mb-6">
-            <div
-              className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
-              style={{ width: "75%" }}
-            />
-          </div>
-          <p className="text-indigo-900 font-medium text-lg">
-            This is equivalent to...{" "}
-            <span className="text-indigo-600 font-bold">
-              one family dinner + one bedtime story
-            </span>
-          </p>
+            <h3 className="text-2xl font-bold text-indigo-900 mb-4">Your Investment Portfolio</h3>
+
+            {/* Compact preview: left = coins, right = future value + CTA */}
+            {(() => {
+              const demoHistory: ServiceRecord[] = [
+                { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
+                { serviceName: 'Errand Helper', category: 'errandService', duration: 8, cost: 60, date: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString() },
+                { serviceName: 'Online Course', category: 'learning', duration: 6, cost: 200, date: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString() },
+                { serviceName: 'Appliance Repair', category: 'applianceRepair', duration: 4, cost: 80, date: new Date(Date.now() - 20 * 24 * 3600 * 1000).toISOString() },
+                { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
+              ];
+              const preview = calculateInvestmentPortfolio(demoHistory);
+              return (
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white rounded-lg shadow-sm">
+                      <svg className="w-8 h-8 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                        <circle cx="12" cy="12" r="8" />
+                        <path d="M10 9h4v6h-4z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-5xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
+                      <div className="text-sm text-indigo-500">Time Coins</div>
+                    </div>
+                  </div>
+
+                  <div className="text-right md:text-right">
+                    <div className="text-sm text-gray-600">Estimated Future Value</div>
+                    <div className="text-2xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
+                    <div className="mt-3 flex items-center justify-end gap-3">
+                      <button onClick={onOpenValueDashboardDetail} className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                        View Portfolio
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
         </div>
 
         {/* Supplier CTA */}
