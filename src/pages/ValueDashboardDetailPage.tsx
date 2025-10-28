@@ -195,10 +195,10 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
                 <h4>4. Value Calculation Formula</h4>
                 <pre className="bg-gray-50 p-2 rounded">Future Value = (Health Coins × 1.2 + Relationship Coins × 1.5 + Self Coins × 2.0) × $5</pre>
 
-                <h4>5. Pension Reserve Plan</h4>
+                <h4>5. VIP Retirement Benefits</h4>
                 <ul>
-                  <li>Every 100 Time Coins = 1 Pension Credit</li>
-                  <li>Pension credits can be redeemed for premium care services later</li>
+                  <li>Every 100 Time Coins = 1 VIP Credit. VIP Credits unlock premium service privileges and priority access in retirement.</li>
+                  <li>Accumulate Pension Credits to unlock premium service privileges in your retirement</li>
                 </ul>
 
                 <h4>Example</h4>
@@ -208,7 +208,7 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
                 <ul>
                   <li>Total Time Assets: 350 Time Coins (35 hours)</li>
                   <li>Estimated Future Value: $2,785.5</li>
-                  <li>Pension Credits: 3 credits (350 Time Coins)</li>
+                  <li>VIP Credits: 3 credits (350 Time Coins)</li>
                 </ul>
 
                 <p className="mt-2 text-xs text-gray-400">All calculations are for guidance and may vary by usage. Time is your most valuable asset — invest it wisely.</p>
@@ -281,12 +281,17 @@ export default function ValueDashboardDetailPage({ onBack }: Props) {
           <div className="text-sm text-gray-500">Tier: <span className="font-semibold text-gray-800">{tier.tier}</span></div>
         </div>
 
-        <div className="mt-4">
-          <div className="text-sm text-gray-600">Pension Credits Earned: <span className="font-semibold">{portfolio.pensionCredits}</span></div>
-          <div className="w-full bg-gray-100 rounded-full h-3 mt-2 overflow-hidden">
+        {/* Progress bar moved here to associate visually with the Investor Tier */}
+        <div className="mt-3">
+          <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
             <div className="bg-indigo-600 h-3" style={{ width: `${Math.round(portfolio.totalTimeCoins % 100)}%` }} />
           </div>
-          <div className="text-xs text-gray-400 mt-1">Every 100 Time Coins grants 1 pension credit. Keep investing to grow future stability.</div>
+        </div>
+
+        <div className="mt-4">
+          <div className="text-sm text-gray-600">Pension Credits Earned: <span className="font-semibold">{portfolio.pensionCredits}</span></div>
+          <div className="text-xs text-gray-400 mt-1">Every 100 Time Coins grants 1 VIP Credit. Keep investing to grow future stability.</div>
+          <div className="text-xs text-gray-500 mt-1">3 Credits = VIP status for future service priority & discounts</div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
