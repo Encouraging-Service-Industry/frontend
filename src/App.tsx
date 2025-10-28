@@ -11,7 +11,13 @@ import BookingFlowPage from "./pages/BookingFlowPage";
 import MinePage from "./pages/MinePage";
 import LoginPage from "./pages/LoginPage"; // Import LoginPage
 import NotificationsPage from "./pages/NotificationsPage"; // Import NotificationsPage
-import type { Provider, VendorCompany, Order, Notification } from "./data"; // Re-import VendorCompany, Order, Notification
+import {
+  type Provider,
+  type VendorCompany,
+  type Order,
+  type Notification,
+  providers as allProviders,
+} from "./data"; // Re-import VendorCompany, Order, Notification
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
 import TimeCoinMarketplace from "./pages/TimeCoinMarketplace";
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
@@ -646,6 +652,13 @@ export default function App() {
                   setMineOption("orders");
                 }}
                 onStartTracking={(id: string) => {
+                  const order = orders.find((o) => o.id === id);
+                  if (order && order.providerId) {
+                    const provider = allProviders[order.providerId];
+                    if (provider) {
+                      setCurrentProvider(provider);
+                    }
+                  }
                   setCurrentBookingId(id);
                   setTab("location-tracking");
                 }}
