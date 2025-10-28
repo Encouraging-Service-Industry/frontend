@@ -11,7 +11,7 @@ import BookingFlowPage from "./pages/BookingFlowPage";
 import MinePage from "./pages/MinePage";
 import LoginPage from "./pages/LoginPage"; // Import LoginPage
 import NotificationsPage from "./pages/NotificationsPage"; // Import NotificationsPage
-import type { Provider, VendorCompany, Order } from "./data"; // Re-import VendorCompany and Order
+import type { Provider, VendorCompany, Order, Notification } from "./data"; // Re-import VendorCompany, Order, Notification
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
 import VendorDetailPage from "./pages/VendorDetailPage"; // Import VendorDetailPage
@@ -165,6 +165,16 @@ export default function App() {
     }
   });
 
+  // Temporary frontend notifications store (persisted)
+  const [notifications, setNotifications] = useState<Notification[]>(() => {
+    try {
+      const raw = localStorage.getItem("demo_notifications_v1");
+      return raw ? (JSON.parse(raw) as Notification[]) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
   const handleBookingComplete = (order: Order) => {
     // prepend to orders list
     setOrders((prev) => [order, ...prev]);
@@ -173,6 +183,19 @@ export default function App() {
     // open the order detail after booking so user can start tracking
     setCurrentOrder(order);
     setTab("order-detail");
+    // create a temporary notification about the new order
+    try {
+      const notif = {
+        id: "notif-" + Date.now(),
+        type: "order" as const,
+        message: `Booking created: ${order.service} on ${order.date} · ${order.timeSlot} (status: ${order.status})`,
+        read: false,
+        createdAt: Date.now(),
+      };
+      setNotifications((prev) => [notif, ...prev]);
+    } catch (e) {
+      // ignore
+    }
   };
 
   const handleOpenOrder = (order: Order) => {
@@ -182,28 +205,47 @@ export default function App() {
   };
 
   const handleSimulateConfirm = (orderId: string) => {
-    setOrders((prev) => {
-      const next = prev.map((o) =>
-        o.id === orderId ? ({ ...(o as Order), status: "confirmed" } as Order) : o
-      );
-      const updated = next.find((o) => o.id === orderId) as Order | undefined;
-      setCurrentOrder(updated ?? null);
+    // Update orders to confirmed
+    setOrders((prev) => prev.map((o) => (o.id === orderId ? ({ ...(o as Order), status: "confirmed" } as Order) : o)));
+
+    // update current order reference and booking id
+    const updated = orders.find((o) => o.id === orderId) as Order | undefined;
+    if (updated) {
+      const confirmed = { ...(updated as Order), status: "confirmed" } as Order;
+      setCurrentOrder(confirmed);
       setCurrentBookingId(orderId);
-      // keep user on order-detail so they can start tracking
       setTab("order-detail");
-      return next;
-    });
+
+      // create a single notification for the confirmation
+      try {
+        const notif = {
+          id: "notif-" + Date.now(),
+          type: "order" as const,
+          message: `Booking confirmed: ${confirmed.service} on ${confirmed.date} · ${confirmed.timeSlot}`,
+          read: false,
+          createdAt: Date.now(),
+        };
+        setNotifications((nprev) => [notif, ...nprev]);
+      } catch (e) {
+        // ignore
+      }
+    } else {
+      // Fallback: still set tab and booking id
+      setCurrentBookingId(orderId);
+      setTab("order-detail");
+    }
   };
 
-  // persist orders and currentOrder id to localStorage
+  // persist orders, notifications and currentOrder id to localStorage
   useEffect(() => {
     try {
       localStorage.setItem("demo_orders_v1", JSON.stringify(orders));
       localStorage.setItem("demo_currentOrderId_v1", currentOrder?.id ?? "");
+      localStorage.setItem("demo_notifications_v1", JSON.stringify(notifications));
     } catch (e) {
       // ignore storage errors in demo
     }
-  }, [orders, currentOrder]);
+  }, [orders, currentOrder, notifications]);
 
   // restore currentOrder from persisted id after orders load/change
   useEffect(() => {
@@ -521,7 +563,15 @@ export default function App() {
             {tab === "mine" && (
               <MinePage
                 activeOption={mineOption || undefined}
-                onSelectOption={(option) => setMineOption(option)}
+                onSelectOption={(option) => {
+                  // if user selects notifications from Mine, open global notifications tab
+                  if (option === "notifications") {
+                    setTab("notifications");
+                    setMineOption(null);
+                  } else {
+                    setMineOption(option);
+                  }
+                }}
                 onBack={() => setMineOption(null)}
                 onLogout={handleLogout}
                 loggedInUserName={loggedInUserName || "Guest"}
@@ -544,7 +594,19 @@ export default function App() {
                 onSimulateConfirm={handleSimulateConfirm}
               />
             )}
-            {tab === "notifications" && <NotificationsPage />}
+            {tab === "notifications" && (
+              <NotificationsPage
+                notifications={notifications}
+                onMarkAsRead={(id: string) =>
+                  setNotifications((prev) =>
+                    prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+                  )
+                }
+                onDelete={(id: string) =>
+                  setNotifications((prev) => prev.filter((n) => n.id !== id))
+                }
+              />
+            )}
             {tab === "value-dashboard-detail" && (
               <ValueDashboardDetailPage onBack={() => setTab("home")} />
             )}

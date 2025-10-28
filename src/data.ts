@@ -50,6 +50,14 @@ export type Order = {
   createdAt: number;
 };
 
+export type Notification = {
+  id: string;
+  type: "order" | "chat" | "reminder" | "general";
+  message: string;
+  read: boolean;
+  createdAt: number;
+};
+
 export type ServiceCategory = {
   id: string;
   name: string;

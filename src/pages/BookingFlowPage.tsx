@@ -98,6 +98,7 @@ export default function BookingFlowPage({
             <input
               type="date"
               value={bookingData.date}
+              min={new Date().toISOString().split('T')[0]}
               onChange={(e) =>
                 setBookingData({ ...bookingData, date: e.target.value })
               }

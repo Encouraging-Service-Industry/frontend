@@ -1,57 +1,23 @@
-import React from 'react';
+import type { Notification as NotificationType } from '../data';
 
-interface Notification {
-  id: string;
-  type: 'order' | 'chat' | 'reminder' | 'general';
-  message: string;
-  time: string;
-  read: boolean;
+type Props = {
+  notifications: NotificationType[];
+  onMarkAsRead: (id: string) => void;
+  onDelete: (id: string) => void;
+};
+
+function timeAgo(ts: number) {
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins} min${mins > 1 ? 's' : ''} ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs} hour${hrs > 1 ? 's' : ''} ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days} day${days > 1 ? 's' : ''} ago`;
 }
 
-const mockNotifications: Notification[] = [
-  {
-    id: '1',
-    type: 'order',
-    message: 'Your home cleaning service is confirmed for tomorrow.',
-    time: '2 hours ago',
-    read: false,
-  },
-  {
-    id: '2',
-    type: 'chat',
-    message: 'New message from Jane (Home Cleaning Provider).',
-    time: '1 hour ago',
-    read: true,
-  },
-  {
-    id: '3',
-    type: 'reminder',
-    message: 'Don\'t forget to book your weekly grocery delivery!',
-    time: 'Yesterday',
-    read: false,
-  },
-  {
-    id: '4',
-    type: 'general',
-    message: 'New service category: Pet Care now available!',
-    time: '2 days ago',
-    read: true,
-  },
-];
-
-export default function NotificationsPage() {
-  const [notifications, setNotifications] = React.useState(mockNotifications);
-
-  const markAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif))
-    );
-  };
-
-  const deleteNotification = (id: string) => {
-    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
-  };
-
+export default function NotificationsPage({ notifications, onMarkAsRead, onDelete }: Props) {
   return (
     <div className="p-4 pt-6">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Notifications</h2>
@@ -66,19 +32,19 @@ export default function NotificationsPage() {
             >
               <div>
                 <p className="font-semibold text-gray-800">{notification.message}</p>
-                <p className="text-sm text-gray-500">{notification.time}</p>
+                <p className="text-sm text-gray-500">{timeAgo(notification.createdAt)}</p>
               </div>
               <div className="flex items-center space-x-2">
                 {!notification.read && (
                   <button
-                    onClick={() => markAsRead(notification.id)}
+                    onClick={() => onMarkAsRead(notification.id)}
                     className="text-indigo-600 hover:text-indigo-800 text-sm"
                   >
                     Mark as Read
                   </button>
                 )}
                 <button
-                  onClick={() => deleteNotification(notification.id)}
+                  onClick={() => onDelete(notification.id)}
                   className="text-red-500 hover:text-red-700 text-sm"
                 >
                   Delete
