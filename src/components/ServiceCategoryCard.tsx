@@ -7,6 +7,8 @@ interface ServiceCategoryCardProps {
   icon: string;
   providersCount: number;
   onClick: (id: string) => void;
+  showProvidersCount?: boolean; // New optional prop
+  showDescription?: boolean; // New optional prop
 }
 
 const ServiceCategoryCard: React.FC<ServiceCategoryCardProps> = ({
@@ -16,6 +18,8 @@ const ServiceCategoryCard: React.FC<ServiceCategoryCardProps> = ({
   icon,
   providersCount,
   onClick,
+  showProvidersCount = true, // Default to true
+  showDescription = true, // Default to true
 }) => {
   return (
     <button
@@ -39,13 +43,17 @@ const ServiceCategoryCard: React.FC<ServiceCategoryCardProps> = ({
           {name}
         </h3>
         {/* Secondary Info: Provider Count */}
-        <p className="text-sm text-gray-500 mb-2">
-          {providersCount} providers
-        </p>
+        {showProvidersCount && (
+          <p className="text-sm text-gray-500 mb-2">
+            {providersCount} providers
+          </p>
+        )}
         {/* Tertiary Description */}
-        <p className="text-base text-gray-700 line-clamp-2">
-          {description}
-        </p>
+        {showDescription && description && (
+          <p className="text-base text-gray-700 line-clamp-2">
+            {description}
+          </p>
+        )}
       </div>
     </button>
   );

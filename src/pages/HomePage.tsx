@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { servicesData, type VendorCompany } from "../data"; // Import servicesData
+import ServiceCategoryCard from "../components/ServiceCategoryCard";
 import { calculateInvestmentPortfolio, type ServiceRecord } from "../hooks/useInvestmentCalculator";
 
 type Props = {
@@ -255,52 +256,24 @@ export default function HomePage({
           Popular Services
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <button
-            onClick={() => onQuickService?.("home_cleaning", selectedLocation)}
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <img
-              src="/assets/cleaning.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Home Cleaning"
+          {[ // Define popular services data
+            { id: "home_cleaning", name: "Home Cleaning", icon: "/assets/cleaning.jpg" },
+            { id: "appliance_repair", name: "Appliance Repair", icon: "/assets/repair.jpg" },
+            { id: "errands", name: "Errand Service", icon: "/assets/errand.jpg" },
+            { id: "gardening", name: "Gardening", icon: "/assets/gardening.jpg" },
+          ].map((service) => (
+            <ServiceCategoryCard
+              key={service.id}
+              id={service.id}
+              name={service.name}
+              description={servicesData[service.id]?.description || ""}
+              icon={service.icon}
+              providersCount={0}
+              onClick={() => onQuickService?.(service.id, selectedLocation)}
+              showProvidersCount={false}
+              showDescription={false}
             />
-            <span className="text-gray-700 font-medium">Home Cleaning</span>
-          </button>
-          <button
-            onClick={() =>
-              onQuickService?.("appliance_repair", selectedLocation)
-            }
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <img
-              src="/assets/repair.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Appliance Repair"
-            />
-            <span className="text-gray-700 font-medium">Appliance Repair</span>
-          </button>
-          <button
-            onClick={() => onQuickService?.("errands", selectedLocation)}
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <img
-              src="/assets/errand.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Errand Service"
-            />
-            <span className="text-gray-700 font-medium">Errand Service</span>
-          </button>
-          <button
-            onClick={() => onQuickService?.("gardening", selectedLocation)}
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <img
-              src="/assets/gardening.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Gardening"
-            />
-            <span className="text-gray-700 font-medium">Gardening</span>
-          </button>
+          ))}
         </div>
       </div>
     </div>
