@@ -242,10 +242,8 @@ export default function MinePage({
             </svg>
           </div>
           <div>
-            <h3 className="font-semibold text-gray-800">My Profile</h3>
-            <p className="text-sm text-gray-500">
-              Manage your personal information
-            </p>
+            <h3 className="font-semibold text-gray-800">My Info</h3>
+            <p className="text-sm text-gray-500">View and manage your personal information</p>
           </div>
         </button>
 

@@ -316,7 +316,7 @@ export default function App() {
                       : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
                   }`}
                 >
-                  Profile
+                  My Profile
                 </button>
               </div>
 
@@ -345,14 +345,22 @@ export default function App() {
                 </button>
 
                 <div className="flex items-center space-x-2">
-                  <img
-                    src="/assets/Anna.jpg"
-                    alt="Anna avatar"
-                    className="h-8 w-8 rounded-full object-cover"
-                  />
-                  <span className="text-sm text-gray-700">
-                    Welcome, {loggedInUserName || "Guest"}
-                  </span>
+                  <button
+                    onClick={() => {
+                      setTab("mine");
+                      setMineOption(null);
+                    }}
+                    aria-label="Open My Profile"
+                    className="flex items-center space-x-2 focus:outline-none"
+                  >
+                    <img
+                      src="/assets/Anna.jpg"
+                      alt="Anna avatar"
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                    <span className="text-sm text-gray-700">{loggedInUserName || "Guest"}</span>
+                  </button>
+
                   <button
                     onClick={handleLogout}
                     className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
