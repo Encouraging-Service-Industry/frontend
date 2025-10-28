@@ -51,7 +51,7 @@ export default function TimeCoinMarketplace({ onBack, availableCoins = 350, onRe
     setSelectedProduct(null);
   };
 
-  const history = orders.filter((o) => o.id?.toString().startsWith("market-"));
+
 
   return (
     <div className="p-4 pt-6">
@@ -117,25 +117,7 @@ export default function TimeCoinMarketplace({ onBack, availableCoins = 350, onRe
 
       {message && <div className="mt-4 text-sm text-green-600">{message}</div>}
 
-      {/* Redemption history */}
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-3">Redemption History</h2>
-        {history.length === 0 ? (
-          <div className="text-sm text-gray-500">No redemptions yet.</div>
-        ) : (
-          <div className="space-y-2">
-            {history.map((h) => (
-              <div key={h.id} className="bg-white p-3 rounded border border-gray-100 flex items-center justify-between">
-                <div>
-                  <div className="font-medium text-gray-800">{h.service}</div>
-                  <div className="text-xs text-gray-500">{new Date(h.createdAt).toLocaleString()}</div>
-                </div>
-                <div className="text-sm text-gray-700">{h.price} Coins</div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+
     </div>
   );
 }
