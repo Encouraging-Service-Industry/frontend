@@ -1,23 +1,25 @@
 import { useMemo, useState, useEffect } from "react";
 import type { Order } from "../data";
+import { type PortfolioResult } from "../hooks/useInvestmentCalculator"; // Import PortfolioResult
 
 type Props = {
   onBack: () => void;
   availableCoins?: number;
   onRedeem?: (productId: string, price: number, name: string) => void;
   orders?: Order[];
+  portfolio: PortfolioResult; // Add portfolio prop
 };
 
 const products = [
-  { id: "course", name: "Online Course Voucher", price: 50, description: "Access an online course of your choice.", category: "Self-Investment", image: "/assets/market/JavaScriptonlinecourse.png" },
-  { id: "gym", name: "Gym 1-Month Pass", price: 80, description: "One month full access gym membership.", category: "Health & Wellness", image: "/assets/market/gym.png" },
-  { id: "movie", name: "Family Movie Tickets", price: 60, description: "Two tickets for a family movie night.", category: "Relationships", image: "/assets/market/movieticket.jpeg" },
-  { id: "cleaning", name: "20% Off Next Cleaning", price: 25, description: "Discount on your next cleaning service.", category: "Service Discounts", image: "/assets/market/20offvoucher.png" },
+  { id: "course", name: "Online Course Voucher", price: 50, description: "Invest in your future self and unlock new opportunities.", category: "Growth & Skills", image: "/assets/market/JavaScriptonlinecourse.png" },
+  { id: "gym", name: "Gym 1-Month Pass", price: 80, description: "Fuel your body and mind for sustained energy and well-being.", category: "Vitality & Well-being", image: "/assets/market/gym.png" },
+  { id: "movie", name: "Family Movie Tickets", price: 60, description: "Create lasting memories and strengthen your bonds.", category: "Connection & Family", image: "/assets/market/movieticket.jpeg" },
+  { id: "cleaning", name: "20% Off Next Cleaning", price: 25, description: "Discount on your next cleaning service.", category: "Service Discounts", image: "/assets/market/20offvoucher.png", tag: "Popular" },
 ];
 
-const categories = ["All", "Self-Investment", "Health & Wellness", "Relationships", "Service Discounts"];
+const categories = ["All", "Growth & Skills", "Vitality & Well-being", "Connection & Family", "Service Discounts"];
 
-export default function TimeCoinMarketplace({ onBack, availableCoins = 350, onRedeem, orders = [] }: Props) {
+export default function TimeCoinMarketplace({ onBack, availableCoins = 350, onRedeem, orders = [], portfolio }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -85,6 +87,33 @@ export default function TimeCoinMarketplace({ onBack, availableCoins = 350, onRe
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
+
+          {/* Smart Picks for You */}
+          {(() => {
+            const healthCoins = portfolio.healthCoins;
+            const relationshipCoins = portfolio.relationshipCoins;
+            const selfCoins = portfolio.selfCoins;
+
+            const minCoins = Math.min(healthCoins, relationshipCoins, selfCoins);
+
+            let smartPickMessage = "";
+            if (healthCoins === minCoins) {
+              smartPickMessage = "Recharge your Vitality? A gym pass can energize your well-being.";
+            } else if (relationshipCoins === minCoins) {
+              smartPickMessage = "Nurture your Connections? Plan a memorable experience with movie tickets.";
+            } else if (selfCoins === minCoins) {
+              smartPickMessage = "Boost your Growth & Skills? Consider a learning voucher to invest in your future.";
+            } else {
+              smartPickMessage = "Ready to spend your Life Energy? Explore rewards across all areas of your life.";
+            }
+
+            return (
+              <div className="bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 mb-4 rounded-md" role="alert">
+                <p className="font-bold">Smart Pick for You:</p>
+                <p>{smartPickMessage}</p>
+              </div>
+            );
+          })()}
   
           {/* Categories tab bar */}
           <div className="flex items-center gap-2 mb-4">
@@ -101,7 +130,12 @@ export default function TimeCoinMarketplace({ onBack, availableCoins = 350, onRe
   
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((p) => (
-              <div key={p.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+              <div key={p.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 relative"> {/* Added relative for tag positioning */}
+                {p.tag && ( // Render tag if it exists
+                  <span className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full">
+                    {p.tag}
+                  </span>
+                )}
                 <div className="h-48 bg-gray-50 rounded mb-3 flex items-center justify-center overflow-hidden">
                   <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                 </div>

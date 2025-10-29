@@ -18,6 +18,7 @@ import {
   type Notification,
   providers as allProviders,
 } from "./data"; // Re-import VendorCompany, Order, Notification
+import { calculateInvestmentPortfolio } from "./hooks/useInvestmentCalculator"; // Import calculateInvestmentPortfolio
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
 import TimeCoinMarketplace from "./pages/TimeCoinMarketplace";
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
@@ -78,6 +79,17 @@ export default function App() {
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
   const [currentBookingId, setCurrentBookingId] = useState<string>(""); // New state for booking ID
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+
+  // Define serviceHistory and calculate portfolio here
+  const serviceHistory = [
+    { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
+    { serviceName: 'Errand Helper', category: 'errandService', duration: 8, cost: 60, date: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString() },
+    { serviceName: 'Online Course', category: 'learning', duration: 6, cost: 200, date: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString() },
+    { serviceName: 'Appliance Repair', category: 'applianceRepair', duration: 4, cost: 80, date: new Date(Date.now() - 20 * 24 * 3600 * 1000).toISOString() },
+    { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
+  ];
+  const portfolio = calculateInvestmentPortfolio(serviceHistory as any);
+
   const isSupplierTab =
     tab === "supplier-welcome" ||
     tab === "supplier-dashboard" ||
@@ -703,6 +715,7 @@ export default function App() {
                   setCurrentService(category);
                   handleSetTab("services");
                 }}
+                portfolio={portfolio} // Pass portfolio
               />
             )}
             {tab === "timecoin-marketplace" && (
@@ -711,6 +724,7 @@ export default function App() {
                 availableCoins={userCoins}
                 onRedeem={(productId, price, name) => handleRedeem(productId, price, name)}
                 orders={orders}
+                portfolio={portfolio} // Pass portfolio
               />
             )}
             {tab === "vendor-detail-view" && currentVendor && (

@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { calculateInvestmentPortfolio, generateRecommendations, computeTier } from '../hooks/useInvestmentCalculator';
+import { calculateInvestmentPortfolio, generateRecommendations, computeTier, type PortfolioResult } from '../hooks/useInvestmentCalculator';
 import { useCountUp, useInView } from '../hooks/useCountUp';
 import { IconHealth, IconRelationship, IconSelf, IconCoin, IconInfo } from '../components/InvestmentIcons';
 
@@ -9,6 +9,7 @@ type Props = {
   onBack: () => void;
   onOpenMarketplace?: () => void;
   onOpenServiceCategory?: (category: string) => void; // New prop for opening specific service categories
+  portfolio: PortfolioResult; // Add portfolio prop
 };
 
 // Icon components were extracted to ../components/InvestmentIcons
