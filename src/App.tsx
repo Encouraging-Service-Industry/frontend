@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import SplashScreen from "./pages/SplashScreen";
 import HomePage from "./pages/HomePage";
-import StoryWallPage, { type Story } from "./pages/StoryWallPage"; // Import Story type and StoryWallPage
+import StoryWallPage from "./pages/StoryWallPage"; // Import StoryWallPage
 import ServicesPage from "./pages/ServicesPage";
 import ProviderListPage from "./pages/ProviderListPage";
 import ProviderDetailPage from "./pages/ProviderDetailPage"; // Updated import for ProviderDetailPage
@@ -21,6 +21,7 @@ import {
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
 import TimeCoinMarketplace from "./pages/TimeCoinMarketplace";
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
+import { type Story } from "./types/story"; // Import Story type
 import VendorDetailPage from "./pages/VendorDetailPage"; // Import VendorDetailPage
 import SupplierWelcome from "./pages/SupplierWelcome";
 import SupplierVerificationDashboard from "./pages/SupplierVerificationDashboard";

@@ -96,20 +96,21 @@ export default function ServicesPage({
   }, [activeService, vendorFilter, ratingFilter, locationFilter]);
 
   return (
-    <div className="space-y-8">
-      {!activeService && (
+    <div className="max-w-4xl mx-auto px-4">
+      <div className="space-y-8">
+        {!activeService && (
         <>
           <header className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Explore Services
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 mx-auto">
               Browse available service categories and find providers across
               vendors.
             </p>
           </header>
 
-          <div className="max-w-4xl mx-auto">
+          <div className="mx-auto">
             <div className="flex flex-col md:flex-row gap-4 mb-8">
               <div className="relative flex-1">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -174,7 +175,7 @@ export default function ServicesPage({
 
       {activeService && (
         <>
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <button
               onClick={() => setActiveServiceId(null)}
               className="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-6 transition-colors duration-300"
@@ -325,5 +326,6 @@ export default function ServicesPage({
         </>
       )}
     </div>
+  </div>
   );
 }

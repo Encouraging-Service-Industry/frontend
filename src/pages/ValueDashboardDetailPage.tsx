@@ -69,7 +69,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
   const countedCoins = useCountUp(portfolio.totalTimeCoins, 900, inView);
   const countedFuture = useCountUp(portfolio.estimatedFutureValue, 1100, inView);
   return (
-    <motion.div ref={rootRef} className="p-4 pt-6" initial="hidden" animate={inView ? 'visible' : 'hidden'} variants={containerVariants}>
+    <motion.div ref={rootRef} className="max-w-4xl mx-auto px-4 p-4 pt-6" initial="hidden" animate={inView ? 'visible' : 'hidden'} variants={containerVariants}>
       <style>{`
         /* small local styles for pulse/confetti demo and icon hover */
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }

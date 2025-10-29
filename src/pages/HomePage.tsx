@@ -85,13 +85,14 @@ export default function HomePage({
     }
   };
   return (
-    <div className="space-y-8">
-      {/* Hero Section */}
+    <div className="max-w-4xl mx-auto px-4">
+      <div className="space-y-8">
+        {/* Hero Section */}
       <div className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           Welcome back, Anna
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-xl text-gray-600 mx-auto">
           Find the perfect service providers for your needs. Save time, get
           quality work done.
         </p>
@@ -233,7 +234,7 @@ export default function HomePage({
           <h3 className="text-2xl font-bold text-gray-800 mb-4">
             {currentRecommendation.title}
           </h3>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 mb-8 mx-auto">
             {currentRecommendation.description}
           </p>
           <button
@@ -276,6 +277,7 @@ export default function HomePage({
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }
