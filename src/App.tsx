@@ -34,6 +34,7 @@ import LocationTrackingPage from "./pages/LocationTrackingPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import RedemptionDetailPage from "./pages/RedemptionDetailPage";
 import Footer from "./components/Footer"; // Import Footer component
+import TimeEnergyPuzzlePage from "./pages/TimeEnergyPuzzlePage";
 
 type Tab =
   | "splash"
@@ -52,6 +53,7 @@ type Tab =
   | "vendor-detail-view"
   | "order-detail"
   | "redemption-detail"
+  | "time-energy-puzzle"
   | "supplier-welcome"
   | "supplier-dashboard"
   | "supplier-qualification"
@@ -544,6 +546,7 @@ export default function App() {
                 onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
                 onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
                 onOpenSupplierWelcome={() => handleSetTab("supplier-welcome")}
+                onOpenGame={() => handleSetTab("time-energy-puzzle")}
               />
             )}
             {tab === "supplier-welcome" && (
@@ -725,6 +728,14 @@ export default function App() {
                 onRedeem={(productId, price, name) => handleRedeem(productId, price, name)}
                 orders={orders}
                 portfolio={portfolio} // Pass portfolio
+              />
+            )}
+            {tab === "time-energy-puzzle" && (
+              <TimeEnergyPuzzlePage
+                onBack={() => handleSetTab("home")}
+                onClaimReward={() => {
+                  setUserCoins((c) => c + 50);
+                }}
               />
             )}
             {tab === "vendor-detail-view" && currentVendor && (

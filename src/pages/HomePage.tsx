@@ -9,6 +9,7 @@ type Props = {
   onOpenValueDashboardDetail: () => void; // New prop for opening Value Dashboard detail
   onOpenVendorDetail?: (vendor: VendorCompany) => void; // kept for compatibility
   onOpenSupplierWelcome?: () => void; // new: supplier entry
+  onOpenGame?: () => void; // new: time energy puzzle
 };
 
 export default function HomePage({
@@ -16,6 +17,7 @@ export default function HomePage({
   onOpenNotifications,
   onOpenValueDashboardDetail,
   onOpenSupplierWelcome,
+  onOpenGame,
 }: Props) {
   const [selectedService, setSelectedService] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -247,6 +249,28 @@ export default function HomePage({
             >
               Get Verified Now
             </button>
+          </div>
+        </div>
+
+        {/* Game Entry Card - placed below both cards */}
+        <div className="lg:col-span-2">
+          <div className="rounded-2xl p-6 md:p-8 shadow-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 text-white">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h3 className="text-2xl font-extrabold">Find Your Life Balance</h3>
+                <p className="mt-2 text-white/90 max-w-2xl">
+                  Struggling with household chores? Play a 1-minute game to see how outsourcing can give you more energy for what matters!
+                </p>
+              </div>
+              <div className="flex-shrink-0">
+                <button
+                  onClick={onOpenGame}
+                  className="px-6 py-3 rounded-xl bg-white text-indigo-700 font-bold shadow-md hover:shadow-lg hover:translate-y-[-1px] transition"
+                >
+                  Start the Game
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
