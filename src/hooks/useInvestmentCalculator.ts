@@ -108,7 +108,7 @@ export function generateRecommendations(history: ServiceRecord[]) {
   const [topCat] = top;
 
   if (topCat === 'homeCleaning' || topCat === 'gardening') {
-    advice.push({ message: "You're focusing on household efficiency. To boost your Growth & Skills, why not book a learning course?", categoryLink: "learning" });
+    advice.push({ message: "You're focusing on household efficiency. To boost your Growth & Skills, why not book  a learning course?", categoryLink: "learning" });
   }
   if (topCat === 'errandService') {
     advice.push({ message: "Strong tilt to efficiency; diversify into 'Connection & Family' — schedule a family activity that's 'time well spent'.", categoryLink: "relationship" }); // Assuming 'relationship' maps to a service category
