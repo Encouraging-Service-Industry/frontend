@@ -170,7 +170,7 @@ export default function HomePage({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
         {/* Value Dashboard - Enhanced */}
-        <div className="bg-gradient-to-br from-indigo-100 to-purple-100 p-8 rounded-2xl shadow-lg relative text-center flex flex-col justify-between">
+        <div className="bg-gradient-to-br from-indigo-100 to-purple-100 p-8 rounded-2xl shadow-xl relative text-center flex flex-col justify-between">
           <button
             onClick={onOpenValueDashboardDetail}
             className="absolute top-4 right-4 text-indigo-700 hover:text-indigo-900 transition-colors"
@@ -191,7 +191,7 @@ export default function HomePage({
               />
             </svg>
           </button>
-          <h3 className="text-xl font-bold text-indigo-900 mb-4">My Time Value</h3>
+          <h3 className="text-xl font-bold text-indigo-900 mb-2">My Time Value</h3>
 
           {(() => {
             const demoHistory: ServiceRecord[] = [
@@ -212,15 +212,15 @@ export default function HomePage({
               dynamicMessage = "You've earned a full weekend — for your passions and people.";
             }
             return (
-              <div className="flex flex-col items-center justify-center flex-grow p-4"> {/* Use flex-grow to occupy available space */}
-                <div className="text-5xl font-extrabold text-indigo-700 leading-none mb-2">{preview.totalTimeCoins}</div>
-                <div className="text-base text-indigo-500 mb-4">Time Coins Accumulated</div>
+              <div className="flex flex-col items-center justify-center"> {/* Use flex-grow to occupy available space */}
+                <div className="text-4xl font-extrabold text-indigo-700 leading-none mb-2">{preview.totalTimeCoins}</div>
+                <div className="text-base text-indigo-500 mb-2">Time Coins Accumulated</div>
 
-                <div className="text-lg font-semibold text-indigo-900 mb-6 text-center">
+                <div className="text-lg font-semibold text-indigo-900 mb-4 text-center">
                   {dynamicMessage}
                 </div>
 
-                <p className="text-sm text-indigo-800 mb-6 text-center">That's <span className="font-bold">{totalHoursSaved} hours</span> of your life back.</p>
+                <p className="text-sm text-indigo-800 mb-4 text-center">That's <span className="font-bold">{totalHoursSaved} hours</span> of your life back.</p>
 
                 <div className="mt-auto w-full text-center"> {/* CTA button at the bottom */}
                   <button onClick={onOpenValueDashboardDetail} className="px-8 py-3 bg-indigo-600 text-white rounded-full text-base font-semibold hover:bg-indigo-700 transition shadow-md w-fit">
@@ -249,6 +249,8 @@ export default function HomePage({
             </button>
           </div>
         </div>
+
+
       </div>
 
       {/* Social Proof Banner - Enhanced */}
@@ -296,11 +298,11 @@ export default function HomePage({
               {currentRecommendation.buttonText} →
             </button>
           </div>
-        </div>
-      </div>
-
-      {/* Popular Services - Enhanced */}
-      <div className="lg:col-span-2 mt-8">
+                  </div>
+                </div>
+        
+                      
+              {/* Popular Services - Enhanced */}      <div className="lg:col-span-2 mt-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
           Discover Popular Services
         </h2>
