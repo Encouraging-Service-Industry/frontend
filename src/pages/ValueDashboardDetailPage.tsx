@@ -76,12 +76,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
         .icon-hover:hover { transform: scale(1.08); }
       `}</style>
 
-      <button onClick={onBack} className="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-4 transition-colors duration-300">
-        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Back
-      </button>
+
       <div className="text-center mb-6">
         <div className="flex items-center justify-center gap-3">
             <h1 className="text-3xl font-extrabold text-gray-800">My Investment</h1>
