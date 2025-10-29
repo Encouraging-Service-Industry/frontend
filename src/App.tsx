@@ -385,11 +385,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "home"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "home" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   Home
                 </button>
@@ -399,11 +395,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "value-dashboard-detail"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "value-dashboard-detail" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:hover:bg-gray-50"}`}
                 >
                   My Investment
                 </button>
@@ -413,11 +405,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "story"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "story" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   Story Wall
                 </button>
@@ -426,11 +414,7 @@ export default function App() {
                     handleSetTab("services");
                     setMineOption(null);
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "services"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "services" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   Services
                 </button>
@@ -440,11 +424,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "mine"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "mine" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   My Profile
                 </button>
