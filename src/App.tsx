@@ -735,7 +735,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer />
+      {tab !== "login" && tab !== "splash" && <Footer />}
     </div>
   );
 }
