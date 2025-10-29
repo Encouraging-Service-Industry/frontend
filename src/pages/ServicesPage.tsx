@@ -201,29 +201,25 @@ export default function ServicesPage({
               Back to Services
             </button>
 
-            <div className="card p-8 mb-8">
-              <div className="flex items-start">
-                <img
-                  src={activeService.icon}
-                  className="rounded-full mr-6 shadow-md w-20 h-20 object-cover"
-                  width={80}
-                  height={80}
-                  alt={activeService.name}
-                />
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                    {activeService.name}
-                  </h2>
-                  <p className="text-lg text-gray-600 mb-4">
-                    {activeService.description}
-                  </p>
-                  <p className="text-gray-500 text-lg">
-                    Providers available:{" "}
-                    <span className="font-semibold text-indigo-600">
-                      {providerList.length}
-                    </span>
-                  </p>
-                </div>
+            {/* Active Service Hero - Redesigned */}
+            <div
+              className="relative bg-cover bg-center p-8 rounded-2xl text-white text-center mb-8"
+              style={{ backgroundImage: `url('${activeService.icon}')` }}
+            >
+              <div className="absolute inset-0 bg-indigo-900 opacity-40 rounded-2xl"></div>
+              <div className="relative z-10">
+                <h2 className="text-3xl font-bold mb-2">
+                  {activeService.name}
+                </h2>
+                <p className="text-lg mb-3 max-w-2xl mx-auto">
+                  {activeService.description}
+                </p>
+                <p className="text-base opacity-80">
+                  Providers available:{" "}
+                  <span className="font-semibold">
+                    {providerList.length}
+                  </span>
+                </p>
               </div>
             </div>
 
