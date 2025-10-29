@@ -94,26 +94,26 @@ export default function HomePage({
       >
         <div className="absolute inset-0 bg-black opacity-50 rounded-2xl"></div>
         <div className="relative z-10 text-center max-w-2xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
             Your Life, Simplified. Services, Delivered.
           </h1>
-          <p className="text-lg md:text-xl mb-8">
+          <p className="text-base md:text-lg mb-8">
             Connect with trusted local providers for home cleaning, repairs,
             errands, and more. Reclaim your time, enhance your life.
           </p>
           <button
             onClick={() => onQuickService?.("", "")}
-            className="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors shadow-xl"
+            className="bg-indigo-600 text-white px-8 py-3 rounded-full text-base font-semibold hover:bg-indigo-700 transition-colors shadow-xl"
           >
             Explore Services
           </button>
         </div>
       </div>
 
-      {/* Search Section */}
-      <div className="card p-8 mx-auto">
-        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">
-          Find Services Quickly
+      {/* Search Section - Enhanced */}
+      <div className="bg-white p-8 rounded-2xl shadow-xl mx-auto -mt-16 relative z-10 border border-gray-100">
+        <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">
+          Find Your Perfect Service
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative">
@@ -125,7 +125,7 @@ export default function HomePage({
             <select
               value={selectedService}
               onChange={(e) => setSelectedService(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700 appearance-none"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700 appearance-none transition-all duration-200 ease-in-out"
             >
               <option value="">Select a Service</option>
             {Object.values(servicesData).map((service) => (
@@ -146,7 +146,7 @@ export default function HomePage({
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700 appearance-none"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700 appearance-none transition-all duration-200 ease-in-out"
             >
               <option value="">All Locations</option>
             <option>Helsinki</option>
@@ -157,16 +157,16 @@ export default function HomePage({
 
           <button
             onClick={handleQuickSearch}
-            className="btn-primary py-3 text-lg font-semibold"
+            className="bg-indigo-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-indigo-700 transition-colors shadow-md"
           >
             Search Services
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Value Dashboard */}
-        <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl shadow-lg relative text-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        {/* Value Dashboard - Enhanced */}
+        <div className="bg-gradient-to-br from-indigo-100 to-purple-100 p-8 rounded-2xl shadow-lg relative text-center flex flex-col justify-between">
           <button
             onClick={onOpenValueDashboardDetail}
             className="absolute top-4 right-4 text-indigo-700 hover:text-indigo-900 transition-colors"
@@ -187,81 +187,82 @@ export default function HomePage({
               />
             </svg>
           </button>
-            <h3 className="text-xl font-bold text-indigo-900 mb-4">My Investment</h3>
+          <h3 className="text-xl font-bold text-indigo-900 mb-4">My Investment</h3>
 
-            {/* Compact preview: left = coins, right = future value + CTA */}
-            {(() => {
-              const demoHistory: ServiceRecord[] = [
-                { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
-                { serviceName: 'Errand Helper', category: 'errandService', duration: 8, cost: 60, date: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString() },
-                { serviceName: 'Online Course', category: 'learning', duration: 6, cost: 200, date: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString() },
-                { serviceName: 'Appliance Repair', category: 'applianceRepair', duration: 4, cost: 80, date: new Date(Date.now() - 20 * 24 * 3600 * 1000).toISOString() },
-                { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
-              ];
-              const preview = calculateInvestmentPortfolio(demoHistory);
-              return (
-                <div>
-                  <div className="flex flex-col md:flex-row items-center justify-around gap-4">
-                    <div className="text-center">
-                      <div className="text-3xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
-                      <div className="text-sm text-indigo-500">Time Coins</div>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="text-sm text-gray-600">Estimated Future Value</div>
-                      <div className="text-xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
-                    </div>
+          {/* Compact preview: left = coins, right = future value + CTA */}
+          {(() => {
+            const demoHistory: ServiceRecord[] = [
+              { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
+              { serviceName: 'Errand Helper', category: 'errandService', duration: 8, cost: 60, date: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString() },
+              { serviceName: 'Online Course', category: 'learning', duration: 6, cost: 200, date: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString() },
+              { serviceName: 'Appliance Repair', category: 'applianceRepair', duration: 4, cost: 80, date: new Date(Date.now() - 20 * 24 * 3600 * 1000).toISOString() },
+              { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
+            ];
+            const preview = calculateInvestmentPortfolio(demoHistory);
+            return (
+              <div>
+                <div className="flex flex-col md:flex-row items-center justify-around gap-4 mb-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
+                    <div className="text-sm text-indigo-500">Time Coins</div>
                   </div>
-                  <div className="mt-6 text-center">
-                      <button onClick={onOpenValueDashboardDetail} className="px-6 py-3 bg-indigo-600 text-white rounded-lg text-lg font-semibold hover:bg-indigo-700 transition">
-                          View Investment
-                      </button>
+
+                  <div className="text-center">
+                    <div className="text-sm text-gray-600">Estimated Future Value</div>
+                    <div className="text-xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
                   </div>
                 </div>
-              );
-            })()}
+                <div className="mt-auto text-center">
+                    <button onClick={onOpenValueDashboardDetail} className="px-8 py-3 bg-indigo-600 text-white rounded-full text-base font-semibold hover:bg-indigo-700 transition shadow-md">
+                        View Investment
+                    </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
-        {/* Supplier CTA */}
-        <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl shadow-lg">
+        {/* Supplier CTA - Enhanced */}
+        <div className="bg-gradient-to-br from-emerald-100 to-teal-100 p-8 rounded-2xl shadow-lg flex flex-col justify-between">
           <div className="text-center">
             <h3 className="text-xl font-bold text-emerald-900 mb-4">
-              Are you a supplier?
+              Become a Provider
             </h3>
-            <p className="text-emerald-800 mb-6 text-lg">
-              Get verified to earn trust badges and grow your bookings.
+            <p className="text-emerald-800 mb-6 text-base">
+              Join our network of trusted service providers. Grow your business and reach more customers.
             </p>
             <button
               onClick={onOpenSupplierWelcome}
-              className="bg-emerald-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-emerald-700 transition-colors"
+              className="bg-emerald-600 text-white px-8 py-3 rounded-full text-base font-semibold hover:bg-emerald-700 transition-colors shadow-md"
             >
-              Get Verified
+              Get Verified Now
             </button>
           </div>
         </div>
       </div>
 
-      {/* Social Proof Banner */}
-      <div className="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-200 text-center lg:col-span-2">
-        <p className="text-blue-800 font-medium text-lg">
-          Join <span className="font-bold text-lg">1200+ happy users</span> in
+      {/* Social Proof Banner - Enhanced */}
+      <div className="bg-gradient-to-r from-blue-100 to-indigo-100 p-6 rounded-2xl shadow-md border border-blue-200 text-center lg:col-span-2 flex items-center justify-center space-x-3 mt-8">
+        <span className="text-3xl">⭐</span>
+        <p className="text-blue-800 font-semibold text-base">
+          Join <span className="font-bold text-xl text-indigo-700">1200+ happy users</span> in
           Helsinki who outsource tasks! 🎉
         </p>
       </div>
 
-      {/* Smart Recommendation */}
-      <div className="lg:col-span-2">
+      {/* Smart Recommendation - Enhanced */}
+      <div className="lg:col-span-2 mt-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
           Smart Recommendations
         </h2>
-        <div className="card p-8 text-center">
-          <span className="text-5xl mb-6 block">
+        <div className="bg-white p-8 rounded-2xl shadow-xl text-center border border-gray-100">
+          <span className="text-5xl mb-6 block animate-bounce-slow">
             {currentRecommendation.icon}
           </span>
           <h3 className="text-xl font-bold text-gray-800 mb-4">
             {currentRecommendation.title}
           </h3>
-          <p className="text-lg text-gray-600 mb-8 mx-auto">
+          <p className="text-base text-gray-600 mb-8 mx-auto max-w-prose">
             {currentRecommendation.description}
           </p>
           <button
@@ -271,17 +272,17 @@ export default function HomePage({
                 selectedLocation
               )
             }
-            className="btn-primary px-8 py-3 text-lg"
+            className="bg-indigo-600 text-white px-8 py-3 rounded-full text-base font-semibold hover:bg-indigo-700 transition-colors shadow-md"
           >
             {currentRecommendation.buttonText} →
           </button>
         </div>
       </div>
 
-      {/* Popular Services */}
-      <div className="lg:col-span-2">
+      {/* Popular Services - Enhanced */}
+      <div className="lg:col-span-2 mt-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-          Popular Services
+          Discover Popular Services
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[ // Define popular services data
@@ -302,6 +303,14 @@ export default function HomePage({
               showDescription={false}
             />
           ))}
+        </div>
+        <div className="text-center mt-10">
+          <button
+            onClick={() => onQuickService?.("", "")}
+            className="bg-gray-200 text-gray-800 px-8 py-3 rounded-full text-base font-semibold hover:bg-gray-300 transition-colors shadow-md"
+          >
+            View All Services →
+          </button>
         </div>
       </div>
     </div>
