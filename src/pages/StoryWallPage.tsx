@@ -45,8 +45,8 @@ export default function StoryWallPage({
       <div className="space-y-8">
       {/* Enhanced Header/Mini-Banner for Story Wall */}
       <div
-        className="relative bg-cover bg-center p-8 rounded-xl shadow-sm text-center mb-8 flex flex-col items-center justify-center"
-        style={{ backgroundImage: "url('/assets/woman1.jpg')" }}
+        className="relative bg-cover bg-center p-8 rounded-xl shadow-sm mb-8 flex flex-col items-center justify-center"
+        style={{ backgroundImage: "url('/assets/market/forstorywall.jpg')" }}
       >
         <div className="absolute inset-0 bg-purple-900 opacity-30 rounded-xl"></div>
         <div className="relative z-10 max-w-2xl">
