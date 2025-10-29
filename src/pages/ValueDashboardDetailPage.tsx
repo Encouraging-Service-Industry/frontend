@@ -255,7 +255,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace, on
 
                 <h4>5. VIP Retirement Benefits</h4>
                 <ul>
-                  <li>Every 100 Time Coins = 1 VIP Credit. VIP Credits unlock premium service privileges and priority access in retirement.</li>
+                  <li>Every 100 Time Coins = 1 Premium Credit. Premium Credits unlock premium service privileges and priority access in retirement.</li>
                   <li>Accumulate Pension Credits to unlock premium service privileges in your retirement</li>
                 </ul>
 
@@ -266,7 +266,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace, on
                 <ul>
                   <li>Total Time Assets: 350 Time Coins (35 hours)</li>
                   <li>Estimated Future Value: $2,785.5</li>
-                  <li>VIP Credits: 3 credits (350 Time Coins)</li>
+                  <li>Premium Credits: 3 credits (350 Time Coins)</li>
                 </ul>
 
                 <p className="mt-2 text-xs text-gray-400">All calculations are for guidance and may vary by usage. Time is your most valuable asset — invest it wisely.</p>
@@ -398,7 +398,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace, on
 
         <div className="mt-4">
           <div className="text-sm text-gray-600">Pension Credits Earned: <span className="font-semibold text-gray-800">{portfolio.pensionCredits}</span></div>
-          <p className="text-xs text-gray-500 mt-1">Every 100 Time Coins grants 1 VIP Credit. Accumulate credits for premium service privileges and priority access.</p>
+          <p className="text-xs text-gray-500 mt-1">Every 100 Time Coins grants 1 Premium Credit. Accumulate credits to unlock exclusive benefits and services for your future.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
