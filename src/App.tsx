@@ -32,6 +32,7 @@ import SupplierNotifications from "./pages/SupplierNotifications";
 import LocationTrackingPage from "./pages/LocationTrackingPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import RedemptionDetailPage from "./pages/RedemptionDetailPage";
+import Footer from "./components/Footer"; // Import Footer component
 
 type Tab =
   | "splash"
@@ -732,6 +733,9 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
