@@ -82,7 +82,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace, on
       {/* Enhanced Header/Mini-Banner for My Investment */}
       <div
         className="relative bg-cover bg-center p-6 rounded-xl shadow-sm text-center mb-6"
-        style={{ backgroundImage: "url('/assets/brandlogo.png')" }}
+        style={{ backgroundImage: "url('/assets/market/enjoy-life.jpeg')" }}
       >
         <div className="absolute inset-0 bg-blue-900 opacity-20 rounded-xl"></div>
         <div className="relative z-10">
