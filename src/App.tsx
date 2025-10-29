@@ -398,7 +398,7 @@ export default function App() {
                   }}
                                     className={`px-3 py-2 rounded-md text-base ${tab === "value-dashboard-detail" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:hover:bg-gray-50"}`}
                 >
-                  My Investment
+                  My Time Value
                 </button>
                 <button
                   onClick={() => {

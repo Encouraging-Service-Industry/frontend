@@ -85,7 +85,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
         <div className="absolute inset-0 bg-blue-900 opacity-20 rounded-xl"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-center gap-3">
-              <h1 className="text-2xl font-extrabold text-white">My Investment</h1>
+              <h1 className="text-2xl font-extrabold text-white">My Time Value</h1>
               <button
               aria-label="About Life Investment calculations"
               onClick={() => setShowInfo(true)}

@@ -191,7 +191,7 @@ export default function HomePage({
               />
             </svg>
           </button>
-          <h3 className="text-xl font-bold text-indigo-900 mb-4">My Investment</h3>
+          <h3 className="text-xl font-bold text-indigo-900 mb-4">My Time Value</h3>
 
           {/* Compact preview: left = coins, right = future value + CTA */}
           {(() => {
@@ -218,7 +218,7 @@ export default function HomePage({
                 </div>
                 <div className="mt-auto text-center">
                     <button onClick={onOpenValueDashboardDetail} className="px-8 py-3 bg-indigo-600 text-white rounded-full text-base font-semibold hover:bg-indigo-700 transition shadow-md">
-                        View Investment
+                        View Time Value
                     </button>
                 </div>
               </div>
