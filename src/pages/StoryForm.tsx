@@ -19,73 +19,98 @@ type StoryFormProps = {
 export default function StoryForm({ onSubmit, onClose, loggedInUserName }: StoryFormProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [type, setType] = useState<'consumer' | 'provider'>('consumer'); // Default to consumer
+  const [type, setType] = useState<'consumer' | 'provider'>('consumer'); // Always consumer
   const [serviceCategory, setServiceCategory] = useState<string>("");
   const [image, setImage] = useState<string>(""); // New: state for image URL
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const storyName = type === 'consumer' ? loggedInUserName : `${loggedInUserName} (Provider)`; // Use loggedInUserName, append (Provider) if type is provider
-    onSubmit({ name: storyName, title, content, type, serviceCategory: serviceCategory || undefined, image: image || undefined });
+    const storyName = loggedInUserName; // Always consumer
+    onSubmit({ name: storyName, title, content, type: 'consumer', serviceCategory: serviceCategory || undefined, image: image || undefined });
     onClose();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <select 
-        value={type}
-        onChange={(e) => setType(e.target.value as 'consumer' | 'provider')}
-        className="w-full border rounded-lg p-2 bg-white"
-      >
-        <option value="consumer">I am a Consumer</option>
-        <option value="provider">I am a Service Provider</option>
-      </select>
+    <form onSubmit={handleSubmit} className="space-y-6">
+
       {type === 'provider' && (
-        <select 
-          value={serviceCategory}
-          onChange={(e) => setServiceCategory(e.target.value)}
-          className="w-full border rounded-lg p-2 bg-white"
-          required
-        >
-          <option value="">Select Service Category</option>
-          {Object.values(servicesData).map(service => (
-            <option key={service.id} value={service.id}>{service.name}</option>
-          ))}
-        </select>
+        <div>
+          <label htmlFor="service-category" className="block text-base font-medium text-gray-700 mb-1">
+            Service Category:
+          </label>
+          <div>
+            <select
+              id="service-category"
+              value={serviceCategory}
+              onChange={(e) => setServiceCategory(e.target.value)}
+              className="block w-full px-3 py-2.5 text-base border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
+              required
+            >
+              <option value="">Select a category</option>
+              {Object.values(servicesData).map(service => (
+                <option key={service.id} value={service.id}>{service.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
       )}
-      <input
-        type="text"
-        placeholder="Story Title"
-        className="w-full border rounded-lg p-2"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-      <textarea
-        placeholder="Write your story..."
-        className="w-full border rounded-lg p-2 h-32"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Image URL (optional)"
-        className="w-full border rounded-lg p-2"
-        value={image}
-        onChange={(e) => setImage(e.target.value)}
-      />
-      <div className="flex justify-end space-x-2">
+      <div>
+        <label htmlFor="story-title" className="block text-base font-medium text-gray-700 mb-1">
+          Story Title:
+        </label>
+        <div>
+          <input
+            id="story-title"
+            type="text"
+            placeholder="Enter your story title"
+            className="appearance-none block w-full px-3 py-2.5 text-base border border-gray-200 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+      <div>
+        <label htmlFor="story-content" className="block text-base font-medium text-gray-700 mb-1">
+          Story Content:
+        </label>
+        <div>
+          <textarea
+            id="story-content"
+            placeholder="Write your story content here..."
+            className="appearance-none block w-full px-3 py-2.5 text-base border border-gray-200 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 resize-y h-32"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+      <div>
+        <label htmlFor="image-url" className="block text-base font-medium text-gray-700 mb-1">
+          Image URL (optional):
+        </label>
+        <div>
+          <input
+            id="image-url"
+            type="text"
+            placeholder="e.g., https://example.com/image.jpg"
+            className="appearance-none block w-full px-3 py-2.5 text-base border border-gray-200 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="flex justify-end space-x-3 mt-6">
         <button
           type="button"
           onClick={onClose}
-          className="px-3 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+          className="flex-1 justify-center py-2.5 px-4 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-3 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700"
+          className="flex-1 justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400"
         >
           Post
         </button>
