@@ -31,6 +31,7 @@ export default function HomePage({
       serviceId: "home_cleaning",
       buttonText: "Book Deep Clean",
       icon: "✨",
+      image: "/assets/cleaning.jpg",
     },
     {
       id: "rec-2",
@@ -41,6 +42,7 @@ export default function HomePage({
       serviceId: "errands",
       buttonText: "Book Errands",
       icon: "🛍️",
+      image: "/assets/errand.jpg",
     },
     {
       id: "rec-3",
@@ -51,6 +53,7 @@ export default function HomePage({
       serviceId: "appliance_repair",
       buttonText: "Schedule Repair",
       icon: "🔧",
+      image: "/assets/repair.jpg",
     },
     {
       id: "rec-4",
@@ -61,6 +64,7 @@ export default function HomePage({
       serviceId: "gardening",
       buttonText: "Find a Gardener",
       icon: "🌳",
+      image: "/assets/gardening.jpg",
     },
   ];
 
@@ -250,32 +254,42 @@ export default function HomePage({
         </p>
       </div>
 
-      {/* Smart Recommendation - Enhanced */}
+      {/* Smart Recommendation - Differentiated */}
       <div className="lg:col-span-2 mt-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
           Smart Recommendations
         </h2>
-        <div className="bg-white p-8 rounded-2xl shadow-xl text-center border border-gray-100">
-          <span className="text-5xl mb-6 block animate-bounce-slow">
-            {currentRecommendation.icon}
-          </span>
-          <h3 className="text-xl font-bold text-gray-800 mb-4">
-            {currentRecommendation.title}
-          </h3>
-          <p className="text-base text-gray-600 mb-8 mx-auto max-w-prose">
-            {currentRecommendation.description}
-          </p>
-          <button
-            onClick={() =>
-              onQuickService?.(
-                currentRecommendation.serviceId,
-                selectedLocation
-              )
-            }
-            className="bg-indigo-600 text-white px-8 py-3 rounded-full text-base font-semibold hover:bg-indigo-700 transition-colors shadow-md"
-          >
-            {currentRecommendation.buttonText} →
-          </button>
+        <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl shadow-xl border border-blue-100 flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-200 rounded-full opacity-30 animate-pulse-slow"></div>
+          <div className="flex-shrink-0 relative z-10">
+            <img
+              src={currentRecommendation.image}
+              alt={currentRecommendation.title}
+              className="w-32 h-32 object-cover rounded-xl shadow-md border-2 border-white"
+            />
+          </div>
+          <div className="flex-1 text-center md:text-left relative z-10">
+            <span className="inline-block bg-blue-200 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+              Personalized Recommendation
+            </span>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              {currentRecommendation.title}
+            </h3>
+            <p className="text-base text-gray-600 mb-4">
+              {currentRecommendation.description}
+            </p>
+            <button
+              onClick={() =>
+                onQuickService?.(
+                  currentRecommendation.serviceId,
+                  selectedLocation
+                )
+              }
+              className="bg-indigo-600 text-white px-6 py-2 rounded-full text-base font-semibold hover:bg-indigo-700 transition-colors shadow-md"
+            >
+              {currentRecommendation.buttonText} →
+            </button>
+          </div>
         </div>
       </div>
 
