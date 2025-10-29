@@ -1,6 +1,6 @@
 export default function OrdersPage() {
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">My Orders</h2>
       <div className="space-y-4">
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">

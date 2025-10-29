@@ -41,7 +41,7 @@ export default function ProviderDetailPage({
     }`;
 
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <button
         onClick={onBack}
         className="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center"

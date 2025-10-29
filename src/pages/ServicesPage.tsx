@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { servicesData, providers, vendorsData } from "../data";
 import type { Provider, VendorCompany } from "../data"; // Import VendorCompany
+import ServiceCategoryCard from "../components/ServiceCategoryCard";
 
 type Props = {
   onOpenProvider?: (provider: Provider) => void;
@@ -95,20 +96,26 @@ export default function ServicesPage({
   }, [activeService, vendorFilter, ratingFilter, locationFilter]);
 
   return (
-    <div className="space-y-8">
-      {!activeService && (
+    <div className="max-w-4xl mx-auto px-4">
+      <div className="space-y-8">
+        {!activeService && (
         <>
-          <header className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Explore Services
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Browse available service categories and find providers across
-              vendors.
-            </p>
+          <header
+            className="relative bg-cover bg-center p-6 rounded-xl shadow-sm text-center mb-8"
+            style={{ backgroundImage: "url('/assets/gardening.jpg')" }}
+          >
+            <div className="absolute inset-0 bg-green-900 opacity-30 rounded-xl"></div>
+            <div className="relative z-10">
+              <h1 className="text-2xl font-bold text-white mb-2">
+                Explore Our Services
+              </h1>
+              <p className="text-base text-green-100 mx-auto">
+                Browse available service categories and find trusted providers.
+              </p>
+            </div>
           </header>
 
-          <div className="max-w-4xl mx-auto">
+          <div className="mx-auto">
             <div className="flex flex-col md:flex-row gap-4 mb-8">
               <div className="relative flex-1">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -156,30 +163,15 @@ export default function ServicesPage({
                 </div>
               )}
               {services.map((svc) => (
-                <button
+                <ServiceCategoryCard
                   key={svc.id}
-                  onClick={() => setActiveServiceId(svc.id)}
-                  className="card p-6 text-left hover:shadow-lg transition-shadow group"
-                >
-                  <div className="flex items-center mb-4">
-                    <img
-                      src={svc.icon}
-                      className="rounded-full mr-4 w-14 h-14 object-cover"
-                      width={56}
-                      height={56}
-                      alt={svc.name}
-                    />
-                    <div>
-                      <h3 className="font-bold text-gray-800 text-lg group-hover:text-indigo-600 transition-colors">
-                        {svc.name}
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        {(svc as any).providersCount} providers
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-600">{svc.description}</p>
-                </button>
+                  id={svc.id}
+                  name={svc.name}
+                  description={svc.description}
+                  icon={svc.icon}
+                  providersCount={(svc as any).providersCount}
+                  onClick={setActiveServiceId}
+                />
               ))}
             </div>
           </div>
@@ -188,7 +180,7 @@ export default function ServicesPage({
 
       {activeService && (
         <>
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <button
               onClick={() => setActiveServiceId(null)}
               className="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-6 transition-colors duration-300"
@@ -209,29 +201,25 @@ export default function ServicesPage({
               Back to Services
             </button>
 
-            <div className="card p-8 mb-8">
-              <div className="flex items-start">
-                <img
-                  src={activeService.icon}
-                  className="rounded-full mr-6 shadow-md w-20 h-20 object-cover"
-                  width={80}
-                  height={80}
-                  alt={activeService.name}
-                />
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                    {activeService.name}
-                  </h2>
-                  <p className="text-lg text-gray-600 mb-4">
-                    {activeService.description}
-                  </p>
-                  <p className="text-gray-500 text-lg">
-                    Providers available:{" "}
-                    <span className="font-semibold text-indigo-600">
-                      {providerList.length}
-                    </span>
-                  </p>
-                </div>
+            {/* Active Service Hero - Redesigned */}
+            <div
+              className="relative bg-cover bg-center p-8 rounded-2xl text-white text-center mb-8"
+              style={{ backgroundImage: `url('${activeService.icon}')` }}
+            >
+              <div className="absolute inset-0 bg-indigo-900 opacity-40 rounded-2xl"></div>
+              <div className="relative z-10">
+                <h2 className="text-3xl font-bold mb-2">
+                  {activeService.name}
+                </h2>
+                <p className="text-lg mb-3 max-w-2xl mx-auto">
+                  {activeService.description}
+                </p>
+                <p className="text-base opacity-80">
+                  Providers available:{" "}
+                  <span className="font-semibold">
+                    {providerList.length}
+                  </span>
+                </p>
               </div>
             </div>
 
@@ -339,5 +327,6 @@ export default function ServicesPage({
         </>
       )}
     </div>
+  </div>
   );
 }

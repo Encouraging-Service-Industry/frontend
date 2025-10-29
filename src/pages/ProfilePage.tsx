@@ -1,6 +1,6 @@
 export default function ProfilePage() {
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <div className="flex items-center justify-center mb-6">
         <img
           src="/assets/Anna.jpg"

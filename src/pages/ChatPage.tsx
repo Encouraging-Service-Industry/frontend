@@ -5,7 +5,7 @@ type Props = {
 
 export default function ChatPage({ providerName, onBack }: Props) {
   return (
-    <div className="p-4 pt-6 flex flex-col justify-between h-full">
+    <div className="max-w-4xl mx-auto px-4 pt-6 flex flex-col justify-between h-full">
       <div>
         <button onClick={onBack} className="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

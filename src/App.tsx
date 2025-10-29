@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import SplashScreen from "./pages/SplashScreen";
 import HomePage from "./pages/HomePage";
-import StoryWallPage, { type Story } from "./pages/StoryWallPage"; // Import Story type and StoryWallPage
+import StoryWallPage from "./pages/StoryWallPage"; // Import StoryWallPage
 import ServicesPage from "./pages/ServicesPage";
 import ProviderListPage from "./pages/ProviderListPage";
 import ProviderDetailPage from "./pages/ProviderDetailPage"; // Updated import for ProviderDetailPage
@@ -11,9 +11,18 @@ import BookingFlowPage from "./pages/BookingFlowPage";
 import MinePage from "./pages/MinePage";
 import LoginPage from "./pages/LoginPage"; // Import LoginPage
 import NotificationsPage from "./pages/NotificationsPage"; // Import NotificationsPage
-import type { Provider, VendorCompany } from "./data"; // Re-import VendorCompany
+import {
+  type Provider,
+  type VendorCompany,
+  type Order,
+  type Notification,
+  providers as allProviders,
+} from "./data"; // Re-import VendorCompany, Order, Notification
+import { calculateInvestmentPortfolio } from "./hooks/useInvestmentCalculator"; // Import calculateInvestmentPortfolio
 import ValueDashboardDetailPage from "./pages/ValueDashboardDetailPage"; // Import ValueDashboardDetailPage
+import TimeCoinMarketplace from "./pages/TimeCoinMarketplace";
 import { type MineOption } from "./pages/MinePage"; // Import MineOption type
+import { type Story } from "./types/story"; // Import Story type
 import VendorDetailPage from "./pages/VendorDetailPage"; // Import VendorDetailPage
 import SupplierWelcome from "./pages/SupplierWelcome";
 import SupplierVerificationDashboard from "./pages/SupplierVerificationDashboard";
@@ -22,6 +31,10 @@ import SupplierBackgroundCheck from "./pages/SupplierBackgroundCheck";
 import SupplierPortfolioSetup from "./pages/SupplierPortfolioSetup";
 import SupplierNotifications from "./pages/SupplierNotifications";
 import LocationTrackingPage from "./pages/LocationTrackingPage";
+import OrderDetailPage from "./pages/OrderDetailPage";
+import RedemptionDetailPage from "./pages/RedemptionDetailPage";
+import Footer from "./components/Footer"; // Import Footer component
+import TimeEnergyPuzzlePage from "./pages/TimeEnergyPuzzlePage";
 
 type Tab =
   | "splash"
@@ -36,7 +49,11 @@ type Tab =
   | "login"
   | "notifications"
   | "value-dashboard-detail"
+  | "timecoin-marketplace"
   | "vendor-detail-view"
+  | "order-detail"
+  | "redemption-detail"
+  | "time-energy-puzzle"
   | "supplier-welcome"
   | "supplier-dashboard"
   | "supplier-qualification"
@@ -47,6 +64,12 @@ type Tab =
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("login"); // Start at login page initially
+  const [previousTab, setPreviousTab] = useState<Tab | null>(null);
+
+  const handleSetTab = (newTab: Tab) => {
+    setPreviousTab(tab);
+    setTab(newTab);
+  };
   const [isAuthenticated, setIsAuthenticated] = useState(false); // New state for authentication
   const [loggedInUserName, setLoggedInUserName] = useState<string | null>(null); // New state for logged-in user's name
   const [currentProvider, setCurrentProvider] = useState<Provider | null>(null);
@@ -56,8 +79,19 @@ export default function App() {
   const [currentService, setCurrentService] = useState<string>("");
   const [preselectedLocation, setPreselectedLocation] = useState<string>(""); // New state for preselected location
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
-  const [isSupplierMode, setIsSupplierMode] = useState(false);
   const [currentBookingId, setCurrentBookingId] = useState<string>(""); // New state for booking ID
+  const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+
+  // Define serviceHistory and calculate portfolio here
+  const serviceHistory = [
+    { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
+    { serviceName: 'Errand Helper', category: 'errandService', duration: 8, cost: 60, date: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString() },
+    { serviceName: 'Online Course', category: 'learning', duration: 6, cost: 200, date: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString() },
+    { serviceName: 'Appliance Repair', category: 'applianceRepair', duration: 4, cost: 80, date: new Date(Date.now() - 20 * 24 * 3600 * 1000).toISOString() },
+    { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
+  ];
+  const portfolio = calculateInvestmentPortfolio(serviceHistory as any);
+
   const isSupplierTab =
     tab === "supplier-welcome" ||
     tab === "supplier-dashboard" ||
@@ -153,23 +187,185 @@ export default function App() {
     ]);
   };
 
+  // Temporary frontend orders store (persisted to localStorage)
+  const [orders, setOrders] = useState<Order[]>(() => {
+    try {
+      const raw = localStorage.getItem("demo_orders_v1");
+      return raw ? (JSON.parse(raw) as Order[]) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  // Demo user coin balance (locally managed for marketplace demo)
+  const [userCoins, setUserCoins] = useState<number>(350);
+
+  // Temporary frontend notifications store (persisted)
+  const [notifications, setNotifications] = useState<Notification[]>(() => {
+    try {
+      const raw = localStorage.getItem("demo_notifications_v1");
+      return raw ? (JSON.parse(raw) as Notification[]) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const handleBookingComplete = (order: Order) => {
+    // prepend to orders list
+    setOrders((prev) => [order, ...prev]);
+    // set current booking id for tracking if needed
+    setCurrentBookingId(order.id);
+    // open the order detail after booking so user can start tracking
+    setCurrentOrder(order);
+    handleSetTab("order-detail");
+    // create a temporary notification about the new order
+    try {
+      const notif = {
+        id: "notif-" + Date.now(),
+        type: "order" as const,
+        message: `Booking created: ${order.service} on ${order.date} · ${order.timeSlot} (status: ${order.status})`,
+        read: false,
+        createdAt: Date.now(),
+      };
+      setNotifications((prev) => [notif, ...prev]);
+    } catch (e) {
+      // ignore
+    }
+  };
+
+  const handleOpenOrder = (order: Order) => {
+    setCurrentOrder(order);
+    if (order.id.startsWith("market-")) {
+      handleSetTab("redemption-detail");
+    } else {
+      setCurrentBookingId(order.id);
+      handleSetTab("order-detail");
+    }
+  };
+
+  const handleSimulateConfirm = (orderId: string) => {
+    // Update orders to confirmed
+    setOrders((prev) => prev.map((o) => (o.id === orderId ? ({ ...(o as Order), status: "confirmed" } as Order) : o)));
+
+    // update current order reference and booking id
+    const updated = orders.find((o) => o.id === orderId) as Order | undefined;
+    if (updated) {
+      const confirmed = { ...(updated as Order), status: "confirmed" } as Order;
+      setCurrentOrder(confirmed);
+      setCurrentBookingId(orderId);
+      handleSetTab("order-detail");
+
+      // create a single notification for the confirmation
+      try {
+        const notif = {
+          id: "notif-" + Date.now(),
+          type: "order" as const,
+          message: `Booking confirmed: ${confirmed.service} on ${confirmed.date} · ${confirmed.timeSlot}`,
+          read: false,
+          createdAt: Date.now(),
+        };
+        setNotifications((nprev) => [notif, ...nprev]);
+      } catch (e) {
+        // ignore
+      }
+    } else {
+      // Fallback: still set tab and booking id
+      setCurrentBookingId(orderId);
+      handleSetTab("order-detail");
+    }
+  };
+
+  // persist orders, notifications and currentOrder id to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("demo_orders_v1", JSON.stringify(orders));
+      localStorage.setItem("demo_currentOrderId_v1", currentOrder?.id ?? "");
+      localStorage.setItem("demo_notifications_v1", JSON.stringify(notifications));
+    } catch (e) {
+      // ignore storage errors in demo
+    }
+  }, [orders, currentOrder, notifications]);
+
+  // restore currentOrder from persisted id after orders load/change
+  useEffect(() => {
+    try {
+      const id = localStorage.getItem("demo_currentOrderId_v1");
+      if (id) {
+        const found = orders.find((o) => o.id === id);
+        if (found) setCurrentOrder(found);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [orders]);
+
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setTab("login");
+    handleSetTab("login");
     setLoggedInUserName(null);
   };
 
   const handleOpenNotifications = () => {
-    setTab("notifications");
+    handleSetTab("notifications");
   };
 
   const handleOpenValueDashboardDetail = () => {
-    setTab("value-dashboard-detail");
+    handleSetTab("value-dashboard-detail");
   };
 
   const handleOpenVendorDetail = (vendor: VendorCompany) => {
     setCurrentVendor(vendor);
-    setTab("vendor-detail-view");
+    handleSetTab("vendor-detail-view");
+  };
+
+  // Demo redeem handler for marketplace products
+  const handleRedeem = (_productId: string, price: number, productName: string) => {
+    if (userCoins < price) {
+      // create a small notification about insufficient funds
+      try {
+        const notif = {
+          id: "notif-" + Date.now(),
+          type: "general" as const,
+          message: `Not enough Time Coins to redeem ${productName}.`,
+          read: false,
+          createdAt: Date.now(),
+        };
+        setNotifications((prev) => [notif, ...prev]);
+      } catch (e) {
+        // ignore
+      }
+      return;
+    }
+
+    // Create a demo order representing the redeemed product
+    const order: Order = {
+      id: `market-${Date.now()}`,
+      providerName: "TimeCoin Marketplace",
+      service: productName,
+      date: new Date().toISOString(),
+      timeSlot: "n/a",
+      address: "",
+      recipient: loggedInUserName || "Guest",
+      price,
+      status: "pending",
+      createdAt: Date.now(),
+    };
+
+    setOrders((prev) => [order, ...prev]);
+    setUserCoins((c) => c - price);
+
+    try {
+      const notif = {
+        id: "notif-" + Date.now(),
+        type: "order" as const,
+        message: `Redeemed ${productName} for ${price} Time Coins. Order created.`,
+        read: false,
+        createdAt: Date.now(),
+      };
+      setNotifications((prev) => [notif, ...prev]);
+    } catch (e) {
+      // ignore
+    }
   };
 
   return (
@@ -182,7 +378,7 @@ export default function App() {
               {/* Logo/Brand */}
               <div className="flex items-center">
                 <button
-                  onClick={() => setTab("home")}
+                  onClick={() => handleSetTab("home")}
                   className="text-2xl font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
                   aria-label="Home"
                 >
@@ -200,58 +396,52 @@ export default function App() {
               <div className="hidden md:flex space-x-8">
                 <button
                   onClick={() => {
-                    setTab("home");
+                    handleSetTab("home");
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "home"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "home" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   Home
                 </button>
                 <button
                   onClick={() => {
-                    setTab("story");
+                    handleSetTab("value-dashboard-detail");
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "story"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "value-dashboard-detail" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:hover:bg-gray-50"}`}
+                >
+                  My Time Value
+                </button>
+                <button
+                  onClick={() => {
+                    handleSetTab("story");
+                    setMineOption(null);
+                    setCurrentService("");
+                  }}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "story" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   Story Wall
                 </button>
                 <button
                   onClick={() => {
-                    setTab("services");
+                    handleSetTab("services");
                     setMineOption(null);
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "services"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "services" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   Services
                 </button>
                 <button
                   onClick={() => {
-                    setTab("mine");
+                    handleSetTab("mine");
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                  className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
-                    tab === "mine"
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
-                  }`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "mine" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
-                  Profile
+                  My Profile
                 </button>
               </div>
 
@@ -280,14 +470,22 @@ export default function App() {
                 </button>
 
                 <div className="flex items-center space-x-2">
-                  <img
-                    src="/assets/Anna.jpg"
-                    alt="Anna avatar"
-                    className="h-8 w-8 rounded-full object-cover"
-                  />
-                  <span className="text-sm text-gray-700">
-                    Welcome, {loggedInUserName || "Guest"}
-                  </span>
+                  <button
+                    onClick={() => {
+                      handleSetTab("mine");
+                      setMineOption(null);
+                    }}
+                    aria-label="Open My Profile"
+                    className="flex items-center space-x-2 focus:outline-none"
+                  >
+                    <img
+                      src="/assets/Anna.jpg"
+                      alt="Anna avatar"
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                    <span className="text-sm text-gray-700">{loggedInUserName || "Guest"}</span>
+                  </button>
+
                   <button
                     onClick={handleLogout}
                     className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
@@ -327,7 +525,7 @@ export default function App() {
             <LoginPage
               onLoginSuccess={() => {
                 setIsAuthenticated(true);
-                setTab("splash");
+                handleSetTab("splash");
                 setLoggedInUserName("Anna");
               }}
             />
@@ -335,59 +533,59 @@ export default function App() {
         ) : (
           <div className="w-full">
             {tab === "splash" && (
-              <SplashScreen onStart={() => setTab("home")} />
+              <SplashScreen onStart={() => handleSetTab("home")} />
             )}
             {tab === "home" && (
               <HomePage
                 onQuickService={(serviceId: string, location: string) => {
                   setCurrentService(serviceId);
                   setPreselectedLocation(location);
-                  setTab("services");
+                  handleSetTab("services");
                 }}
                 onOpenNotifications={handleOpenNotifications}
                 onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
                 onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
-                onOpenSupplierWelcome={() => setTab("supplier-welcome")}
+                onOpenSupplierWelcome={() => handleSetTab("supplier-welcome")}
+                onOpenGame={() => handleSetTab("time-energy-puzzle")}
               />
             )}
             {tab === "supplier-welcome" && (
               <SupplierWelcome
                 onStartVerification={() => {
-                  setIsSupplierMode(true);
-                  setTab("supplier-dashboard");
+                  handleSetTab("supplier-dashboard");
                 }}
-                onBack={() => setTab("home")}
+                onBack={() => handleSetTab("home")}
               />
             )}
             {tab === "supplier-dashboard" && (
               <SupplierVerificationDashboard
                 onOpenQualificationReview={() =>
-                  setTab("supplier-qualification")
+                  handleSetTab("supplier-qualification")
                 }
-                onOpenBackgroundCheck={() => setTab("supplier-background")}
-                onOpenPortfolioSetup={() => setTab("supplier-portfolio")}
-                onBack={() => setTab("supplier-welcome")}
+                onOpenBackgroundCheck={() => handleSetTab("supplier-background")}
+                onOpenPortfolioSetup={() => handleSetTab("supplier-portfolio")}
+                onBack={() => handleSetTab("supplier-welcome")}
               />
             )}
             {tab === "supplier-qualification" && (
               <SupplierQualificationReview
-                onBack={() => setTab("supplier-dashboard")}
-                onContactSupport={() => setTab("supplier-notifications")}
+                onBack={() => handleSetTab("supplier-dashboard")}
+                onContactSupport={() => handleSetTab("supplier-notifications")}
               />
             )}
             {tab === "supplier-background" && (
               <SupplierBackgroundCheck
-                onBack={() => setTab("supplier-dashboard")}
+                onBack={() => handleSetTab("supplier-dashboard")}
               />
             )}
             {tab === "supplier-portfolio" && (
               <SupplierPortfolioSetup
-                onBack={() => setTab("supplier-dashboard")}
+                onBack={() => handleSetTab("supplier-dashboard")}
               />
             )}
             {tab === "supplier-notifications" && (
               <SupplierNotifications
-                onBack={() => setTab("supplier-dashboard")}
+                onBack={() => handleSetTab("supplier-dashboard")}
               />
             )}
             {tab === "story" && (
@@ -401,7 +599,7 @@ export default function App() {
               <ServicesPage
                 onOpenProvider={(p) => {
                   setCurrentProvider(p);
-                  setTab("provider-detail");
+                  handleSetTab("provider-detail");
                 }}
                 preselectedService={currentService}
                 preselectedLocation={preselectedLocation}
@@ -411,9 +609,9 @@ export default function App() {
             {tab === "provider-detail" && currentProvider && (
               <ProviderDetailPage
                 provider={currentProvider}
-                onBack={() => setTab("services")}
-                onChat={() => setTab("chat")}
-                onBook={() => setTab("booking")}
+                onBack={() => handleSetTab("services")}
+                onChat={() => handleSetTab("chat")}
+                onBook={() => handleSetTab("booking")}
                 stories={stories} // Pass the global stories state
                 onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
               />
@@ -421,51 +619,132 @@ export default function App() {
             {tab === "provider-list" && (
               <ProviderListPage
                 serviceTitle={currentService}
-                onBack={() => setTab("home")}
+                onBack={() => handleSetTab("home")}
                 onSelectProvider={(provider) => {
                   setCurrentProvider(provider);
-                  setTab("provider-detail");
+                  handleSetTab("provider-detail");
                 }}
               />
             )}
             {tab === "chat" && currentProvider && (
               <ChatPage
                 providerName={currentProvider.name}
-                onBack={() => setTab("provider-detail")}
+                onBack={() => handleSetTab("provider-detail")}
               />
             )}
             {tab === "booking" && currentProvider && (
               <BookingFlowPage
                 provider={currentProvider}
-                onBack={() => setTab("provider-detail")}
-                onComplete={() => setTab("home")}
+                onBack={() => handleSetTab("provider-detail")}
+                onComplete={() => handleSetTab("home")}
+                onBookingComplete={handleBookingComplete}
                 onStartTracking={() => {
                   setCurrentBookingId("booking-" + Date.now());
-                  setTab("location-tracking");
+                  handleSetTab("location-tracking");
                 }}
               />
             )}
             {tab === "mine" && (
               <MinePage
                 activeOption={mineOption || undefined}
-                onSelectOption={(option) => setMineOption(option)}
+                onSelectOption={(option) => {
+                  // Handle global tab navigation options
+                  if (option === "notifications") {
+                    handleSetTab("notifications");
+                    setMineOption(null);
+                  } else if (option === "value-dashboard") {
+                    handleSetTab("value-dashboard-detail");
+                    setMineOption(null);
+                  } else {
+                    setMineOption(option);
+                  }
+                }}
                 onBack={() => setMineOption(null)}
                 onLogout={handleLogout}
                 loggedInUserName={loggedInUserName || "Guest"}
                 userStories={stories} // Pass the global stories state
+                orders={orders}
+                onOpenOrder={handleOpenOrder}
               />
             )}
-            {tab === "notifications" && <NotificationsPage />}
+            {tab === "order-detail" && currentOrder && (
+              <OrderDetailPage
+                order={currentOrder}
+                onBack={() => {
+                  handleSetTab("mine");
+                  setMineOption("orders");
+                }}
+                onStartTracking={(id: string) => {
+                  const order = orders.find((o) => o.id === id);
+                  if (order && order.providerId) {
+                    const provider = allProviders[order.providerId];
+                    if (provider) {
+                      setCurrentProvider(provider);
+                    }
+                  }
+                  setCurrentBookingId(id);
+                  handleSetTab("location-tracking");
+                }}
+                onSimulateConfirm={handleSimulateConfirm}
+              />
+            )}
+            {tab === "redemption-detail" && currentOrder && (
+              <RedemptionDetailPage
+                order={currentOrder}
+                onBack={() => {
+                  handleSetTab("mine");
+                  setMineOption("orders");
+                }}
+              />
+            )}
+            {tab === "notifications" && (
+              <NotificationsPage
+                notifications={notifications}
+                onMarkAsRead={(id: string) =>
+                  setNotifications((prev) =>
+                    prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+                  )
+                }
+                onDelete={(id: string) =>
+                  setNotifications((prev) => prev.filter((n) => n.id !== id))
+                }
+              />
+            )}
             {tab === "value-dashboard-detail" && (
-              <ValueDashboardDetailPage onBack={() => setTab("home")} />
+              <ValueDashboardDetailPage
+                onBack={() => handleSetTab(previousTab || 'home')}
+                onOpenMarketplace={() => handleSetTab("timecoin-marketplace")}
+                onOpenServiceCategory={(category: string) => {
+                  setCurrentService(category);
+                  handleSetTab("services");
+                }}
+                portfolio={portfolio} // Pass portfolio
+              />
+            )}
+            {tab === "timecoin-marketplace" && (
+              <TimeCoinMarketplace
+                onBack={() => handleSetTab("value-dashboard-detail")}
+                availableCoins={userCoins}
+                onRedeem={(productId, price, name) => handleRedeem(productId, price, name)}
+                orders={orders}
+                portfolio={portfolio} // Pass portfolio
+              />
+            )}
+            {tab === "time-energy-puzzle" && (
+              <TimeEnergyPuzzlePage
+                onBack={() => handleSetTab("home")}
+                onClaimReward={() => {
+                  setUserCoins((c) => c + 50);
+                }}
+              />
             )}
             {tab === "vendor-detail-view" && currentVendor && (
               <VendorDetailPage
                 vendor={currentVendor}
-                onBack={() => setTab("services")} // Go back to services after viewing vendor detail
+                onBack={() => handleSetTab("services")} // Go back to services after viewing vendor detail
                 onOpenProvider={(provider) => {
                   setCurrentProvider(provider);
-                  setTab("provider-detail");
+                  handleSetTab("provider-detail");
                 }} // Allow drilling down to provider from vendor page
               />
             )}
@@ -479,13 +758,16 @@ export default function App() {
                   service: currentProvider.service || "Service",
                 }}
                 bookingId={currentBookingId}
-                onBack={() => setTab("home")}
-                onComplete={() => setTab("home")}
+                onBack={() => handleSetTab("home")}
+                onComplete={() => handleSetTab("home")}
               />
             )}
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      {tab !== "login" && tab !== "splash" && <Footer />}
     </div>
   );
 }

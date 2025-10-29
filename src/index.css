@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
 
 body {
   font-family: "Inter", sans-serif;
@@ -99,4 +99,36 @@ body {
 
 .btn-secondary:hover {
   background-color: #e5e7eb;
+}
+
+/* Time Energy Puzzle animations */
+@keyframes sparkle-pop {
+  0% { transform: scale(0.6); opacity: 0; filter: brightness(1.2); }
+  50% { transform: scale(1.1); opacity: 1; filter: brightness(1.6); }
+  100% { transform: scale(1); opacity: 0; filter: brightness(1); }
+}
+
+.sparkle-pop {
+  animation: sparkle-pop 700ms ease-out forwards;
+}
+
+@keyframes soft-pulse {
+  0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.soft-pulse {
+  animation: soft-pulse 900ms ease-out;
+}
+
+/* Utility overlays for gloom/bright storytelling */
+.gloom-overlay {
+  background: radial-gradient(1200px 600px at 50% -10%, rgba(17,24,39,0.5), rgba(17,24,39,0.85));
+  transition: opacity 400ms ease, background-color 400ms ease;
+}
+
+.vibrant-overlay {
+  background: linear-gradient(135deg, rgba(238,242,255,0.9), rgba(240,253,244,0.9));
+  transition: opacity 400ms ease;
 }

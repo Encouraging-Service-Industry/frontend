@@ -1,10 +1,15 @@
+import { useState } from "react";
+import type { Order } from "../data";
+
 export type MineOption =
   | "orders"
+  | "notifications"
   | "profile"
   | "settings"
   | "about"
   | "my-stories"
-  | "my-achievements"; // Added 'my-achievements'
+  | "my-achievements"
+  | "value-dashboard"; // Added 'value-dashboard'
 
 type Props = {
   activeOption?: MineOption;
@@ -13,9 +18,78 @@ type Props = {
   onLogout: () => void; // Add onLogout prop
   loggedInUserName: string; // New: logged-in user's name
   userStories: any[]; // New: array of stories posted by the user
+  orders?: Order[]; // Temporary frontend orders
+  onOpenOrder?: (order: Order) => void;
 };
 import MyStoriesPage from "./MyStoriesPage";
 import MyAchievementsPage from "./MyAchievementsPage"; // Import MyAchievementsPage
+
+function OrderListView({ orders, onOpenOrder }: { orders?: Order[], onOpenOrder?: (order: Order) => void }) {
+  const [orderTab, setOrderTab] = useState<'services' | 'redemptions'>('services');
+
+  const filteredOrders = orders?.filter(o => {
+    if (orderTab === 'services') {
+      return o.id.startsWith('order-');
+    }
+    if (orderTab === 'redemptions') {
+      return o.id.startsWith('market-');
+    }
+    return false;
+  });
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">My Orders</h2>
+      <div className="flex border-b border-gray-200 mb-4">
+        <button
+          onClick={() => setOrderTab('services')}
+          className={`px-4 py-2 text-sm font-medium ${orderTab === 'services' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}>
+          Service Orders
+        </button>
+        <button
+          onClick={() => setOrderTab('redemptions')}
+          className={`px-4 py-2 text-sm font-medium ${orderTab === 'redemptions' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}>
+          Marketplace Redemptions
+        </button>
+      </div>
+      <div className="space-y-4">
+        {filteredOrders && filteredOrders.length > 0 ? (
+          filteredOrders.map((o: Order) => {
+            const isRedemption = o.id.startsWith('market-');
+            return (
+              <button key={o.id} onClick={() => onOpenOrder?.(o)} className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                {isRedemption ? (
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="font-semibold text-gray-800">{o.service}</h3>
+                      <span className="text-sm font-medium text-indigo-600">{o.price} TimeCoins</span>
+                    </div>
+                    <p className="text-sm text-gray-500">Redeemed on: {new Date(o.createdAt).toLocaleDateString()}</p>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="font-semibold text-gray-800">{o.service}</h3>
+                      <span className={`text-sm font-medium ${o.status === 'completed' ? 'text-green-600' : o.status === 'confirmed' ? 'text-blue-600' : 'text-gray-600'}`}>
+                        {o.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-2">Provider: {o.providerName}</p>
+                    <p className="text-sm text-gray-500">Date: {o.date} · {o.timeSlot}</p>
+                  </div>
+                )}
+              </button>
+            )
+          })
+        ) : (
+          <p className="text-gray-500 text-center">
+            {orderTab === 'services' ? 'No service orders yet. Book a service to see it here.' : 'No marketplace redemptions yet.'}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function MinePage({
   activeOption,
@@ -24,10 +98,12 @@ export default function MinePage({
   onLogout,
   loggedInUserName,
   userStories,
+  orders,
+  onOpenOrder,
 }: Props) {
   if (activeOption) {
     return (
-      <div className="p-4 pt-6">
+      <div className="max-w-4xl mx-auto px-4 pt-6">
         <button
           onClick={onBack}
           className="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-4 transition-colors duration-300"
@@ -48,31 +124,7 @@ export default function MinePage({
           Back
         </button>
         {activeOption === "orders" && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">My Orders</h2>
-            <div className="space-y-4">
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-gray-800">Home Cleaning</h3>
-                  <span className="text-sm text-green-600 font-medium">
-                    Completed
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 mb-2">Provider: Jane</p>
-                <p className="text-sm text-gray-500">Date: October 28, 2024</p>
-              </div>
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-gray-800">Meal Delivery</h3>
-                  <span className="text-sm text-blue-600 font-medium">
-                    In Progress
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 mb-2">Provider: Leo</p>
-                <p className="text-sm text-gray-500">Date: November 5, 2024</p>
-              </div>
-            </div>
-          </div>
+          <OrderListView orders={orders} onOpenOrder={onOpenOrder} />
         )}
         {activeOption === "profile" && (
           <div>
@@ -111,26 +163,12 @@ export default function MinePage({
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Settings</h2>
             <div className="space-y-4">
               <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <h3 className="font-semibold text-gray-800 mb-2">
-                  Notifications
-                </h3>
-                <p className="text-sm text-gray-500">
-                  Manage your notification preferences
-                </p>
-              </div>
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <h3 className="font-semibold text-gray-800 mb-2">Privacy</h3>
-                <p className="text-sm text-gray-500">
-                  Control your privacy settings
-                </p>
+                <p className="text-sm text-gray-500">Control your privacy settings</p>
               </div>
               <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <h3 className="font-semibold text-gray-800 mb-2">
-                  Payment Methods
-                </h3>
-                <p className="text-sm text-gray-500">
-                  Manage your payment information
-                </p>
+                <h3 className="font-semibold text-gray-800 mb-2">Payment Methods</h3>
+                <p className="text-sm text-gray-500">Manage your payment information</p>
               </div>
               <button
                 onClick={onLogout} // Call onLogout when clicked
@@ -168,20 +206,20 @@ export default function MinePage({
         )}
         {activeOption === "my-stories" && (
           <MyStoriesPage
-            onBack={onBack}
+            onBack={onBack!}
             loggedInUserName={loggedInUserName}
             userStories={userStories}
           />
         )}
         {activeOption === "my-achievements" && (
-          <MyAchievementsPage onBack={onBack} />
+          <MyAchievementsPage onBack={onBack!} />
         )}
       </div>
     );
   }
 
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <div className="flex items-center justify-center mb-8">
         <img
           src="/assets/Anna.jpg"
@@ -240,9 +278,34 @@ export default function MinePage({
             </svg>
           </div>
           <div>
-            <h3 className="font-semibold text-gray-800">My Profile</h3>
+            <h3 className="font-semibold text-gray-800">My Info</h3>
+            <p className="text-sm text-gray-500">View and manage your personal information</p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => onSelectOption?.("value-dashboard")}
+          className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
+        >
+          <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+            <svg
+              className="w-5 h-5 text-indigo-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-800">Value Dashboard</h3>
             <p className="text-sm text-gray-500">
-              Manage your personal information
+              Track your time and cost savings
             </p>
           </div>
         </button>
@@ -271,6 +334,7 @@ export default function MinePage({
             <p className="text-sm text-gray-500">View your posted stories</p>
           </div>
         </button>
+
         <button
           onClick={() => onSelectOption?.("my-achievements")}
           className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
@@ -295,6 +359,31 @@ export default function MinePage({
             <p className="text-sm text-gray-500">
               Track your progress and rewards
             </p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => onSelectOption?.("notifications")}
+          className="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center"
+        >
+          <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4">
+            <svg
+              className="w-5 h-5 text-red-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-800">Notifications</h3>
+            <p className="text-sm text-gray-500">View your notifications</p>
           </div>
         </button>
 

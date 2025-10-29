@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { servicesData, type VendorCompany } from "../data"; // Import servicesData
+import ServiceCategoryCard from "../components/ServiceCategoryCard";
+import { calculateInvestmentPortfolio, type ServiceRecord } from "../hooks/useInvestmentCalculator";
 
 type Props = {
   onQuickService?: (serviceId: string, location: string) => void; // Update prop signature
@@ -7,6 +9,7 @@ type Props = {
   onOpenValueDashboardDetail: () => void; // New prop for opening Value Dashboard detail
   onOpenVendorDetail?: (vendor: VendorCompany) => void; // kept for compatibility
   onOpenSupplierWelcome?: () => void; // new: supplier entry
+  onOpenGame?: () => void; // new: time energy puzzle
 };
 
 export default function HomePage({
@@ -14,6 +17,7 @@ export default function HomePage({
   onOpenNotifications,
   onOpenValueDashboardDetail,
   onOpenSupplierWelcome,
+  onOpenGame,
 }: Props) {
   const [selectedService, setSelectedService] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -29,6 +33,7 @@ export default function HomePage({
       serviceId: "home_cleaning",
       buttonText: "Book Deep Clean",
       icon: "✨",
+      image: "/assets/cleaning.jpg",
     },
     {
       id: "rec-2",
@@ -39,6 +44,7 @@ export default function HomePage({
       serviceId: "errands",
       buttonText: "Book Errands",
       icon: "🛍️",
+      image: "/assets/errand.jpg",
     },
     {
       id: "rec-3",
@@ -49,6 +55,7 @@ export default function HomePage({
       serviceId: "appliance_repair",
       buttonText: "Schedule Repair",
       icon: "🔧",
+      image: "/assets/repair.jpg",
     },
     {
       id: "rec-4",
@@ -59,6 +66,7 @@ export default function HomePage({
       serviceId: "gardening",
       buttonText: "Find a Gardener",
       icon: "🌳",
+      image: "/assets/gardening.jpg",
     },
   ];
 
@@ -83,61 +91,88 @@ export default function HomePage({
     }
   };
   return (
-    <div className="space-y-8">
-      {/* Hero Section */}
-      <div className="text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          Welcome back, Anna
-        </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Find the perfect service providers for your needs. Save time, get
-          quality work done.
-        </p>
+    <div className="max-w-4xl mx-auto px-4">
+      <div className="space-y-8">
+        {/* Hero Section - Revamped */}
+      <div
+        className="relative bg-cover bg-center h-96 rounded-2xl flex items-center justify-center text-white shadow-lg"
+        style={{ backgroundImage: "url('/assets/cleaning.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50 rounded-2xl"></div>
+        <div className="relative z-10 text-center max-w-2xl mx-auto px-4">
+          <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
+            Your Life, Simplified. Services, Delivered.
+          </h1>
+          <p className="text-base md:text-lg mb-8">
+            Connect with trusted local providers for home cleaning, repairs,
+            errands, and more. Reclaim your time, enhance your life.
+          </p>
+          <button
+            onClick={() => onQuickService?.("", "")}
+            className="bg-indigo-600 text-white px-8 py-3 rounded-full text-base font-semibold hover:bg-indigo-700 transition-colors shadow-xl"
+          >
+            Explore Services
+          </button>
+        </div>
       </div>
 
-      {/* Search Section */}
-      <div className="card p-8 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-          Find Services Quickly
+      {/* Search Section - Enhanced */}
+      <div className="bg-white p-8 rounded-2xl shadow-xl mx-auto -mt-16 relative z-10 border border-gray-100">
+        <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">
+          Find Your Perfect Service
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <select
-            value={selectedService}
-            onChange={(e) => setSelectedService(e.target.value)}
-            className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700"
-          >
-            <option value="">Select a Service</option>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <select
+              value={selectedService}
+              onChange={(e) => setSelectedService(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700 appearance-none transition-all duration-200 ease-in-out"
+            >
+              <option value="">Select a Service</option>
             {Object.values(servicesData).map((service) => (
               <option key={service.id} value={service.id}>
                 {service.name}
               </option>
             ))}
-          </select>
+            </select>
+          </div>
 
-          <select
-            value={selectedLocation}
-            onChange={(e) => setSelectedLocation(e.target.value)}
-            className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700"
-          >
-            <option value="">All Locations</option>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <select
+              value={selectedLocation}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700 appearance-none transition-all duration-200 ease-in-out"
+            >
+              <option value="">All Locations</option>
             <option>Helsinki</option>
             <option>Espoo</option>
             <option>Vantaa</option>
-          </select>
+            </select>
+          </div>
 
           <button
             onClick={handleQuickSearch}
-            className="btn-primary py-3 text-lg font-semibold"
+            className="bg-indigo-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-indigo-700 transition-colors shadow-md"
           >
             Search Services
           </button>
         </div>
       </div>
 
-      {/* Dashboard Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {/* Value Dashboard */}
-        <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl shadow-lg relative">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        {/* Value Dashboard - Enhanced */}
+        <div className="bg-gradient-to-br from-indigo-100 to-purple-100 p-8 rounded-2xl shadow-xl relative text-center flex flex-col justify-between">
           <button
             onClick={onOpenValueDashboardDetail}
             className="absolute top-4 right-4 text-indigo-700 hover:text-indigo-900 transition-colors"
@@ -158,137 +193,173 @@ export default function HomePage({
               />
             </svg>
           </button>
-          <h3 className="text-2xl font-bold text-indigo-900 mb-4">
-            Your Value Dashboard
-          </h3>
-          <div className="flex items-center mb-4">
-            <span className="text-6xl font-bold text-indigo-700">5</span>
-            <span className="text-2xl text-indigo-500 ml-3">hours saved</span>
-          </div>
-          <div className="w-full bg-indigo-200 rounded-full h-3 mb-6">
-            <div
-              className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
-              style={{ width: "75%" }}
-            />
-          </div>
-          <p className="text-indigo-900 font-medium text-lg">
-            This is equivalent to...{" "}
-            <span className="text-indigo-600 font-bold">
-              one family dinner + one bedtime story
-            </span>
-          </p>
+          <h3 className="text-xl font-bold text-indigo-900 mb-2">My Time Value</h3>
+
+          {(() => {
+            const demoHistory: ServiceRecord[] = [
+              { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
+              { serviceName: 'Errand Helper', category: 'errandService', duration: 8, cost: 60, date: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString() },
+              { serviceName: 'Online Course', category: 'learning', duration: 6, cost: 200, date: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString() },
+              { serviceName: 'Appliance Repair', category: 'applianceRepair', duration: 4, cost: 80, date: new Date(Date.now() - 20 * 24 * 3600 * 1000).toISOString() },
+              { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
+            ];
+            const preview = calculateInvestmentPortfolio(demoHistory);
+            const totalHoursSaved = preview.totalTimeCoins / 10;
+            let dynamicMessage = "";
+            if (totalHoursSaved >= 1 && totalHoursSaved <= 10) {
+              dynamicMessage = "Time for a relaxing evening and a good book!";
+            } else if (totalHoursSaved >= 11 && totalHoursSaved <= 25) {
+              dynamicMessage = "That's multiple family dinners and bedtime stories!";
+            } else if (totalHoursSaved >= 26) {
+              dynamicMessage = "You've earned a full weekend — for your passions and people.";
+            }
+            return (
+              <div className="flex flex-col items-center justify-center"> {/* Use flex-grow to occupy available space */}
+                <div className="text-4xl font-extrabold text-indigo-700 leading-none mb-2">{preview.totalTimeCoins}</div>
+                <div className="text-base text-indigo-500 mb-2">Time Coins Accumulated</div>
+
+                <div className="text-lg font-semibold text-indigo-900 mb-4 text-center">
+                  {dynamicMessage}
+                </div>
+
+                <p className="text-sm text-indigo-800 mb-4 text-center">That's <span className="font-bold">{totalHoursSaved} hours</span> of your life back.</p>
+
+                <div className="mt-auto w-full text-center"> {/* CTA button at the bottom */}
+                  <button onClick={onOpenValueDashboardDetail} className="px-8 py-3 bg-indigo-600 text-white rounded-full text-base font-semibold hover:bg-indigo-700 transition shadow-md w-fit">
+                      See How You're Growing
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
-        {/* Supplier CTA */}
-        <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl shadow-lg">
+        {/* Supplier CTA - Enhanced */}
+        <div className="bg-gradient-to-br from-emerald-100 to-teal-100 p-8 rounded-2xl shadow-lg flex flex-col justify-between">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-emerald-900 mb-4">
-              Are you a supplier?
+            <h3 className="text-xl font-bold text-emerald-900 mb-4">
+              Become a Provider
             </h3>
-            <p className="text-emerald-800 mb-6 text-lg">
-              Get verified to earn trust badges and grow your bookings.
+            <p className="text-emerald-800 mb-6 text-base">
+              Join our network of trusted service providers. Grow your business and reach more customers.
             </p>
             <button
               onClick={onOpenSupplierWelcome}
-              className="bg-emerald-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-emerald-700 transition-colors"
+              className="bg-emerald-600 text-white px-8 py-3 rounded-full text-base font-semibold hover:bg-emerald-700 transition-colors shadow-md"
             >
-              Get Verified
+              Get Verified Now
             </button>
           </div>
         </div>
+
+        {/* Game Entry Card - placed below both cards */}
+        <div className="lg:col-span-2">
+          <div className="rounded-2xl p-6 md:p-8 shadow-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 text-white">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h3 className="text-2xl font-extrabold">Find Your Life Balance</h3>
+                <p className="mt-2 text-white/90 max-w-2xl">
+                  Struggling with household chores? Play a 1-minute game to see how outsourcing can give you more energy for what matters!
+                </p>
+              </div>
+              <div className="flex-shrink-0">
+                <button
+                  onClick={onOpenGame}
+                  className="px-6 py-3 rounded-xl bg-white text-indigo-700 font-bold shadow-md hover:shadow-lg hover:translate-y-[-1px] transition"
+                >
+                  Start the Game
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
-      {/* Social Proof Banner */}
-      <div className="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-200 text-center max-w-4xl mx-auto">
-        <p className="text-blue-800 font-medium text-lg">
-          Join <span className="font-bold text-xl">1200+ happy users</span> in
+      {/* Social Proof Banner - Enhanced */}
+      <div className="bg-gradient-to-r from-blue-100 to-indigo-100 p-6 rounded-2xl shadow-md border border-blue-200 text-center lg:col-span-2 flex items-center justify-center space-x-3 mt-8">
+        <span className="text-3xl">⭐</span>
+        <p className="text-blue-800 font-semibold text-base">
+          Join <span className="font-bold text-xl text-indigo-700">1200+ happy users</span> in
           Helsinki who outsource tasks! 🎉
         </p>
       </div>
 
-      {/* Smart Recommendation */}
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+      {/* Smart Recommendation - Differentiated */}
+      <div className="lg:col-span-2 mt-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
           Smart Recommendations
         </h2>
-        <div className="card p-8 text-center">
-          <span className="text-6xl mb-6 block">
-            {currentRecommendation.icon}
-          </span>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">
-            {currentRecommendation.title}
-          </h3>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            {currentRecommendation.description}
-          </p>
-          <button
-            onClick={() =>
-              onQuickService?.(
-                currentRecommendation.serviceId,
-                selectedLocation
-              )
-            }
-            className="btn-primary px-8 py-3 text-lg"
-          >
-            {currentRecommendation.buttonText} →
-          </button>
-        </div>
-      </div>
-
-      {/* Popular Services */}
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-          Popular Services
+        <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl shadow-xl border border-blue-100 flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-200 rounded-full opacity-30 animate-pulse-slow"></div>
+          <div className="flex-shrink-0 relative z-10">
+            <img
+              src={currentRecommendation.image}
+              alt={currentRecommendation.title}
+              className="w-32 h-32 object-cover rounded-xl shadow-md border-2 border-white"
+            />
+          </div>
+          <div className="flex-1 text-center md:text-left relative z-10">
+            <span className="inline-block bg-blue-200 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+              Personalized Recommendation
+            </span>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              {currentRecommendation.title}
+            </h3>
+            <p className="text-base text-gray-600 mb-4">
+              {currentRecommendation.description}
+            </p>
+            <button
+              onClick={() =>
+                onQuickService?.(
+                  currentRecommendation.serviceId,
+                  selectedLocation
+                )
+              }
+              className="bg-indigo-600 text-white px-6 py-2 rounded-full text-base font-semibold hover:bg-indigo-700 transition-colors shadow-md"
+            >
+              {currentRecommendation.buttonText} →
+            </button>
+          </div>
+                  </div>
+                </div>
+        
+                      
+              {/* Popular Services - Enhanced */}      <div className="lg:col-span-2 mt-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+          Discover Popular Services
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <button
-            onClick={() => onQuickService?.("home_cleaning", selectedLocation)}
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <img
-              src="/assets/cleaning.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Home Cleaning"
+          {[ // Define popular services data
+            { id: "home_cleaning", name: "Home Cleaning", icon: "/assets/cleaning.jpg" },
+            { id: "appliance_repair", name: "Appliance Repair", icon: "/assets/repair.jpg" },
+            { id: "errands", name: "Errand Service", icon: "/assets/errand.jpg" },
+            { id: "gardening", name: "Gardening", icon: "/assets/gardening.jpg" },
+          ].map((service) => (
+            <ServiceCategoryCard
+              key={service.id}
+              id={service.id}
+              name={service.name}
+              description={servicesData[service.id]?.description || ""}
+              icon={service.icon}
+              providersCount={0}
+              onClick={() => onQuickService?.(service.id, selectedLocation)}
+              showProvidersCount={false}
+              showDescription={false}
             />
-            <span className="text-gray-700 font-medium">Home Cleaning</span>
-          </button>
+          ))}
+        </div>
+        <div className="text-center mt-10">
           <button
-            onClick={() =>
-              onQuickService?.("appliance_repair", selectedLocation)
-            }
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
+            onClick={() => onQuickService?.("", "")}
+            className="bg-gray-200 text-gray-800 px-8 py-3 rounded-full text-base font-semibold hover:bg-gray-300 transition-colors shadow-md"
           >
-            <img
-              src="/assets/repair.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Appliance Repair"
-            />
-            <span className="text-gray-700 font-medium">Appliance Repair</span>
-          </button>
-          <button
-            onClick={() => onQuickService?.("errands", selectedLocation)}
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <img
-              src="/assets/errand.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Errand Service"
-            />
-            <span className="text-gray-700 font-medium">Errand Service</span>
-          </button>
-          <button
-            onClick={() => onQuickService?.("gardening", selectedLocation)}
-            className="card p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <img
-              src="/assets/gardening.jpg"
-              className="mb-3 rounded-full mx-auto w-16 h-16 object-cover"
-              alt="Gardening"
-            />
-            <span className="text-gray-700 font-medium">Gardening</span>
+            View All Services →
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }

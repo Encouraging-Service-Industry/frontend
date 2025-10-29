@@ -1,10 +1,12 @@
 import { useState } from "react";
-import type { Provider } from "../data";
+import type { Provider, Order } from "../data";
 
 type Props = {
   provider: Provider;
   onBack: () => void;
   onComplete: () => void;
+  // called when a booking is successfully created (temporary frontend store)
+  onBookingComplete?: (order: Order) => void;
   onStartTracking?: () => void;
 };
 
@@ -12,23 +14,42 @@ export default function BookingFlowPage({
   provider,
   onBack,
   onComplete,
+  onBookingComplete,
   onStartTracking,
 }: Props) {
   const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState({
     date: "",
-    time: "",
+    // switched from exact time input to a selectable time slot
+    timeSlot: "",
     address: "",
     recipient: "myself",
   });
 
   const handleNextStep1 = () => {
-    if (bookingData.date && bookingData.time && bookingData.address) {
+    // require a date, a selected time slot, and an address
+    if (bookingData.date && bookingData.timeSlot && bookingData.address) {
       setStep(2);
     }
   };
 
   const handleConfirmBooking = () => {
+    // create a temporary order object and emit it to parent
+    const order = {
+      id: "order-" + Date.now(),
+      providerId: provider.id,
+      providerName: provider.name,
+      service: provider.service || "Service",
+      date: bookingData.date,
+      timeSlot: bookingData.timeSlot,
+      address: bookingData.address,
+      recipient: bookingData.recipient,
+      price: provider.price || 50,
+      // start as pending until supplier confirms (demo flow)
+      status: "pending" as const,
+      createdAt: Date.now(),
+    };
+    onBookingComplete?.(order);
     setStep(3);
   };
 
@@ -36,8 +57,16 @@ export default function BookingFlowPage({
     onComplete();
   };
 
+  const slotLabels: Record<string, string> = {
+    morning: "Morning (08:00 - 10:00)",
+    midday: "Midday (11:00 - 13:00)",
+    afternoon: "Afternoon (14:00 - 16:00)",
+    evening: "Evening (17:00 - 19:00)",
+    "": "No time selected",
+  };
+
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <button
         onClick={onBack}
         className="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center"
@@ -69,19 +98,26 @@ export default function BookingFlowPage({
             <input
               type="date"
               value={bookingData.date}
+              min={new Date().toISOString().split('T')[0]}
               onChange={(e) =>
                 setBookingData({ ...bookingData, date: e.target.value })
               }
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <input
-              type="time"
-              value={bookingData.time}
+            {/* Replaced exact time input with predefined time slots */}
+            <select
+              value={bookingData.timeSlot}
               onChange={(e) =>
-                setBookingData({ ...bookingData, time: e.target.value })
+                setBookingData({ ...bookingData, timeSlot: e.target.value })
               }
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+            >
+              <option value="">Select a time slot</option>
+              <option value="morning">Morning (08:00 - 10:00)</option>
+              <option value="midday">Midday (11:00 - 13:00)</option>
+              <option value="afternoon">Afternoon (14:00 - 16:00)</option>
+              <option value="evening">Evening (17:00 - 19:00)</option>
+            </select>
             <input
               type="text"
               placeholder="Enter service address"
@@ -122,7 +158,7 @@ export default function BookingFlowPage({
               Service: {provider.service} with {provider.name}
             </p>
             <p className="text-gray-600">
-              Time: {bookingData.date} at {bookingData.time}
+              Time: {bookingData.date} · {slotLabels[bookingData.timeSlot]}
             </p>
             <p className="text-gray-600">Address: {bookingData.address}</p>
             <p className="text-gray-600">Recipient: {bookingData.recipient}</p>
