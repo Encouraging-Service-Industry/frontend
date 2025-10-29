@@ -45,10 +45,10 @@ export default function StoryWallPage({
       <div className="space-y-8">
         {/* Header */}
       <div className="text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">
           Community Stories
         </h1>
-        <p className="text-xl text-gray-600 mx-auto mb-8">
+        <p className="text-lg text-gray-600 mx-auto mb-8">
           Read inspiring stories from our community and share your own
           experiences.
         </p>

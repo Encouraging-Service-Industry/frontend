@@ -101,10 +101,10 @@ export default function ServicesPage({
         {!activeService && (
         <>
           <header className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
               Explore Services
             </h1>
-            <p className="text-xl text-gray-600 mx-auto">
+            <p className="text-lg text-gray-600 mx-auto">
               Browse available service categories and find providers across
               vendors.
             </p>

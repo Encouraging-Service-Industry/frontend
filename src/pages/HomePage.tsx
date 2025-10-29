@@ -89,10 +89,10 @@ export default function HomePage({
       <div className="space-y-8">
         {/* Hero Section */}
       <div className="text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">
           Welcome back, Anna
         </h1>
-        <p className="text-xl text-gray-600 mx-auto">
+        <p className="text-lg text-gray-600 mx-auto">
           Find the perfect service providers for your needs. Save time, get
           quality work done.
         </p>
@@ -100,7 +100,7 @@ export default function HomePage({
 
       {/* Search Section */}
       <div className="card p-8 mx-auto">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">
           Find Services Quickly
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -160,7 +160,7 @@ export default function HomePage({
               />
             </svg>
           </button>
-            <h3 className="text-2xl font-bold text-indigo-900 mb-4">My Investment</h3>
+            <h3 className="text-xl font-bold text-indigo-900 mb-4">My Investment</h3>
 
             {/* Compact preview: left = coins, right = future value + CTA */}
             {(() => {
@@ -176,13 +176,13 @@ export default function HomePage({
                 <div>
                   <div className="flex flex-col md:flex-row items-center justify-around gap-4">
                     <div className="text-center">
-                      <div className="text-4xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
+                      <div className="text-3xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
                       <div className="text-sm text-indigo-500">Time Coins</div>
                     </div>
 
                     <div className="text-center">
                       <div className="text-sm text-gray-600">Estimated Future Value</div>
-                      <div className="text-2xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
+                      <div className="text-xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
                     </div>
                   </div>
                   <div className="mt-6 text-center">
@@ -198,7 +198,7 @@ export default function HomePage({
         {/* Supplier CTA */}
         <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl shadow-lg">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-emerald-900 mb-4">
+            <h3 className="text-xl font-bold text-emerald-900 mb-4">
               Are you a supplier?
             </h3>
             <p className="text-emerald-800 mb-6 text-lg">
@@ -217,21 +217,21 @@ export default function HomePage({
       {/* Social Proof Banner */}
       <div className="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-200 text-center lg:col-span-2">
         <p className="text-blue-800 font-medium text-lg">
-          Join <span className="font-bold text-xl">1200+ happy users</span> in
+          Join <span className="font-bold text-lg">1200+ happy users</span> in
           Helsinki who outsource tasks! 🎉
         </p>
       </div>
 
       {/* Smart Recommendation */}
       <div className="lg:col-span-2">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
           Smart Recommendations
         </h2>
         <div className="card p-8 text-center">
-          <span className="text-6xl mb-6 block">
+          <span className="text-5xl mb-6 block">
             {currentRecommendation.icon}
           </span>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+          <h3 className="text-xl font-bold text-gray-800 mb-4">
             {currentRecommendation.title}
           </h3>
           <p className="text-lg text-gray-600 mb-8 mx-auto">
@@ -253,7 +253,7 @@ export default function HomePage({
 
       {/* Popular Services */}
       <div className="lg:col-span-2">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
           Popular Services
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
