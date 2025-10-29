@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { type Story } from '../types/story'; // Import Story type from dedicated types file
 
 interface StoryCardProps {
@@ -6,6 +6,12 @@ interface StoryCardProps {
 }
 
 const StoryCard: React.FC<StoryCardProps> = ({ story: s }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div
       key={s.id}
@@ -44,7 +50,12 @@ const StoryCard: React.FC<StoryCardProps> = ({ story: s }) => {
       </h3>
 
       {/* Content */}
-      <p className="text-gray-600 mb-4 line-clamp-3 overflow-hidden flex-shrink-0" style={{ minHeight: '4.5em' }}>{s.content}</p>
+      <p className={`text-gray-600 mb-2 ${isExpanded ? '' : 'line-clamp-3'}`} style={{ minHeight: '4.5em' }}>{s.content}</p>
+      {s.content.length > 150 && ( // Simple heuristic to show 'Read More' for longer content
+        <button onClick={toggleExpanded} className="text-indigo-600 hover:text-indigo-800 text-sm font-medium mb-4 text-left">
+          {isExpanded ? 'Read Less' : 'Read More'}
+        </button>
+      )}
 
       {/* Optional Image Area with Placeholder */}
       <div className="w-full mb-4 flex-shrink-0" style={{ height: '12rem' }}> {/* Fixed height for image area (e.g., 192px) */}

@@ -52,6 +52,15 @@ export default function StoryWallPage({
           Read inspiring stories from our community and share your own
           experiences.
         </p>
+
+        {/* Gamified Prompt (Placeholder) */}
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-6 text-sm text-yellow-800 mx-auto">
+          <p className="font-semibold mb-1">
+            What did you accomplish with your newfound time?
+          </p>
+          <p>Share your latest success story and inspire others!</p>
+        </div>
+
         <button
           onClick={() => setIsModalOpen(true)}
           className="btn-primary px-8 py-3 text-lg font-semibold"
@@ -72,28 +81,29 @@ export default function StoryWallPage({
         </button>
       </div>
 
-      {/* Gamified Prompt (Placeholder) */}
-      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-6 text-sm text-yellow-800 mx-auto">
-        <p className="font-semibold mb-1">
-          What did you accomplish with your newfound time?
-        </p>
-        <p>Share your latest success story and inspire others!</p>
-      </div>
-
       {/* Filter Bar */}
       <div className="mx-auto">
         <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <select
-            value={filterType}
-            onChange={(e) =>
-              setFilterType(e.target.value as "all" | "consumer" | "provider")
-            }
-            className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700"
-          >
-            <option value="all">All Posts</option>
-            <option value="consumer">Consumer Posts</option>
-            <option value="provider">Provider Posts</option>
-          </select>
+          <div className="flex rounded-lg bg-gray-100 p-1 space-x-1">
+            <button
+              onClick={() => setFilterType("all")}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filterType === "all" ? "bg-white shadow text-indigo-700" : "text-gray-600 hover:bg-gray-200"}`}
+            >
+              All Posts
+            </button>
+            <button
+              onClick={() => setFilterType("consumer")}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filterType === "consumer" ? "bg-white shadow text-indigo-700" : "text-gray-600 hover:bg-gray-200"}`}
+            >
+              Consumer Posts
+            </button>
+            <button
+              onClick={() => setFilterType("provider")}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filterType === "provider" ? "bg-white shadow text-indigo-700" : "text-gray-600 hover:bg-gray-200"}`}
+            >
+              Provider Posts
+            </button>
+          </div>
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
@@ -124,14 +134,6 @@ export default function StoryWallPage({
         />
       </PostYourStory>
 
-      {/* Stats Box */}
-      <div className="bg-gray-100 p-4 rounded-xl mb-4 text-center border-l-4 border-indigo-500">
-        <p className="text-gray-800 font-medium">
-          <span className="text-indigo-600 font-bold">80%</span> of families in
-          your area use home cleaning services!
-        </p>
-      </div>
-
       {/* Stories Grid */}
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -142,13 +144,6 @@ export default function StoryWallPage({
             <StoryCard key={s.id} story={s} />
           ))}
         </div>
-
-        {filteredStories.length === 0 && (
-          <div className="text-center text-gray-500 text-xl py-12">
-            No stories match the current filters.
-          </div>
-        )}
-      </div>
       </div>
     </div>
   );
