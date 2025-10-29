@@ -193,7 +193,6 @@ export default function HomePage({
           </button>
           <h3 className="text-xl font-bold text-indigo-900 mb-4">My Time Value</h3>
 
-          {/* Compact preview: left = coins, right = future value + CTA */}
           {(() => {
             const demoHistory: ServiceRecord[] = [
               { serviceName: 'Home Cleaning', category: 'homeCleaning', duration: 15, cost: 120, date: new Date().toISOString() },
@@ -203,23 +202,30 @@ export default function HomePage({
               { serviceName: 'Gardening', category: 'gardening', duration: 2, cost: 40, date: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString() },
             ];
             const preview = calculateInvestmentPortfolio(demoHistory);
+            const totalHoursSaved = preview.totalTimeCoins / 10;
+            let dynamicMessage = "";
+            if (totalHoursSaved >= 1 && totalHoursSaved <= 10) {
+              dynamicMessage = "Time for a relaxing evening and a good book!";
+            } else if (totalHoursSaved >= 11 && totalHoursSaved <= 25) {
+              dynamicMessage = "That's multiple family dinners and bedtime stories!";
+            } else if (totalHoursSaved >= 26) {
+              dynamicMessage = "You've earned a full weekend — for your passions and people.";
+            }
             return (
-              <div>
-                <div className="flex flex-col md:flex-row items-center justify-around gap-4 mb-6">
-                  <div className="text-center">
-                    <div className="text-3xl font-extrabold text-indigo-700 leading-tight">{preview.totalTimeCoins}</div>
-                    <div className="text-sm text-indigo-500">Time Coins</div>
-                  </div>
+              <div className="flex flex-col items-center justify-center flex-grow p-4"> {/* Use flex-grow to occupy available space */}
+                <div className="text-5xl font-extrabold text-indigo-700 leading-none mb-2">{preview.totalTimeCoins}</div>
+                <div className="text-base text-indigo-500 mb-4">Time Coins Accumulated</div>
 
-                  <div className="text-center">
-                    <div className="text-sm text-gray-600">Estimated Future Value</div>
-                    <div className="text-xl font-bold text-indigo-600">${preview.estimatedFutureValue.toLocaleString()}</div>
-                  </div>
+                <div className="text-lg font-semibold text-indigo-900 mb-6 text-center">
+                  {dynamicMessage}
                 </div>
-                <div className="mt-auto text-center">
-                    <button onClick={onOpenValueDashboardDetail} className="px-8 py-3 bg-indigo-600 text-white rounded-full text-base font-semibold hover:bg-indigo-700 transition shadow-md">
-                        View Time Value
-                    </button>
+
+                <p className="text-sm text-indigo-800 mb-6 text-center">That's <span className="font-bold">{totalHoursSaved} hours</span> of your life back.</p>
+
+                <div className="mt-auto w-full text-center"> {/* CTA button at the bottom */}
+                  <button onClick={onOpenValueDashboardDetail} className="px-8 py-3 bg-indigo-600 text-white rounded-full text-base font-semibold hover:bg-indigo-700 transition shadow-md w-fit">
+                      See How You're Growing
+                  </button>
                 </div>
               </div>
             );

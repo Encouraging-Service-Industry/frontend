@@ -354,6 +354,53 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace, on
         <p className="mt-3 text-gray-700 text-center text-sm">
           Consistent choices build lasting well-being.
         </p>
+      </motion.section>
+
+      {/* Top Services by Time Coins Invested */}
+      <motion.section variants={cardVariants} className="bg-white p-6 rounded-2xl mb-6 shadow-sm border border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Top Services by Time Coins Invested</h3>
+        <div className="space-y-3">
+          {(() => {
+            const serviceCoinMap = new Map<string, { coins: number; category: string }>();
+            serviceHistory.forEach(service => {
+              const coins = service.duration * 10; // Assuming 1 hour = 10 Time Coins
+              if (serviceCoinMap.has(service.serviceName)) {
+                const existing = serviceCoinMap.get(service.serviceName)!;
+                serviceCoinMap.set(service.serviceName, { ...existing, coins: existing.coins + coins });
+              } else {
+                serviceCoinMap.set(service.serviceName, { coins, category: service.category });
+              }
+            });
+
+            const topServices = Array.from(serviceCoinMap.entries())
+              .sort(([, a], [, b]) => b.coins - a.coins)
+              .slice(0, 3);
+
+            if (topServices.length === 0) {
+              return <p className="text-gray-600">No services recorded yet. Start investing your time!</p>;
+            }
+
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {topServices.map(([serviceName, data], idx) => (
+                  <div key={idx} className="bg-gray-50 p-4 rounded-lg border border-gray-100 flex flex-col items-center text-center">
+                    <div className="text-2xl font-bold text-indigo-600">{data.coins}</div>
+                    <div className="text-sm text-gray-700 mt-1">{serviceName}</div>
+                    <div className="text-xs text-gray-500">({data.category})</div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+        </div>
+        <div className="text-center mt-6">
+          <button
+            onClick={() => onOpenServiceCategory && onOpenServiceCategory('')}
+            className="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition shadow-md"
+          >
+            Explore All Services →
+          </button>
+        </div>
       </motion.section>      {/* Recommendations - Optimized */}
       <motion.section variants={cardVariants} className="bg-white p-6 rounded-2xl mb-6 shadow-sm border border-gray-100">
         <h3 className="text-lg font-semibold text-gray-800 mb-3">Smart Investment Advisor</h3>
