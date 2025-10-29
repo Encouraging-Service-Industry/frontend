@@ -8,11 +8,12 @@ import { IconHealth, IconRelationship, IconSelf, IconCoin, IconInfo } from '../c
 type Props = {
   onBack: () => void;
   onOpenMarketplace?: () => void;
+  onOpenServiceCategory?: (category: string) => void; // New prop for opening specific service categories
 };
 
 // Icon components were extracted to ../components/InvestmentIcons
 
-export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: Props) {
+export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace, onOpenServiceCategory }: Props) {
   // count-up and in-view hooks are delegated to hooks/useCountUp
   // Demo service history (front-end simulation). Each item includes a date so we can compute "this week".
   const serviceHistory = [
@@ -85,23 +86,23 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
         <div className="absolute inset-0 bg-blue-900 opacity-20 rounded-xl"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-center gap-3">
-              <h1 className="text-2xl font-extrabold text-white">My Time Value</h1>
+              <h1 className="text-2xl font-extrabold text-white">Your Saved Time is Your Life Energy</h1>
               <button
-              aria-label="About Life Investment calculations"
+              aria-label="About Time Wealth calculations"
               onClick={() => setShowInfo(true)}
               className="p-2 rounded-full hover:bg-blue-100 transition-transform transform hover:scale-105"
               >
               <IconInfo className="w-5 h-5 text-white" />
               </button>
           </div>
-          <p className="text-base text-blue-100 mt-2">Track the future value of your saved time.</p>
+          <p className="text-base text-blue-100 mt-2">See how your saved time enriches your life.</p>
         </div>
       </div>
 
       {/* Overview card - Re-optimized Layout */}
       <motion.section variants={cardVariants} className="bg-white p-6 rounded-2xl mb-6 shadow-xl border border-gray-100">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-800">Total Investment Overview</h2>
+          <h2 className="text-xl font-bold text-gray-800">Total Time Wealth Overview</h2>
           <div className="p-2 bg-gray-50 rounded-full flex items-center">
             <IconCoin className="w-5 h-5 text-indigo-600" />
           </div>
@@ -150,9 +151,10 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
 
           {/* Estimated Future Value - Right Column */}
           <div className="text-center md:text-right">
-            <div className="text-lg text-gray-600">Estimated Future Value</div>
-            <div className="text-5xl font-bold text-emerald-600 leading-tight">${countedFuture.toLocaleString()}</div>
-            <p className="text-xs text-gray-500 mt-2">1 Time Coin = $5 base × portfolio multiplier</p>
+            <div className="text-xl font-semibold text-gray-800 mb-2">{portfolio.motivationalMessage}</div>
+            <div className="text-5xl font-bold text-emerald-600 leading-tight">{portfolio.lifeEnergyGained} Hours</div>
+            <div className="text-sm text-gray-600 mt-1">Life Energy Gained</div>
+            <p className="text-xs text-gray-500 mt-2">Theoretical Financial Equivalent: ${countedFuture.toLocaleString()}</p>
           </div>
         </div>
       </motion.section>
@@ -181,7 +183,7 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
             <div className="absolute inset-0 bg-black/40" onClick={() => setShowInfo(false)} />
             <motion.div role="dialog" aria-modal="true" initial={{ y: 20, opacity: 0, scale: 0.98 }} animate={{ y: 0, opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="relative z-10 max-w-3xl w-full bg-white rounded-2xl p-6 shadow-2xl border border-gray-100">
               <div className="flex items-start justify-between gap-4">
-                <h2 className="text-xl font-semibold">📊 Your Life Investment Portfolio - Calculation Logic</h2>
+                <h2 className="text-xl font-semibold">📊 Your Time Wealth - Calculation Logic</h2>
                 <button aria-label="Close" onClick={() => setShowInfo(false)} className="text-gray-500 hover:text-gray-700">✕</button>
               </div>
               <div className="mt-4 prose prose-sm text-sm text-gray-700 max-h-[60vh] overflow-auto">
@@ -303,9 +305,11 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
               </div>
               <div>
                 <div className="text-sm font-medium text-gray-700">{a.portfolio}</div>
-                <div className="text-lg font-bold text-gray-900">{a.coins} Coins • ${a.value.toLocaleString()}</div>
-                <div className="text-xs text-gray-400">Multiplier ×{a.multiplier}</div>
-                <div className="text-xs text-gray-500">{Math.round((a.coins / portfolio.totalTimeCoins) * 100)}% of total</div>
+                <div className="text-lg font-bold text-gray-900">{a.coins} Coins</div>
+                {a.portfolio === 'Vitality & Well-being' && <div className="text-xs text-gray-500">Less stress, more energy for life.</div>}
+                {a.portfolio === 'Connection & Family' && <div className="text-xs text-gray-500">Time for those who matter most.</div>}
+                {a.portfolio === 'Growth & Skills' && <div className="text-xs text-gray-500">Building a better you.</div>}
+                <div className="text-xs text-gray-400 mt-1">Multiplier ×{a.multiplier}</div>
               </div>
             </div>
           ))}
@@ -333,9 +337,9 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center gap-1">
-              <span className="text-3xl font-bold text-emerald-600">${thisWeekPortfolio.estimatedFutureValue.toLocaleString()}</span>
+              <span className="text-3xl font-bold text-emerald-600">{thisWeekPortfolio.lifeEnergyGained} Hours</span>
             </div>
-            <div className="text-sm text-gray-600">Future Value Increased</div>
+            <div className="text-sm text-gray-600">Life Energy Gained This Week</div>
             {/* Simulated Sparkline for Future Value */}
             <div className="flex justify-center items-end h-6 w-24 mx-auto mt-1">
               <div className="w-1/4 h-4 bg-green-400"></div>
@@ -343,22 +347,34 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
               <div className="w-1/4 h-6 bg-green-600"></div>
               <div className="w-1/4 h-3 bg-green-400"></div>
             </div>
-            <p className="text-xs text-green-600 mt-1">+10% vs. last week</p> {/* Simulated comparison */}
+            <p className="text-xs text-green-600 mt-1">(Equivalent to ~${thisWeekPortfolio.estimatedFutureValue.toLocaleString()})</p> {/* Simulated comparison */}
           </div>
         </div>
         <p className="mt-3 text-gray-700 text-center text-sm">
-          Motivational summary: Keep compounding — small, consistent investments in Health, Relationship, and Self build long-term value.
+          Consistent choices build lasting well-being.
         </p>
-      </motion.section>
-
-      {/* Recommendations - Optimized */}
+      </motion.section>      {/* Recommendations - Optimized */}
       <motion.section variants={cardVariants} className="bg-white p-6 rounded-2xl mb-6 shadow-sm border border-gray-100">
         <h3 className="text-lg font-semibold text-gray-800 mb-3">Smart Investment Advisor</h3>
         <div className="space-y-3">
           {recommendations.map((rec, idx) => (
             <motion.div key={idx} whileHover={{ scale: 1.02 }} className="p-4 rounded-lg border border-gray-100 bg-gray-50 flex items-center space-x-3">
               <span className="text-xl">💡</span> {/* Lightbulb icon */}
-              <div className="text-sm text-gray-700 flex-1">{rec}</div>
+              <div className="text-sm text-gray-700 flex-1">
+                {rec.message.split(" ").map((word, i) => (
+                  rec.categoryLink && word.includes("book") ? (
+                    <button
+                      key={i}
+                      onClick={() => onOpenServiceCategory?.(rec.categoryLink!)}
+                      className="text-indigo-600 hover:text-indigo-800 underline font-semibold"
+                    >
+                      {word}
+                    </button>
+                  ) : (
+                    <span key={i}>{word} </span>
+                  )
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>

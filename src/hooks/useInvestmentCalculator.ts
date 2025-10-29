@@ -12,7 +12,9 @@ export type PortfolioResult = {
   healthCoins: number;
   relationshipCoins: number;
   selfCoins: number;
+  lifeEnergyGained: number; // New metric: Total Time Coins / 10
   estimatedFutureValue: number; // in $
+  motivationalMessage: string; // New: qualitative statement based on allocation
   allocationValue: { portfolio: string; coins: number; value: number; multiplier: number }[];
   pensionCredits: number;
 };
@@ -35,7 +37,6 @@ export const CATEGORY_ALLOCATION: Record<string, { health: number; relationship:
 
 // Core calculation function
 export function calculateInvestmentPortfolio(history: ServiceRecord[]): PortfolioResult {
-  // 1 hour = 10 Time Coins for display; dollar math uses hours so values stay identical
   let healthHours = 0;
   let relationshipHours = 0;
   let selfHours = 0;
@@ -56,6 +57,9 @@ export function calculateInvestmentPortfolio(history: ServiceRecord[]): Portfoli
   const selfCoins = selfHours * 10;
   const totalTimeCoins = Math.round(totalHours * 10 * 100) / 100;
 
+  // New metric: Life Energy Gained
+  const lifeEnergyGained = Math.round(totalTimeCoins / 10);
+
   // Compute dollar values using hours so totals remain identical
   const healthValue = healthHours * MULTIPLIERS.health * BASE_VALUE_PER_COIN;
   const relationshipValue = relationshipHours * MULTIPLIERS.relationship * BASE_VALUE_PER_COIN;
@@ -63,16 +67,30 @@ export function calculateInvestmentPortfolio(history: ServiceRecord[]): Portfoli
 
   const estimatedFutureValue = Math.round((healthValue + relationshipValue + selfValue) * 100) / 100;
 
+  // Determine dominant portfolio for motivational message
+  let motivationalMessage = "You're building a beautifully balanced future across health, relationships, and personal growth.";
+  const maxCoins = Math.max(healthCoins, relationshipCoins, selfCoins);
+
+  if (maxCoins > 0) { // Only if there's actual investment
+    if (healthCoins === maxCoins) {
+      motivationalMessage = "You're investing in a healthier, more energetic future.";
+    } else if (relationshipCoins === maxCoins) {
+      motivationalMessage = "You're building a future rich in connection and shared moments.";
+    } else if (selfCoins === maxCoins) {
+      motivationalMessage = "You're fueling future growth, skills, and opportunities.";
+    }
+  }
+
   const allocationValue = [
-    { portfolio: 'Health Investment', coins: Math.round(healthCoins * 100) / 100, value: Math.round(healthValue * 100) / 100, multiplier: MULTIPLIERS.health },
-    { portfolio: 'Relationship Investment', coins: Math.round(relationshipCoins * 100) / 100, value: Math.round(relationshipValue * 100) / 100, multiplier: MULTIPLIERS.relationship },
-    { portfolio: 'Self Investment', coins: Math.round(selfCoins * 100) / 100, value: Math.round(selfValue * 100) / 100, multiplier: MULTIPLIERS.self },
+    { portfolio: 'Vitality & Well-being', coins: Math.round(healthCoins * 100) / 100, value: Math.round(healthValue * 100) / 100, multiplier: MULTIPLIERS.health },
+    { portfolio: 'Connection & Family', coins: Math.round(relationshipCoins * 100) / 100, value: Math.round(relationshipValue * 100) / 100, multiplier: MULTIPLIERS.relationship },
+    { portfolio: 'Growth & Skills', coins: Math.round(selfCoins * 100) / 100, value: Math.round(selfValue * 100) / 100, multiplier: MULTIPLIERS.self },
   ];
 
   // Pension credits: 100 Time Coins = 1 credit
   const pensionCredits = Math.floor(totalTimeCoins * 0.01);
 
-  return { totalTimeCoins, healthCoins, relationshipCoins, selfCoins, estimatedFutureValue, allocationValue, pensionCredits };
+  return { totalTimeCoins, healthCoins, relationshipCoins, selfCoins, lifeEnergyGained, estimatedFutureValue, motivationalMessage, allocationValue, pensionCredits };
 }
 
 export function generateRecommendations(history: ServiceRecord[]) {
@@ -80,19 +98,27 @@ export function generateRecommendations(history: ServiceRecord[]) {
   for (const h of history) counts[h.category] = (counts[h.category] || 0) + (h.duration || 0);
   const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
   const top = sorted[0];
-  const advice: string[] = [];
-  if (!top) return ["No data yet — start investing time with services to get personalized advice."];
+  const advice: { message: string; categoryLink?: string }[] = [];
+
+  if (!top) {
+    advice.push({ message: "No data yet — start investing time with services to get personalized advice." });
+    return advice;
+  }
+
   const [topCat] = top;
+
   if (topCat === 'homeCleaning' || topCat === 'gardening') {
-    advice.push("You're investing heavily in household efficiency. Consider allocating some Time Coins to 'Self Investment' (courses, coaching) to grow future income.");
+    advice.push({ message: "You're focusing on household efficiency. To boost your Growth & Skills, why not book a learning course?", categoryLink: "learning" });
   }
   if (topCat === 'errandService') {
-    advice.push("Strong tilt to efficiency; diversify into 'Relationship Investment' — schedule a family activity that's 'time well spent'.");
+    advice.push({ message: "Strong tilt to efficiency; diversify into 'Connection & Family' — schedule a family activity that's 'time well spent'.", categoryLink: "relationship" }); // Assuming 'relationship' maps to a service category
   }
   if (topCat === 'learning') {
-    advice.push("Great focus on Self Investment — consider deeper specializations to compound returns.");
+    advice.push({ message: "Great focus on Growth & Skills — consider deeper specializations to compound returns.", categoryLink: "learning" });
   }
-  if (advice.length === 0) advice.push("We see varied investments — keep diversifying to balance Health, Relationship, and Self portfolios.");
+  if (advice.length === 0) {
+    advice.push({ message: "We see varied investments — keep diversifying to balance Vitality & Well-being, Connection & Family, and Growth & Skills portfolios." });
+  }
   return advice;
 }
 

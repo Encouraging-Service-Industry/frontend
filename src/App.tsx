@@ -696,7 +696,14 @@ export default function App() {
               />
             )}
             {tab === "value-dashboard-detail" && (
-              <ValueDashboardDetailPage onBack={() => handleSetTab(previousTab || 'home')} onOpenMarketplace={() => handleSetTab("timecoin-marketplace")} />
+              <ValueDashboardDetailPage
+                onBack={() => handleSetTab(previousTab || 'home')}
+                onOpenMarketplace={() => handleSetTab("timecoin-marketplace")}
+                onOpenServiceCategory={(category: string) => {
+                  setCurrentService(category);
+                  handleSetTab("services");
+                }}
+              />
             )}
             {tab === "timecoin-marketplace" && (
               <TimeCoinMarketplace
