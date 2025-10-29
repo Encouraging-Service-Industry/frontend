@@ -77,18 +77,25 @@ export default function ValueDashboardDetailPage({ onBack, onOpenMarketplace }: 
       `}</style>
 
 
-      <div className="text-center mb-6">
-        <div className="flex items-center justify-center gap-3">
-            <h1 className="text-3xl font-extrabold text-gray-800">My Investment</h1>
-            <button
-            aria-label="About Life Investment calculations"
-            onClick={() => setShowInfo(true)}
-            className="p-2 rounded-full hover:bg-gray-100 transition-transform transform hover:scale-105"
-            >
-            <IconInfo className="w-5 h-5 text-gray-600" />
-            </button>
+      {/* Enhanced Header/Mini-Banner for My Investment */}
+      <div
+        className="relative bg-cover bg-center p-6 rounded-xl shadow-sm text-center mb-6"
+        style={{ backgroundImage: "url('/assets/brandlogo.png')" }}
+      >
+        <div className="absolute inset-0 bg-blue-900 opacity-20 rounded-xl"></div>
+        <div className="relative z-10">
+          <div className="flex items-center justify-center gap-3">
+              <h1 className="text-2xl font-extrabold text-white">My Investment</h1>
+              <button
+              aria-label="About Life Investment calculations"
+              onClick={() => setShowInfo(true)}
+              className="p-2 rounded-full hover:bg-blue-100 transition-transform transform hover:scale-105"
+              >
+              <IconInfo className="w-5 h-5 text-white" />
+              </button>
+          </div>
+          <p className="text-base text-blue-100 mt-2">Track the future value of your saved time.</p>
         </div>
-        <p className="text-lg text-gray-600 mt-2">Track the future value of your saved time.</p>
       </div>
 
       {/* Overview card (prominent) */}

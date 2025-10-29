@@ -100,14 +100,19 @@ export default function ServicesPage({
       <div className="space-y-8">
         {!activeService && (
         <>
-          <header className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Explore Services
-            </h1>
-            <p className="text-lg text-gray-600 mx-auto">
-              Browse available service categories and find providers across
-              vendors.
-            </p>
+          <header
+            className="relative bg-cover bg-center p-6 rounded-xl shadow-sm text-center mb-8"
+            style={{ backgroundImage: "url('/assets/gardening.jpg')" }}
+          >
+            <div className="absolute inset-0 bg-green-900 opacity-30 rounded-xl"></div>
+            <div className="relative z-10">
+              <h1 className="text-2xl font-bold text-white mb-2">
+                Explore Our Services
+              </h1>
+              <p className="text-base text-green-100 mx-auto">
+                Browse available service categories and find trusted providers.
+              </p>
+            </div>
           </header>
 
           <div className="mx-auto">
