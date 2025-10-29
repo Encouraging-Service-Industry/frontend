@@ -7,7 +7,7 @@ type Props = {
 
 export default function RedemptionDetailPage({ order, onBack }: Props) {
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <button onClick={onBack} className="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />

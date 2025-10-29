@@ -65,7 +65,7 @@ export default function MyAchievementsPage({ onBack }: Props) {
   ];
 
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <button onClick={onBack} className="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-4 transition-colors duration-300">
         <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

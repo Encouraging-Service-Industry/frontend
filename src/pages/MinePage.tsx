@@ -103,7 +103,7 @@ export default function MinePage({
 }: Props) {
   if (activeOption) {
     return (
-      <div className="p-4 pt-6">
+      <div className="max-w-4xl mx-auto px-4 pt-6">
         <button
           onClick={onBack}
           className="flex items-center text-blue-600 hover:text-blue-800 font-medium mb-4 transition-colors duration-300"
@@ -219,7 +219,7 @@ export default function MinePage({
   }
 
   return (
-    <div className="p-4 pt-6">
+    <div className="max-w-4xl mx-auto px-4 pt-6">
       <div className="flex items-center justify-center mb-8">
         <img
           src="/assets/Anna.jpg"
