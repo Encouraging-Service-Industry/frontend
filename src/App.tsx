@@ -546,7 +546,6 @@ export default function App() {
                 onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
                 onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
                 onOpenSupplierWelcome={() => handleSetTab("supplier-welcome")}
-                onOpenGame={() => handleSetTab("time-energy-puzzle")}
               />
             )}
             {tab === "supplier-welcome" && (
