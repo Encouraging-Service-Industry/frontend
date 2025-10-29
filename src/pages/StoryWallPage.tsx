@@ -63,18 +63,20 @@ export default function StoryWallPage({
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="btn-primary px-8 py-3 text-lg font-semibold"
+          className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-white bg-indigo-600 rounded-xl shadow-xl hover:bg-indigo-700 hover:shadow-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2 inline"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            className="h-6 w-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
           >
             <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-              clipRule="evenodd"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             />
           </svg>
           Post Your Story
@@ -144,6 +146,7 @@ export default function StoryWallPage({
             <StoryCard key={s.id} story={s} />
           ))}
         </div>
+      </div>
       </div>
     </div>
   );
