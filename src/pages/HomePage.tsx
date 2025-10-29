@@ -87,15 +87,27 @@ export default function HomePage({
   return (
     <div className="max-w-4xl mx-auto px-4">
       <div className="space-y-8">
-        {/* Hero Section */}
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Welcome back, Anna
-        </h1>
-        <p className="text-lg text-gray-600 mx-auto">
-          Find the perfect service providers for your needs. Save time, get
-          quality work done.
-        </p>
+        {/* Hero Section - Revamped */}
+      <div
+        className="relative bg-cover bg-center h-96 rounded-2xl flex items-center justify-center text-white shadow-lg"
+        style={{ backgroundImage: "url('/assets/cleaning.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50 rounded-2xl"></div>
+        <div className="relative z-10 text-center max-w-2xl mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+            Your Life, Simplified. Services, Delivered.
+          </h1>
+          <p className="text-lg md:text-xl mb-8">
+            Connect with trusted local providers for home cleaning, repairs,
+            errands, and more. Reclaim your time, enhance your life.
+          </p>
+          <button
+            onClick={() => onQuickService?.("", "")}
+            className="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors shadow-xl"
+          >
+            Explore Services
+          </button>
+        </div>
       </div>
 
       {/* Search Section */}
