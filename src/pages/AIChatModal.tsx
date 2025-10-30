@@ -151,28 +151,31 @@ export default function AIChatModal({ isOpen, onClose, onProviderSelected, allPr
             </div>
           )}
         </div>
-        {!myResult && (
-          <form
-            className="flex p-4 gap-2 border-t"
-            onSubmit={e => { e.preventDefault(); handleSend(); }}
+        {/* Always render chat input, so user can enter repeatedly */}
+        <form
+          className="flex p-4 gap-2 border-t"
+          onSubmit={e => {
+            e.preventDefault();
+            if (myResult) mySetResult(null); // Clear previous result for new search
+            handleSend();
+          }}
+        >
+          <input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            placeholder="eg: cheerful, eco, weekends..."
+            disabled={awaiting}
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-sky-700 disabled:opacity-50"
+            disabled={awaiting || !input.trim()}
           >
-            <input
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
-              placeholder="eg: cheerful, eco, weekends..."
-              disabled={awaiting}
-              autoFocus
-            />
-            <button
-              type="submit"
-              className="bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-sky-700 disabled:opacity-50"
-              disabled={awaiting || !input.trim()}
-            >
-              Send
-            </button>
-          </form>
-        )}
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );
