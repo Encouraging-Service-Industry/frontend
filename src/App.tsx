@@ -35,6 +35,7 @@ import OrderDetailPage from "./pages/OrderDetailPage";
 import RedemptionDetailPage from "./pages/RedemptionDetailPage";
 import Footer from "./components/Footer"; // Import Footer component
 import TimeEnergyPuzzlePage from "./pages/TimeEnergyPuzzlePage";
+import AISearchPage from "./pages/AISearchPage"; // Import AISearchPage
 
 type Tab =
   | "splash"
@@ -60,7 +61,8 @@ type Tab =
   | "supplier-background"
   | "supplier-portfolio"
   | "supplier-notifications"
-  | "location-tracking";
+  | "location-tracking"
+  | "ai-search";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("login"); // Start at login page initially
@@ -546,6 +548,7 @@ export default function App() {
                 onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
                 onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
                 onOpenSupplierWelcome={() => handleSetTab("supplier-welcome")}
+                onOpenAISearch={() => handleSetTab("ai-search")}
               />
             )}
             {tab === "supplier-welcome" && (
@@ -735,6 +738,15 @@ export default function App() {
                 onClaimReward={() => {
                   setUserCoins((c) => c + 50);
                 }}
+              />
+            )}
+            {tab === "ai-search" && (
+              <AISearchPage
+                onProviderSelected={(provider) => {
+                  setCurrentProvider(provider);
+                  handleSetTab("provider-detail");
+                }}
+                allProviders={allProviders}
               />
             )}
             {tab === "vendor-detail-view" && currentVendor && (
