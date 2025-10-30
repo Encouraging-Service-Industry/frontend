@@ -87,7 +87,10 @@ export default function App() {
 
   // AI Chat demo: persistent across the app, not just HomePage
   const [aiModalOpen, setAIModalOpen] = useState(false);
-  const [aiChatSession, setAIChatSession] = useState<number>(0); // For resetting on logout if desired
+  const [aiChatHistory, setAIChatHistory] = useState<{ sender: "ai" | "user"; text: string }[]>([]); // shared chat log
+  const [aiResult, setAIResult] = useState<{ provider: any; reason: string } | null>(null);
+  const [aiAwaiting, setAIAwaiting] = useState(false);
+  const [aiSessionKey, setAISessionKey] = useState(0); // for logout, session reset
 
   // Define serviceHistory and calculate portfolio here
   const serviceHistory = [
@@ -310,7 +313,7 @@ export default function App() {
     setIsAuthenticated(false);
     handleSetTab("login");
     setLoggedInUserName(null);
-    setAIChatSession(Date.now()); // Reset AI session on logout
+    setAISessionKey(Date.now()); // Reset AI session on logout
   };
 
   const handleOpenNotifications = () => {
@@ -558,6 +561,7 @@ export default function App() {
                   setCurrentProvider(provider);
                   handleSetTab("provider-detail");
                 }}
+                onRequestAIChat={() => setAIModalOpen(true)}
               />
             )}
             {tab === "supplier-welcome" && (
@@ -776,7 +780,6 @@ export default function App() {
           </div>
         )}
       </main>
-      {/* Persistent AI Chat Widget (not on login or splash) */}
       {isAuthenticated && tab !== "splash" && tab !== "login" && (
         <>
           <button
@@ -796,7 +799,13 @@ export default function App() {
               setCurrentProvider(provider);
               handleSetTab("provider-detail");
             }}
-            sessionKey={aiChatSession}
+            sessionKey={aiSessionKey}
+            chatHistory={aiChatHistory}
+            setChatHistory={setAIChatHistory}
+            result={aiResult}
+            setResult={setAIResult}
+            awaitingAI={aiAwaiting}
+            setAwaitingAI={setAIAwaiting}
           />
         </>
       )}
