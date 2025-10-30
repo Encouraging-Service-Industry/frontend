@@ -36,6 +36,7 @@ import RedemptionDetailPage from "./pages/RedemptionDetailPage";
 import Footer from "./components/Footer"; // Import Footer component
 import TimeEnergyPuzzlePage from "./pages/TimeEnergyPuzzlePage";
 import AISearchPage from "./pages/AISearchPage"; // Import AISearchPage
+import AIChatModal from "./pages/AIChatModal";
 
 type Tab =
   | "splash"
@@ -83,6 +84,10 @@ export default function App() {
   const [mineOption, setMineOption] = useState<MineOption | null>(null);
   const [currentBookingId, setCurrentBookingId] = useState<string>(""); // New state for booking ID
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+
+  // AI Chat demo: persistent across the app, not just HomePage
+  const [aiModalOpen, setAIModalOpen] = useState(false);
+  const [aiChatSession, setAIChatSession] = useState<number>(0); // For resetting on logout if desired
 
   // Define serviceHistory and calculate portfolio here
   const serviceHistory = [
@@ -305,6 +310,7 @@ export default function App() {
     setIsAuthenticated(false);
     handleSetTab("login");
     setLoggedInUserName(null);
+    setAIChatSession(Date.now()); // Reset AI session on logout
   };
 
   const handleOpenNotifications = () => {
@@ -412,7 +418,7 @@ export default function App() {
                     setMineOption(null);
                     setCurrentService("");
                   }}
-                                    className={`px-3 py-2 rounded-md text-base ${tab === "value-dashboard-detail" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:hover:bg-gray-50"}`}
+                                    className={`px-3 py-2 rounded-md text-base ${tab === "value-dashboard-detail" ? "font-bold text-indigo-600 bg-indigo-50" : "font-semibold text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`}
                 >
                   My Time Value
                 </button>
@@ -546,9 +552,12 @@ export default function App() {
                 }}
                 onOpenNotifications={handleOpenNotifications}
                 onOpenValueDashboardDetail={handleOpenValueDashboardDetail}
-                onOpenVendorDetail={handleOpenVendorDetail} // Pass the new handler
+                onOpenVendorDetail={handleOpenVendorDetail}
                 onOpenSupplierWelcome={() => handleSetTab("supplier-welcome")}
-                onOpenAISearch={() => handleSetTab("ai-search")}
+                onProviderDetailFromAISearch={(provider) => {
+                  setCurrentProvider(provider);
+                  handleSetTab("provider-detail");
+                }}
               />
             )}
             {tab === "supplier-welcome" && (
@@ -740,15 +749,6 @@ export default function App() {
                 }}
               />
             )}
-            {tab === "ai-search" && (
-              <AISearchPage
-                onProviderSelected={(provider) => {
-                  setCurrentProvider(provider);
-                  handleSetTab("provider-detail");
-                }}
-                allProviders={allProviders}
-              />
-            )}
             {tab === "vendor-detail-view" && currentVendor && (
               <VendorDetailPage
                 vendor={currentVendor}
@@ -776,7 +776,30 @@ export default function App() {
           </div>
         )}
       </main>
-
+      {/* Persistent AI Chat Widget (not on login or splash) */}
+      {isAuthenticated && tab !== "splash" && tab !== "login" && (
+        <>
+          <button
+            className="fixed z-40 bottom-6 right-6 rounded-full shadow-lg bg-sky-600 hover:bg-sky-700 text-white w-16 h-16 flex items-center justify-center text-3xl transition transform hover:scale-110" 
+            onClick={() => setAIModalOpen(true)}
+            aria-label="Open AI assistant"
+            style={{ boxShadow: "0 6px 24px 0 rgba(24,165,220,0.3)" }}
+          >
+            <span aria-hidden>🤖</span>
+          </button>
+          <AIChatModal
+            isOpen={aiModalOpen}
+            onClose={() => setAIModalOpen(false)}
+            allProviders={allProviders}
+            onProviderSelected={(provider) => {
+              setAIModalOpen(false);
+              setCurrentProvider(provider);
+              handleSetTab("provider-detail");
+            }}
+            sessionKey={aiChatSession}
+          />
+        </>
+      )}
       {/* Footer */}
       {tab !== "login" && tab !== "splash" && <Footer />}
     </div>

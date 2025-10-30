@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { servicesData, type VendorCompany } from "../data"; // Import servicesData
+import { servicesData, type VendorCompany, providers as allProviders } from "../data"; // Import servicesData
 import ServiceCategoryCard from "../components/ServiceCategoryCard";
 import { calculateInvestmentPortfolio, type ServiceRecord } from "../hooks/useInvestmentCalculator";
 
@@ -17,8 +17,8 @@ export default function HomePage({
   onOpenNotifications,
   onOpenValueDashboardDetail,
   onOpenSupplierWelcome,
-  onOpenAISearch
-}: Props) {
+  onProviderDetailFromAISearch, // new prop sent down from App
+}: Props & { onProviderDetailFromAISearch?: (provider: any) => void }) {
   const SHOW_GAME_ENTRY = false; // Feature flag to hide the game portal on homepage
   const [selectedService, setSelectedService] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -172,18 +172,7 @@ export default function HomePage({
       </div>
 
       {/* AI Search - New Demo Feature */}
-      <div className="rounded-2xl shadow-xl bg-gradient-to-r from-sky-600 via-teal-400 to-emerald-400 text-white flex flex-col md:flex-row items-center justify-between mt-8 p-6 md:p-8">
-        <div>
-          <h2 className="text-2xl font-extrabold mb-2">🤖 AI Search for the Perfect Helper</h2>
-          <p className="mb-4 max-w-md text-white/90">Describe your ideal provider (personality, language, availabilities, etc.) and let AI do the matching!</p>
-        </div>
-        <button
-          onClick={onOpenAISearch}
-          className="bg-white text-sky-700 font-bold px-8 py-3 rounded-full shadow hover:bg-sky-50 hover:scale-105 transition"
-        >
-          Try AI Search
-        </button>
-      </div>
+      {/* The AI search banner and modal are now handled globally in App.tsx */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
         {/* Value Dashboard - Enhanced */}
