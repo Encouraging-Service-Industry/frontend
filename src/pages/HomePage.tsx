@@ -10,6 +10,8 @@ type Props = {
   onOpenVendorDetail?: (vendor: VendorCompany) => void; // kept for compatibility
   onOpenSupplierWelcome?: () => void; // new: supplier entry
   onOpenAISearch?: () => void; // new: AI search
+  onOpenPuzzleGame?: () => void; // open time energy puzzle
+  onOpenHeroGame?: () => void; // open story game
 };
 
 export default function HomePage({
@@ -19,7 +21,9 @@ export default function HomePage({
   onOpenVendorDetail,
   onOpenSupplierWelcome,
   onProviderDetailFromAISearch,
-  onRequestAIChat
+  onRequestAIChat,
+  onOpenPuzzleGame,
+  onOpenHeroGame,
 }: Props & { onProviderDetailFromAISearch?: (provider: any) => void; onRequestAIChat?: () => void }) {
   const SHOW_GAME_ENTRY = false; // Feature flag to hide the game portal on homepage
   const [selectedService, setSelectedService] = useState("");
@@ -173,7 +177,7 @@ export default function HomePage({
         </div>
       </div>
 
-      {/* AI Search - Demo portal */}
+      {/* AI Search - Demo portal (moved above games) */}
       <div className="rounded-2xl shadow-xl bg-gradient-to-r from-sky-600 via-teal-400 to-emerald-400 text-white flex flex-col md:flex-row items-center justify-between mt-8 p-6 md:p-8">
         <div>
           <h2 className="text-2xl font-extrabold mb-2">🤖 AI Search for the Perfect Helper</h2>
@@ -185,6 +189,28 @@ export default function HomePage({
         >
           Try AI Search
         </button>
+      </div>
+
+      {/* Games Portal - Prominent placement */}
+      <div className="rounded-2xl shadow-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 text-white flex flex-col md:flex-row items-center justify-between mt-8 p-6 md:p-8">
+        <div>
+          <h2 className="text-2xl font-extrabold mb-2">🎮 Find Your Balance: Play & Learn</h2>
+          <p className="mb-4 max-w-md text-white/90">1-minute mini-games that show how outsourcing gives you time and energy back. Choose your journey.</p>
+        </div>
+        <div className="flex gap-3">
+          <button
+            onClick={onOpenPuzzleGame}
+            className="bg-white text-indigo-700 font-bold px-5 py-3 rounded-full shadow hover:bg-indigo-50 transition"
+          >
+            Time Energy Puzzle
+          </button>
+          <button
+            onClick={onOpenHeroGame}
+            className="bg-white text-fuchsia-700 font-bold px-5 py-3 rounded-full shadow hover:bg-fuchsia-50 transition"
+          >
+            Outsource Hero Story
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">

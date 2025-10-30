@@ -35,6 +35,7 @@ import OrderDetailPage from "./pages/OrderDetailPage";
 import RedemptionDetailPage from "./pages/RedemptionDetailPage";
 import Footer from "./components/Footer"; // Import Footer component
 import TimeEnergyPuzzlePage from "./pages/TimeEnergyPuzzlePage";
+import OutsourceHeroGame from "./pages/OutsourceHeroGame";
 import AISearchPage from "./pages/AISearchPage"; // Import AISearchPage
 import AIChatModal from "./pages/AIChatModal";
 
@@ -56,6 +57,7 @@ type Tab =
   | "order-detail"
   | "redemption-detail"
   | "time-energy-puzzle"
+  | "outsource-hero-game"
   | "supplier-welcome"
   | "supplier-dashboard"
   | "supplier-qualification"
@@ -561,6 +563,8 @@ export default function App() {
                   setCurrentProvider(provider);
                   handleSetTab("provider-detail");
                 }}
+                onOpenPuzzleGame={() => handleSetTab("time-energy-puzzle")}
+                onOpenHeroGame={() => handleSetTab("outsource-hero-game")}
                 onRequestAIChat={() => setAIModalOpen(true)}
               />
             )}
@@ -751,6 +755,12 @@ export default function App() {
                 onClaimReward={() => {
                   setUserCoins((c) => c + 50);
                 }}
+              />
+            )}
+            {tab === "outsource-hero-game" && (
+              <OutsourceHeroGame
+                onBack={() => handleSetTab("home")}
+                onClaimReward={() => setUserCoins((c) => c + 50)}
               />
             )}
             {tab === "vendor-detail-view" && currentVendor && (
