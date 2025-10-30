@@ -127,34 +127,75 @@ export default function MinePage({
           <OrderListView orders={orders} onOpenOrder={onOpenOrder} />
         )}
         {activeOption === "profile" && (
-          <div>
-            <div className="flex items-center justify-center mb-6">
+          <div className="max-w-5xl mx-auto px-4 pt-6">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 rounded-2xl p-6 shadow mb-6 flex items-center gap-4">
               <img
                 src="/assets/Anna.jpg"
                 alt="Anna"
-                className="rounded-full mr-4 border-4 border-indigo-200 shadow-lg w-32 h-32 object-cover"
+                className="rounded-full border-4 border-white shadow-lg w-24 h-24 object-cover"
               />
+              <div className="flex-1">
+                <h2 className="text-2xl font-extrabold text-gray-900">Anna</h2>
+                <p className="text-gray-600">Busy Marketing Manager · Helsinki</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <span className="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full">Verified User</span>
+                  <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">Member since 2024</span>
+                </div>
+              </div>
+              <button className="px-4 py-2 bg-white text-indigo-700 font-semibold rounded-lg shadow hover:bg-indigo-50">Edit Profile</button>
             </div>
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-800">Anna</h2>
-              <p className="text-gray-500 mb-6">Busy Marketing Manager</p>
+
+            {/* Info Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                <h3 className="font-bold text-gray-900 mb-3">Contact</h3>
+                <div className="space-y-2 text-gray-700 text-sm">
+                  <div><span className="font-medium">Email:</span> anna@example.com</div>
+                  <div><span className="font-medium">Phone:</span> +358 40 123 4567</div>
+                  <div><span className="font-medium">Location:</span> Helsinki, Finland</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                <h3 className="font-bold text-gray-900 mb-3">Preferences</h3>
+                <div className="space-y-2 text-gray-700 text-sm">
+                  <div>Preferred Days: Fri · Sat</div>
+                  <div>Languages: English, Finnish</div>
+                  <div>Focus: Eco cleaning, family-friendly providers</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                <h3 className="font-bold text-gray-900 mb-3">Highlights</h3>
+                <div className="flex items-center justify-between text-sm text-gray-700">
+                  <div className="text-center">
+                    <div className="text-2xl font-extrabold text-indigo-700">350</div>
+                    <div>Time Coins</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-extrabold text-emerald-700">5</div>
+                    <div>Orders</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-extrabold text-amber-600">3</div>
+                    <div>Badges</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
-              <h3 className="font-semibold text-lg text-gray-800 mb-3">
-                My Information
-              </h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>
-                  <span className="font-medium">Email:</span> anna@example.com
-                </li>
-                <li>
-                  <span className="font-medium">Location:</span> Helsinki,
-                  Finland
-                </li>
-                <li>
-                  <span className="font-medium">Status:</span> Verified User
-                </li>
-              </ul>
+
+            {/* Security & Account */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm mb-6">
+              <h3 className="font-bold text-gray-900 mb-3">Account & Security</h3>
+              <div className="flex flex-wrap gap-3">
+                <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-800 font-semibold">Change Password</button>
+                <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-800 font-semibold">Privacy Settings</button>
+                <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-800 font-semibold">Notification Settings</button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <button onClick={onBack} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-semibold">Back</button>
+              <button onClick={onLogout} className="px-5 py-3 bg-red-500 text-white font-semibold rounded-xl shadow-lg hover:bg-red-600">Log Out</button>
             </div>
           </div>
         )}
